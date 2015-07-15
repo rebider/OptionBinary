@@ -1,0 +1,66 @@
+<%= form_for(@trade) do |f| %>
+  <% if @trade.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@trade.errors.count, "error") %> prohibited this trade from being saved:</h2>
+
+      <ul>
+      <% @trade.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :User_id %><br>
+    <%= f.text_field :User_id, :value => current_user.id %>
+  </div>
+  <div class="field">
+    <%= f.label :Broker_id %><br>
+    <%= f.collection_select :Broker_id, @Brokers, :id, :Name, :name => "trade[Broker_id]" %>
+    
+  </div>
+  <div class="field">
+    <%= f.label :Strategy_id %><br>
+    <%= f.collection_select :Strategy_id, @strategy, :id, :Name, :name => "trade[Strategy_id]" %>
+  </div>
+  <div class="field">
+    <%= f.label :Asset_id %><br>
+    <%= f.collection_select :Asset_id, Azzet.order(:Name), :id, :Type, :include_blank => true, :name => "trade[Asset_id]"  %>
+  </div>
+  <div class="field">
+    <%= f.label :Option %><br>
+    <%= f.text_field :Option %>
+  </div>
+  <div class="field">
+    <%= f.label :Amount %><br>
+    <%= f.text_field :Amount %>
+  </div>
+  <div class="field">
+    <%= f.label :OnProfit %><br>
+    <%= f.text_field :OnProfit %>
+  </div>
+  <div class="field">
+    <%= f.label :OnLoss %><br>
+    <%= f.text_field :OnLoss %>
+  </div>
+  <div class="field">
+    <%= f.label :Payout %><br>
+    <%= f.text_field :Payout %>
+  </div>
+  <div class="field">
+    <%= f.label :Result %><br>
+    <%= f.text_field :Result %>
+  </div>
+  <div class="field">
+    <%= f.label :UseMartingale %><br>
+    <%= f.text_field :UseMartingale %>
+  </div>
+  <div class="field">
+    <%= f.label :UseCompoundInterest %><br>
+    <%= f.text_field :UseCompoundInterest %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

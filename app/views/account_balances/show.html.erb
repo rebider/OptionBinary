@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Brokeraccount:</strong>
+  <%= @account_balance.BrokerAccount_id %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @account_balance.Amount %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @account_balance.Type %>
+</p>
+
+<p>
+  <strong>Tradeid:</strong>
+  <%= @account_balance.TradeID %>
+</p>
+
+<%= link_to 'Edit', edit_account_balance_path(@account_balance) %> |
+<%= link_to 'Back', account_balances_path %>

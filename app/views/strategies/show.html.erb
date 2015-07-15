@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @strategy.Name %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @strategy.Type %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @strategy.User %>
+</p>
+
+<%= link_to 'Edit', edit_strategy_path(@strategy) %> |
+<%= link_to 'Back', strategies_path %>

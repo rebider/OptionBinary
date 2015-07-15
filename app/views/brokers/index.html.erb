@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Brokers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Url</th>
+      <th>Image</th>
+      <th>Regulated</th>
+      <th>Minimumdeposit</th>
+      <th>Minimumamounttrade</th>
+      <th>Maximunamounttrade</th>
+      <th>Expirations</th>
+      <th>Demoaccount</th>
+      <th>Usafriendly</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @brokers.each do |broker| %>
+      <tr>
+        <td><%= broker.Name %></td>
+        <td><%= broker.Url %></td>
+        <td><%= broker.Image %></td>
+        <td><%= broker.Regulated %></td>
+        <td><%= broker.MinimumDeposit %></td>
+        <td><%= broker.MinimumAmountTrade %></td>
+        <td><%= broker.MaximunAmountTrade %></td>
+        <td><%= broker.Expirations %></td>
+        <td><%= broker.DemoAccount %></td>
+        <td><%= broker.USAFriendly %></td>
+        <td><%= link_to 'Show', broker %></td>
+        <td><%= link_to 'Edit', edit_broker_path(broker) %></td>
+        <td><%= link_to 'Destroy', broker, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Broker', new_broker_path %>

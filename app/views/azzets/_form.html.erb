@@ -1,0 +1,26 @@
+<%= form_for(@azzet) do |f| %>
+  <% if @azzet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@azzet.errors.count, "error") %> prohibited this azzet from being saved:</h2>
+
+      <ul>
+      <% @azzet.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :Type %><br>
+    <%= f.text_field :Type %>
+    <%= select_tag(:Type, options_for_select([["Currencies", "Currencies"], ["Commodities", "Commodities"], ["Indices", "Indices"], ["Stock", "Stock"]], selected: :option), :name => "azzet[Type]")%>
+  </div>
+  <div class="field">
+    <%= f.label :Name %><br>
+    <%= f.text_field :Name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

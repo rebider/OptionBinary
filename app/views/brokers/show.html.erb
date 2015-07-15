@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @broker.Name %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @broker.Url %>
+</p>
+
+<p>
+  <strong>Image:</strong>
+  <%= @broker.Image %>
+</p>
+
+<p>
+  <strong>Regulated:</strong>
+  <%= @broker.Regulated %>
+</p>
+
+<p>
+  <strong>Minimumdeposit:</strong>
+  <%= @broker.MinimumDeposit %>
+</p>
+
+<p>
+  <strong>Minimumamounttrade:</strong>
+  <%= @broker.MinimumAmountTrade %>
+</p>
+
+<p>
+  <strong>Maximunamounttrade:</strong>
+  <%= @broker.MaximunAmountTrade %>
+</p>
+
+<p>
+  <strong>Expirations:</strong>
+  <%= @broker.Expirations %>
+</p>
+
+<p>
+  <strong>Demoaccount:</strong>
+  <%= @broker.DemoAccount %>
+</p>
+
+<p>
+  <strong>Usafriendly:</strong>
+  <%= @broker.USAFriendly %>
+</p>
+
+<%= link_to 'Edit', edit_broker_path(@broker) %> |
+<%= link_to 'Back', brokers_path %>

@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Account Balances</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Brokeraccount</th>
+      <th>Amount</th>
+      <th>Type</th>
+      <th>Tradeid</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @account_balances.each do |account_balance| %>
+      <tr>
+        <td><%= account_balance.BrokerAccount_id %></td>
+        <td><%= account_balance.Amount %></td>
+        <td><%= account_balance.Type %></td>
+        <td><%= account_balance.TradeID %></td>
+        <td><%= link_to 'Show', account_balance %></td>
+        <td><%= link_to 'Edit', edit_account_balance_path(account_balance) %></td>
+        <td><%= link_to 'Destroy', account_balance, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Account balance', new_account_balance_path %>

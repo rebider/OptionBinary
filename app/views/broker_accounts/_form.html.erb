@@ -1,0 +1,25 @@
+<%= form_for(@broker_account) do |f| %>
+  <% if @broker_account.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@broker_account.errors.count, "error") %> prohibited this broker_account from being saved:</h2>
+
+      <ul>
+      <% @broker_account.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    
+    <%= f.hidden_field :User_id, :value => current_user.id, :name => "broker_account[User_id]" %>
+  </div>
+  <div class="field">
+    <%= f.label :Broker_id %><br>
+    <%= f.collection_select :Broker_id, Broker.order(:Name), :id, :Name, :include_blank => true, :name => "broker_account[Broker_id]"  %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

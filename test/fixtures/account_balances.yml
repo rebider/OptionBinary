@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  BrokerAccount_id: 
+  Amount: MyString
+  Type: MyString
+  TradeID: MyString
+
+two:
+  BrokerAccount_id: 
+  Amount: MyString
+  Type: MyString
+  TradeID: MyString

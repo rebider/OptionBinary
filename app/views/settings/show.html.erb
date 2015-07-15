@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @setting.user %>
+</p>
+
+<p>
+  <strong>Maximumtradesperday:</strong>
+  <%= @setting.MaximumTradesPerDay %>
+</p>
+
+<p>
+  <strong>Maximumpercentpertrade:</strong>
+  <%= @setting.MaximumPercentPerTrade %>
+</p>
+
+<p>
+  <strong>Maximumpercentlossperday:</strong>
+  <%= @setting.MaximumPercentLossPerDay %>
+</p>
+
+<%= link_to 'Edit', edit_setting_path(@setting) %> |
+<%= link_to 'Back', settings_path %>

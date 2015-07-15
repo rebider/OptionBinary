@@ -1,0 +1,33 @@
+<%= form_for(@setting) do |f| %>
+  <% if @setting.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@setting.errors.count, "error") %> prohibited this setting from being saved:</h2>
+
+      <ul>
+      <% @setting.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id, :value => current_user.id %>
+  </div>
+  <div class="field">
+    <%= f.label :MaximumTradesPerDay %><br>
+    <%= f.text_field :MaximumTradesPerDay %>
+  </div>
+  <div class="field">
+    <%= f.label :MaximumPercentPerTrade %><br>
+    <%= f.text_field :MaximumPercentPerTrade %>
+  </div>
+  <div class="field">
+    <%= f.label :MaximumPercentLossPerDay %><br>
+    <%= f.text_field :MaximumPercentLossPerDay %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

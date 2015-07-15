@@ -1,0 +1,34 @@
+<%= form_for(@account_balance) do |f| %>
+  <% if @account_balance.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@account_balance.errors.count, "error") %> prohibited this account_balance from being saved:</h2>
+
+      <ul>
+      <% @account_balance.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :BrokerAccount_id %><br>
+    <%= f.collection_select(:BrokerAccount_id, Broker.all, :id, :Name)  %>
+  </div>
+  <div class="field">
+    <%= f.label :Amount %><br>
+    <%= f.text_field :Amount %>
+  </div>
+  <div class="field">
+    <%= f.label :Type %><br>
+    <%= select_tag(:Type, options_for_select([["Trade", "Trade"], ["Manual", "Manual"]], selected: :option), :name => "account_balance[Type]")%>
+  </div>
+  <div class="field">
+   
+    <%= f.hidden_field :TradeID %>
+
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

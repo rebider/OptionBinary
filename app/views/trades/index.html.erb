@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Trades</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Broker</th>
+      <th>Strategy</th>
+      <th>Asset</th>
+      <th>Option</th>
+      <th>Amount</th>
+      <th>Onprofit</th>
+      <th>Onloss</th>
+      <th>Payout</th>
+      <th>Result</th>
+      <th>Usemartingale</th>
+      <th>Usecompoundinterest</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @trades.each do |trade| %>
+      <tr>
+        <td><%= trade.User.name %></td>
+        <td><%= trade.Broker_id%></td>
+        <td><%= trade.Strategy.Name %></td>
+        <td><%= trade.Asset_id %></td>
+        <td><%= trade.Option %></td>
+        <td><%= trade.Amount %></td>
+        <td><%= trade.OnProfit %></td>
+        <td><%= trade.OnLoss %></td>
+        <td><%= trade.Payout %></td>
+        <td><%= trade.Result %></td>
+        <td><%= trade.UseMartingale %></td>
+        <td><%= trade.UseCompoundInterest %></td>
+        <td><%= link_to 'Show', trade %></td>
+        <td><%= link_to 'Edit', edit_trade_path(trade) %></td>
+        <td><%= link_to 'Destroy', trade, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Trade', new_trade_path %>
