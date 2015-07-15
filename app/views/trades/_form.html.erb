@@ -26,7 +26,7 @@
   </div>
   <div class="field">
     <%= f.label :Asset_id %><br>
-    <%= f.collection_select :Asset_id, Azzet.order(:Name), :id, :Type, :include_blank => true, :name => "trade[Asset_id]"  %>
+    <%= f.collection_select :Asset_id, Azzet.order(:Name), :id, :Name, :include_blank => true, :name => "trade[Asset_id]"  %>
   </div>
   <div class="field">
     <%= f.label :Option %><br>
