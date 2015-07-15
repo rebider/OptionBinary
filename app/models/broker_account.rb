@@ -1,7 +1,5 @@
 class BrokerAccount < ActiveRecord::Base
-  belongs_to :User
-  belongs_to :Broker
-  has_many   :account_balances
-  has_many   :broker_accounts
-  attr_accessible :User_id, :Broker_id
+  belongs_to :user
+  belongs_to :broker
+  attr_accessible :name, :user_id, :broker_id
 end

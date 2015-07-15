@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :broker_accounts
   resources :azzets
   resources :trades
   resources :settings
@@ -8,7 +9,6 @@ Rails.application.routes.draw do
   get 'welcome/index'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
-  resources :broker_accounts
   resources :strategies
   resources :account_balances
   resources :brokers

@@ -12,12 +12,16 @@
   <% end %>
 
   <div class="field">
-    
-    <%= f.hidden_field :User_id, :value => current_user.id, :name => "broker_account[User_id]" %>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :Broker_id %><br>
-    <%= f.collection_select :Broker_id, Broker.order(:Name), :id, :Name, :include_blank => true, :name => "broker_account[Broker_id]"  %>
+   
+    <%= f.hidden_field :user_id, :value => current_user.id, :name => "broker_account[user_id]" %>
+  </div>
+  <div class="field">
+    <%= f.label :broker_id %><br>
+    <%= f.collection_select :broker_id, Broker.order(:Name), :id, :Name, :include_blank => true, :name => "broker_account[broker_id]"  %>
   </div>
   <div class="actions">
     <%= f.submit %>

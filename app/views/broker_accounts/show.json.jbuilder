@@ -1,1 +1,1 @@
-json.extract! @broker_account, :id, :User_id, :Broker_id, :created_at, :updated_at
+json.extract! @broker_account, :id, :name, :user_id, :broker_id, :created_at, :updated_at

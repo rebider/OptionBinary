@@ -1,9 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  User_id: 
-  Broker_id: 
+  name: MyString
+  user_id: 
+  broker_id: 
 
 two:
-  User_id: 
-  Broker_id: 
+  name: MyString
+  user_id: 
+  broker_id: 

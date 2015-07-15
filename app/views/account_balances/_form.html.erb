@@ -10,10 +10,9 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
     <%= f.label :BrokerAccount_id %><br>
-    <%= f.collection_select(:BrokerAccount_id, Broker.all, :id, :Name)  %>
+    <%= f.collection_select(:BrokerAccount_id, Broker.all, :id, :Name, :name => "account_balance[BrokerAccount_id]"  )%>
   </div>
   <div class="field">
     <%= f.label :Amount %><br>

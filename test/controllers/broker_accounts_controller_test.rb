@@ -18,7 +18,7 @@ class BrokerAccountsControllerTest < ActionController::TestCase
 
   test "should create broker_account" do
     assert_difference('BrokerAccount.count') do
-      post :create, broker_account: { Broker_id: @broker_account.Broker_id, User_id: @broker_account.User_id }
+      post :create, broker_account: { broker_id: @broker_account.broker_id, name: @broker_account.name, user_id: @broker_account.user_id }
     end
 
     assert_redirected_to broker_account_path(assigns(:broker_account))
@@ -35,7 +35,7 @@ class BrokerAccountsControllerTest < ActionController::TestCase
   end
 
   test "should update broker_account" do
-    patch :update, id: @broker_account, broker_account: { Broker_id: @broker_account.Broker_id, User_id: @broker_account.User_id }
+    patch :update, id: @broker_account, broker_account: { broker_id: @broker_account.broker_id, name: @broker_account.name, user_id: @broker_account.user_id }
     assert_redirected_to broker_account_path(assigns(:broker_account))
   end
 

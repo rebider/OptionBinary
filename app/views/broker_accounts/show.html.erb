@@ -1,13 +1,18 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Name:</strong>
+  <%= @broker_account.name %>
+</p>
+
+<p>
   <strong>User:</strong>
-  <%= @broker_account.User %>
+  <%= @broker_account.user %>
 </p>
 
 <p>
   <strong>Broker:</strong>
-  <%= @broker_account.Broker %>
+  <%= @broker_account.broker %>
 </p>
 
 <%= link_to 'Edit', edit_broker_account_path(@broker_account) %> |

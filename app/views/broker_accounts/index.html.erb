@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>Name</th>
       <th>User</th>
       <th>Broker</th>
       <th colspan="3"></th>
@@ -14,8 +15,9 @@
   <tbody>
     <% @broker_accounts.each do |broker_account| %>
       <tr>
-        <td><%= broker_account.User.name %></td>
-        <td><%= broker_account.Broker.Name %></td>
+        <td><%= broker_account.name %></td>
+        <td><%= broker_account.user %></td>
+        <td><%= broker_account.broker %></td>
         <td><%= link_to 'Show', broker_account %></td>
         <td><%= link_to 'Edit', edit_broker_account_path(broker_account) %></td>
         <td><%= link_to 'Destroy', broker_account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
