@@ -4,7 +4,7 @@ class StrategiesController < ApplicationController
   # GET /strategies
   # GET /strategies.json
   def index
-    @strategies = Strategy.all
+    @strategies = Strategy.where(:User_id => current_user.id)
   end
 
   # GET /strategies/1
