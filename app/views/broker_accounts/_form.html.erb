@@ -23,6 +23,10 @@
     <%= f.label :broker_id %><br>
     <%= f.collection_select :broker_id, Broker.order(:Name), :id, :Name, :include_blank => true, :name => "broker_account[broker_id]"  %>
   </div>
+  <div class="field">
+    <%= f.label :DemoAccount %><br>
+    <%= f.text_field :DemoAccount %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

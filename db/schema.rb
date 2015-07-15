@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715164027) do
+ActiveRecord::Schema.define(version: 20150715232210) do
 
   create_table "account_balances", force: :cascade do |t|
     t.integer  "BrokerAccount_id"
@@ -50,8 +50,9 @@ ActiveRecord::Schema.define(version: 20150715164027) do
     t.string   "name"
     t.integer  "user_id"
     t.integer  "broker_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "DemoAccount"
   end
 
   add_index "broker_accounts", ["broker_id"], name: "index_broker_accounts_on_broker_id"

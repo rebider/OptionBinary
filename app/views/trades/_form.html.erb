@@ -17,8 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :Broker_id %><br>
-    <%= f.collection_select :Broker_id, @Brokers, :id, :Name, :name => "trade[Broker_id]" %>
-    
+    <%= collection_select :Broker_id, nil, BrokerAccount.all, :id, :name_with_broker ,:name => "trade[Broker_id]" %>
   </div>
   <div class="field">
     <%= f.label :Strategy_id %><br>

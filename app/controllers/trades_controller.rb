@@ -13,15 +13,18 @@ class TradesController < ApplicationController
   end
 
   def new
-    @BrokerAccount = BrokerAccount.where(:User_id => current_user.id).pluck(:Broker_id)
-    @Brokers = Broker.where(:id => @BrokerAccount)
+    @BrokerAccount = BrokerAccount.where(:user_id => current_user.id)#.pluck(:broker_id)
+    #@Brokername =    BrokerAccount.where(:broker_id => @BrokerAccount).pluck(:name)
+    #@Brokers = Broker.where(:id => @BrokerAccount).pluck(:Name)
+    @broker_accounts = BrokerAccount.all
+    @nombre = "#{@BrokerAccount} - #{@Brokers}"
     @strategy = Strategy.where(:User_id => current_user.id)
-    logger.debug @Brokers.to_s
-
-
+    logger.debug @nombre
     @trade = Trade.new
     respond_with(@trade)
   end
+
+  
 
   def edit
   end
