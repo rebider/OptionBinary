@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
         user.provider = auth.provider
         user.uid = auth.uid
         #user.email = auth.info.email
-        user.email= auth.info.email if email_is_verified
+        #user.email= auth.info.email if email_is_verified
         user.name = auth.info.name
         user.avatar = auth.info.image
         user.password = Devise.friendly_token[0,20]
