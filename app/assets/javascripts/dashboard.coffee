@@ -34,5 +34,6 @@ jQuery ->
         xkey: 'date'
         ykeys: ['cashflow']
         labels: ['Cashflow']
+        preUnits: '$'
 
 
