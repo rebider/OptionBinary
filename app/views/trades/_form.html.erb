@@ -24,7 +24,7 @@
                   <div class="form-group">
                       <%= f.label :BrokerAccount_id, class:'col-sm-3' %>
                       <div class="col-sm-9">
-                        <%= f.collection_select :BrokerAccount_id, @brokerAccount, :id, :name, :name => "trade[BrokerAccount_id]", class:'form-control' %>
+                        <%= f.collection_select :BrokerAccount_id, @brokerAccount, :id, :name,{prompt: "Select an account"} , {class: "form-control", :name => "trade[BrokerAccount_id]"} %>
                         <p class="help-block">Lorem ipsum dolor sit amet</p>
                       </div>
                   </div>
@@ -32,15 +32,15 @@
                   <div class="form-group">
                       <%= f.label :Strategy_id, class:'col-sm-3' %>
                       <div class="col-sm-9">
-                        <%= f.collection_select :Strategy_id, @strategy, :id, :Name, :name => "trade[Strategy_id]", class:'form-control' %>
+                        <%= f.collection_select :Strategy_id, @strategy, :id, :Name,{prompt: "Select an strategy"} , {class: "form-control", :name => "trade[Strategy_id]"} %>
                        <p class="help-block">Lorem ipsum dolor sit amet</p>
                       </div>  
                   </div>
 
                   <div class="form-group">
-                      <%= f.label :Azzet_id, class:'col-sm-3' %>
+                      <%= f.label "Asset", class:'col-sm-3' %>
                       <div class="col-sm-9">
-                        <%= f.collection_select :Azzet_id, Azzet.order(:Name), :id, :Name, :include_blank => true, :name => "trade[Azzet_id]", class:'form-control' %>
+                        <%= f.collection_select :Azzet_id, Azzet.order(:Name), :id, :Name ,{prompt: "Select an Asset"} , {class: "form-control", :name => "trade[Azzet_id]"} %>
                        <p class="help-block">Lorem ipsum dolor sit amet</p>
                       </div>
                   </div>
@@ -58,8 +58,7 @@
                       <div class="col-sm-9">
                         <div class="input-group">
                           <span class="input-group-addon">$</span>
-                          <%= f.number_field :Amount, class:'form-control', :value => @trade.get_amount_per_trade_recommended(1, current_user.id) %>
-                          <span ><%= @trade.get_maximum_percent_per_trade_recommended(current_user.id) %> %</span
+                           <%= f.number_field :Amount, class:'form-control' %>
                         </div>
                         <p class="help-block">Lorem ipsum dolor sit amet</p>
                       </div>
@@ -92,8 +91,8 @@
                   <%= f.hidden_field :UseMartingale, :value => 'false' %>
                   <%= f.hidden_field :UseCompoundInterest, :value => 'false' %>
 
-                  <div class="actions btn btn-default">
-                    <%= f.submit %>
+                  <div >
+                    <%= f.submit "Save", :class=>"btn btn-default" %>
                   </div>
                 
               </form>

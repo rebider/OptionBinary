@@ -6,7 +6,6 @@ class DashboardController < ApplicationController
 	respond_to :html, :json
 
   def new
-
     @brokerAccount = BrokerAccount.where(:user_id => current_user.id)
     @strategy = Strategy.where(:User_id => current_user.id)
     @azzets = Azzet.order(:Name)
@@ -37,10 +36,26 @@ class DashboardController < ApplicationController
 
     if(params[:Result] == 'WIN')
       @trade.Payout = Float(@trade.Amount) + ((Float(@trade.Amount) * Float(@trade.OnProfit)) / 100)
+      @pago      = AccountBalance.where(:broker_account_id => @trade.BrokerAccount_id).pluck(:Balance).last
+      @total     = (Float(@pago) + Float(@trade.Payout))
+      @actualiza = AccountBalance.create(
+        :broker_account_id => @trade.BrokerAccount_id,
+        :Amount  => Float(@trade.Payout),
+        :Balance => @total, 
+        :TradeID => @trade.id, 
+        :Type => "Automatic")
     elsif (params[:Result] == 'TIE') 
       @trade.Payout = Float(@trade.Amount)
     else
       @trade.Payout = (Float(@trade.Amount) * Float(@trade.OnLoss)) / 100
+      @pago      = AccountBalance.where(:broker_account_id => @trade.BrokerAccount_id).pluck(:Balance).last
+      @total     = (Float(@pago) - Float(@trade.Payout))
+      @actualiza = AccountBalance.create(
+        :broker_account_id => @trade.BrokerAccount_id,
+        :Amount  => "- #{Float(@trade.Payout)}",
+        :Balance => @total, 
+        :TradeID => @trade.id, 
+        :Type => "Automatic")
     end
     @trade.save
 

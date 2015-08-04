@@ -10,7 +10,6 @@
                 <% if @account_balance.errors.any? %>
                   <div id="error_explanation">
                     <h2><%= pluralize(@account_balance.errors.count, "error") %> prohibited this account_balance from being saved:</h2>
-
                     <ul>
                     <% @account_balance.errors.full_messages.each do |message| %>
                       <li><%= message %></li>
@@ -20,9 +19,9 @@
                 <% end %>
 
                 <div class="form-group">
-                  <%= f.label :BrokerAccount_id, class:'col-sm-3' %>
+                  <%= f.label :broker_account_id, class:'col-sm-3' %>
                   <div class="col-sm-9">
-                    <%= f.collection_select(:BrokerAccount_id, BrokerAccount.where(:user_id => current_user.id), :id, :name, :name => "account_balance[BrokerAccount_id]", class:'form-control' ) %>
+                    <%= f.collection_select(:broker_account_id, BrokerAccount.where(:user_id => current_user.id), :id, :name,{prompt: "Select an account"} , {class: "form-control", :name => "broker_account_id"} ) %>
                   </div>
                 </div>
 
@@ -31,17 +30,18 @@
                     <div class="col-sm-9">
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <%= f.text_field :Amount, class:'form-control' %>
+                        <%= f.text_field :Amount, class:'form-control', :name => "Amount" %>
                       </div>
                       <p class="help-block">Lorem ipsum dolor sit amet</p>
                     </div>
                 </div>
 
-                <%= f.hidden_field :Type, :value => 'Manual' %>
-                <%= f.hidden_field :TradeID %>
+                <%= f.hidden_field :Type, :value => 'Manual', :name => "Type" %>
+                <%= f.hidden_field :TradeID , :name => "TradeID"%>
 
-                <div class="actions btn btn-default">
-                  <%= f.submit %>
+
+                <div >
+                  <%= f.submit "Save" , :class=>"btn btn-default"%>
                 </div>
 
               </form>

@@ -6,6 +6,7 @@ class AccountBalancesController < ApplicationController
   # GET /account_balances.json
   def index
     @account_balances = AccountBalance.all
+    @broker = BrokerAccount.where(:user_id => current_user.id)
   end
 
   # GET /account_balances/1
@@ -25,7 +26,13 @@ class AccountBalancesController < ApplicationController
   # POST /account_balances
   # POST /account_balances.json
   def create
-    @account_balance = AccountBalance.new(account_balance_params)
+    @account_balance    = AccountBalance.new(
+      :broker_account_id => params[:broker_account_id], 
+      :Amount  => params[:Amount], 
+      :Type    => params[:Type],
+      :TradeID => params[:TradeID],
+      :Balance => params[:Amount]
+      )
 
     respond_to do |format|
       if @account_balance.save
@@ -70,6 +77,6 @@ class AccountBalancesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_balance_params
-      params.require(:account_balance).permit(:BrokerAccount_id, :Amount, :Type, :TradeID)
+      params.require(:account_balance).permit(:broker_account_id, :Amount, :Type, :TradeID, :Balance)
     end
 end

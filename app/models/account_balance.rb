@@ -1,5 +1,5 @@
 class AccountBalance < ActiveRecord::Base
   has_many :brokers
-  has_many :broker_accounts
-  attr_accessible :BrokerAccount_id, :Amount, :Type, :TradeID
+  belongs_to :broker_account
+  attr_accessible :broker_account_id, :Amount, :Type, :TradeID, :Balance
 end

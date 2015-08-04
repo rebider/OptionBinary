@@ -13,14 +13,14 @@
 
   <div class="field">
     <%= f.label :Type %><br>
-    <%= f.text_field :Type %>
-    <%= select_tag(:Type, options_for_select([["Currencies", "Currencies"], ["Commodities", "Commodities"], ["Indices", "Indices"], ["Stock", "Stock"]], selected: :option), :name => "azzet[Type]")%>
+    <%= f.hidden_field :Type %>
+    <%= select_tag(:Type, options_for_select([["Currencies", "Currencies"], ["Commodities", "Commodities"], ["Indices", "Indices"], ["Stock", "Stock"]], selected: :option), :name => "azzet[Type]", class:'form-control')%>
   </div>
   <div class="field">
     <%= f.label :Name %><br>
-    <%= f.text_field :Name %>
+    <%= f.text_field :Name, :class=> "form-control" %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div>
+    <%= f.submit "Save", :class=> "btn btn-default" %>
   </div>
 <% end %>
