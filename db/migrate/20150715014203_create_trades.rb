@@ -4,7 +4,7 @@ class CreateTrades < ActiveRecord::Migration
       t.references :User, index: true, foreign_key: true
       t.references :Broker, index: true, foreign_key: true
       t.references :Strategy, index: true, foreign_key: true
-      t.references :Asset, index: true, foreign_key: true
+      t.references :Azzet, index: true, foreign_key: true
       t.string :Option
       t.string :Amount
       t.string :OnProfit

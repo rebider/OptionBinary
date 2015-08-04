@@ -42,6 +42,6 @@ class BrokerAccountsController < ApplicationController
     end
 
     def broker_account_params
-      params.require(:broker_account).permit(:name, :user_id, :broker_id,:DemoAccount)
+      params.require(:broker_account).permit(:name, :user_id, :broker_id, :DemoAccount)
     end
 end

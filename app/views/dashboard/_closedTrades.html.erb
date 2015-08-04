@@ -1,0 +1,34 @@
+<div class="dataTable_wrapper">
+    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+        <thead>
+            <tr>
+                <th>Created</th>
+                <th>Account</th>
+                <th>Asset</th>
+                <th>Option</th>
+                <th>Amount</th>
+                <th>Onprofit</th>
+                <th>Onloss</th>
+                <th>Payout</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @closedTrades.each do |trade| %>
+              <tr class="odd gradeX">
+                <td><%= trade.created_at %></td>
+                <td><%= trade.BrokerAccount.name %></td>
+                <td><%= trade.Azzet %></td>
+                <td><%= trade.Option %></td>
+                <td><%= trade.Amount %></td>
+                <td><%= trade.OnProfit %></td>
+                <td><%= trade.OnLoss %></td>
+                <td><%= trade.Payout %></td>
+                <td><%= trade.Result %></td>
+              </tr>
+            <% end %>
+        </tbody>
+        <%= will_paginate @closedTrades %>
+    </table>
+</div>
+<!-- /.table-responsive -->

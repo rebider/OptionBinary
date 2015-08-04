@@ -1,0 +1,53 @@
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">Binary Traking</a>
+    </div>
+    <!-- /.navbar-header -->
+    
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <% if user_signed_in? %>
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="/dashboard/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+            </li>
+            <li>
+                <a href="/trades/"><i class="fa fa-dashboard fa-fw"></i>Trades</a>
+            </li>
+            <li>
+                <a href="/statistics/"><i class="fa fa-dashboard fa-fw"></i>Estadisticas</a>
+            </li>
+            <li>
+                <a href="/strategies/"><i class="fa fa-dashboard fa-fw"></i>Strategies</a>
+            </li>
+            <li>
+                <a href="/broker_accounts/"><i class="fa fa-dashboard fa-fw"></i>Account</a>
+            </li>
+            <li>
+                <a href="/account_balances/"><i class="fa fa-dashboard fa-fw"></i>Account Balances</a>
+            </li>
+            <li>
+                <a href="/settings/"><i class="fa fa-dashboard fa-fw"></i>Configuration</a>
+            </li>
+        </ul>
+        <% end %>
+        <% if user_signed_in? %>
+            <ul class="nav navbar-nav navbar-right">
+                <li><%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %></li>
+                <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %></li>
+            </ul>
+        <% else %>
+            <ul class="nav navbar-nav navbar-right">
+                <li><%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %></li>
+                <li><%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %></li>
+            </ul>
+        <% end %>
+    </div>
+</nav>
+

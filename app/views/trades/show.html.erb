@@ -1,23 +1,19 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>User:</strong>
-  <%= @trade.User %>
-</p>
 
 <p>
-  <strong>Broker:</strong>
-  <%= @trade.Broker_id %>
+  <strong>Account:</strong>
+  <%= @trade.BrokerAccount.name %>
 </p>
 
 <p>
   <strong>Strategy:</strong>
-  <%= @trade.Strategy %>
+  <%= @trade.Strategy.Name %>
 </p>
 
 <p>
   <strong>Asset:</strong>
-  <%= @trade.Asset_id %>
+  <%= @trade.Azzet.Name %>
 </p>
 
 <p>
@@ -50,15 +46,6 @@
   <%= @trade.Result %>
 </p>
 
-<p>
-  <strong>Usemartingale:</strong>
-  <%= @trade.UseMartingale %>
-</p>
-
-<p>
-  <strong>Usecompoundinterest:</strong>
-  <%= @trade.UseCompoundInterest %>
-</p>
 
 <%= link_to 'Edit', edit_trade_path(@trade) %> |
 <%= link_to 'Back', trades_path %>

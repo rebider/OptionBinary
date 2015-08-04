@@ -1,0 +1,38 @@
+<div class="dataTable_wrapper">
+    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+        <thead>
+            <tr>
+                <th>Created</th>
+                <th>Asset</th>
+                <th>Option</th>
+                <th>Amount</th>
+                <th>Onprofit</th>
+                <th>Onloss</th>
+                <th>Close</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @trades.each do |trade| %>
+              <tr class="odd gradeX">
+                <td><%= trade.created_at.in_time_zone %></td>
+                <td><%= trade.Azzet %></td>
+                <td><%= trade.Option %></td>
+                <td><%= trade.Amount %></td>
+                <td><%= trade.OnProfit %></td>
+                <td><%= trade.OnLoss %></td>
+                <td>
+                  <span class="edit">
+
+                    <%= link_to 'WIN', update_result_path(:trade => trade, :id => trade.id, :Result => 'WIN' ), :method => :post, :remote => true, :class => 'btn btn-success btn-xs' %>
+
+                    <%= link_to 'TIE', update_result_path(:trade => trade, :id => trade.id, :Result => 'TIE' ), :method => :post, :remote => true, :class => 'btn btn-warning btn-xs' %>
+
+                    <%= link_to 'LOST', update_result_path(:trade => trade, :id => trade.id, :Result => 'LOST' ), :method => :post, :remote => true, :class => 'btn btn-danger btn-xs' %>
+                  </span>
+                </td>
+              </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
+<!-- /.table-responsive -->

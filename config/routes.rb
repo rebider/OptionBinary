@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
+  
+
+
   resources :broker_accounts
   resources :azzets
   resources :trades
   resources :settings
+  resources :dashboard
+  resources :statistics
   get 'ruteador/index'
 
   devise_for :admins
@@ -18,6 +23,13 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'ruteador#index'
   get 'home' => 'welcome#index', as: :welcome
+
+  post 'dashboard/:id/update_result' => 'dashboard#update_result', as: :update_result
+  post 'dashboard/create' => 'dashboard#create', as: :create_dashboard
+
+  get 'statistics/index'
+  #get 'statistics/today_scores' => 'statistics#today_scores', as: :today_scores
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

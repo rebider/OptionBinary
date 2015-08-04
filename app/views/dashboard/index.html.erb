@@ -1,0 +1,85 @@
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Dashboard</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Opened Trades
+                <div class="pull-right">
+                    <%= link_to new_dashboard_path, remote: true do %>
+                      <button class="btn btn-default btn-xs">New Trade</button>
+                    <% end %>
+                </div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="trade-form" style="display:none;"></div>
+                        <!-- /.panel-body -->
+                    </div>                  
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <%= render 'trade' %>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.panel-body -->
+        </div>      
+        <!-- /.panel -->
+  
+        <!-- /.panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Closed Trades
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <%= render 'closedTrades' %>
+            </div>
+            <!-- /.panel-body -->
+        </div>      
+
+        <!-- /.panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Closed Trades
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <%= content_tag :div, "", id: "trades_chart", data: {trades: trades_chart_data} %>
+            </div>
+            <!-- /.panel-body -->
+        </div>      
+    </div>
+    <!-- /.col-lg-8 -->
+    <div class="col-lg-3">
+        <!-- /.panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i>Performance Today
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <%= content_tag :div, "", id: "performance_today_chart", data: {trades: today_trades_chart_data } %>
+            </div>
+            <!-- /.panel-body -->
+        </div>  
+    </div>
+</div>
+<!-- /.row -->

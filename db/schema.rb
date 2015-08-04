@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715232210) do
+ActiveRecord::Schema.define(version: 20150802063102) do
 
   create_table "account_balances", force: :cascade do |t|
     t.integer  "BrokerAccount_id"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20150715232210) do
     t.string   "TradeID"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.float    "Balance"
   end
 
   add_index "account_balances", ["BrokerAccount_id"], name: "index_account_balances_on_BrokerAccount_id"
@@ -73,6 +74,11 @@ ActiveRecord::Schema.define(version: 20150715232210) do
     t.datetime "updated_at",         null: false
   end
 
+  create_table "dashboards", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "settings", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "MaximumTradesPerDay"
@@ -96,9 +102,7 @@ ActiveRecord::Schema.define(version: 20150715232210) do
 
   create_table "trades", force: :cascade do |t|
     t.integer  "User_id"
-    t.integer  "Broker_id"
     t.integer  "Strategy_id"
-    t.integer  "Asset_id"
     t.string   "Option"
     t.string   "Amount"
     t.string   "OnProfit"
@@ -109,10 +113,13 @@ ActiveRecord::Schema.define(version: 20150715232210) do
     t.string   "UseCompoundInterest"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.datetime "Created"
+    t.integer  "Azzet_id"
+    t.integer  "BrokerAccount_id"
   end
 
-  add_index "trades", ["Asset_id"], name: "index_trades_on_Asset_id"
-  add_index "trades", ["Broker_id"], name: "index_trades_on_Broker_id"
+  add_index "trades", ["Azzet_id"], name: "index_trades_on_Azzet_id"
+  add_index "trades", ["BrokerAccount_id"], name: "index_trades_on_BrokerAccount_id"
   add_index "trades", ["Strategy_id"], name: "index_trades_on_Strategy_id"
   add_index "trades", ["User_id"], name: "index_trades_on_User_id"
 

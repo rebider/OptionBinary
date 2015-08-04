@@ -1,65 +1,107 @@
 <%= form_for(@trade) do |f| %>
-  <% if @trade.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@trade.errors.count, "error") %> prohibited this trade from being saved:</h2>
-
-      <ul>
-      <% @trade.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+        New Trade
     </div>
-  <% end %>
+    <div class="panel-body">
+      <div class="row">
+          <div class="col-lg-12">
+              <form class="form-horizontal" role="form">
+                  <% if @trade.errors.any? %>
+                    <div id="error_explanation">
+                      <h2><%= pluralize(@trade.errors.count, "error") %> prohibited this trade from being saved:</h2>
 
-  <div class="field">
-    <%= f.label :User_id %><br>
-    <%= f.text_field :User_id, :value => current_user.id %>
+                      <ul>
+                      <% @trade.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                      <% end %>
+                      </ul>
+                    </div>
+                  <% end %>
+
+                  <%= f.hidden_field :User_id, :value => current_user.id %>
+
+                  <div class="form-group">
+                      <%= f.label :BrokerAccount_id, class:'col-sm-3' %>
+                      <div class="col-sm-9">
+                        <%= f.collection_select :BrokerAccount_id, @brokerAccount, :id, :name, :name => "trade[BrokerAccount_id]", class:'form-control' %>
+                        <p class="help-block">Lorem ipsum dolor sit amet</p>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <%= f.label :Strategy_id, class:'col-sm-3' %>
+                      <div class="col-sm-9">
+                        <%= f.collection_select :Strategy_id, @strategy, :id, :Name, :name => "trade[Strategy_id]", class:'form-control' %>
+                       <p class="help-block">Lorem ipsum dolor sit amet</p>
+                      </div>  
+                  </div>
+
+                  <div class="form-group">
+                      <%= f.label :Azzet_id, class:'col-sm-3' %>
+                      <div class="col-sm-9">
+                        <%= f.collection_select :Azzet_id, Azzet.order(:Name), :id, :Name, :include_blank => true, :name => "trade[Azzet_id]", class:'form-control' %>
+                       <p class="help-block">Lorem ipsum dolor sit amet</p>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <%= f.label :Option, class:'col-sm-3' %>
+                      <div class="col-sm-9">
+                        <%= select_tag(:Option, options_for_select([["CALL", "CALL"], ["PUT", "PUT"]], selected: :option), :name => "trade[Option]", class:'form-control') %>
+                       <p class="help-block">Lorem ipsum dolor sit amet</p>
+                      </div>
+                  </div>
+
+                  <div class="form-group ">
+                      <%= f.label :Amount, class:'col-sm-3' %>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <span class="input-group-addon">$</span>
+                          <%= f.number_field :Amount, class:'form-control', :value => @trade.get_amount_per_trade_recommended(1, current_user.id) %>
+                          <span ><%= @trade.get_maximum_percent_per_trade_recommended(current_user.id) %> %</span
+                        </div>
+                        <p class="help-block">Lorem ipsum dolor sit amet</p>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <%= f.label :OnProfit, class:'col-sm-3' %>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <span class="input-group-addon">%</span>
+                          <%= f.text_field :OnProfit, class:'form-control', type:'text' %>
+                        </div>
+                       <p class="help-block">Lorem ipsum dolor sit amet</p>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <%= f.label :OnLoss, class:'col-sm-3' %>
+                      <div class="col-sm-9">
+                        <div class="input-group">
+                          <span class="input-group-addon">%</span>
+                          <%= f.text_field :OnLoss, class:'form-control', type:'text' %>
+                        </div>
+                       <p class="help-block">Lorem ipsum dolor sit amet</p>
+                      </div>
+                  </div>
+
+                  <%= f.hidden_field :Payout, :value => '' %>
+                  <%= f.hidden_field :Result, :value => '' %>
+                  <%= f.hidden_field :UseMartingale, :value => 'false' %>
+                  <%= f.hidden_field :UseCompoundInterest, :value => 'false' %>
+
+                  <div class="actions btn btn-default">
+                    <%= f.submit %>
+                  </div>
+                
+              </form>
+          </div>
+      </div>
+      <!-- /.row (nested) -->
+    </div>
+        <!-- /.panel-body -->
   </div>
-  <div class="field">
-    <%= f.label :Broker_id %><br>
-    <%= collection_select :Broker_id, nil, BrokerAccount.all, :id, :name_with_broker ,:name => "trade[Broker_id]" %>
-  </div>
-  <div class="field">
-    <%= f.label :Strategy_id %><br>
-    <%= f.collection_select :Strategy_id, @strategy, :id, :Name, :name => "trade[Strategy_id]" %>
-  </div>
-  <div class="field">
-    <%= f.label :Asset_id %><br>
-    <%= f.collection_select :Asset_id, Azzet.order(:Name), :id, :Name, :include_blank => true, :name => "trade[Asset_id]"  %>
-  </div>
-  <div class="field">
-    <%= f.label :Option %><br>
-    <%= f.text_field :Option %>
-  </div>
-  <div class="field">
-    <%= f.label :Amount %><br>
-    <%= f.text_field :Amount %>
-  </div>
-  <div class="field">
-    <%= f.label :OnProfit %><br>
-    <%= f.text_field :OnProfit %>
-  </div>
-  <div class="field">
-    <%= f.label :OnLoss %><br>
-    <%= f.text_field :OnLoss %>
-  </div>
-  <div class="field">
-    <%= f.label :Payout %><br>
-    <%= f.text_field :Payout %>
-  </div>
-  <div class="field">
-    <%= f.label :Result %><br>
-    <%= f.text_field :Result %>
-  </div>
-  <div class="field">
-    <%= f.label :UseMartingale %><br>
-    <%= f.text_field :UseMartingale %>
-  </div>
-  <div class="field">
-    <%= f.label :UseCompoundInterest %><br>
-    <%= f.text_field :UseCompoundInterest %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <!-- /.panel -->
 <% end %>

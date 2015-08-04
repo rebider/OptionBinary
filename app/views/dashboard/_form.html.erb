@@ -1,0 +1,85 @@
+<%= form_for(@trade, remote: true, :url => create_dashboard_path) do |f| %>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form class="form-horizontal" role="form">
+
+        <%= f.hidden_field :User_id, :value => current_user.id %>
+
+        <div class="form-group">
+            <%= f.label :BrokerAccount_id, class:'col-sm-3' %>
+            <div class="col-sm-9">
+              <%= f.collection_select :BrokerAccount_id, @brokerAccount, :id, :name, :name => "trade[BrokerAccount_id]", class:'form-control' %>
+              <p class="help-block">Lorem ipsum dolor sit amet</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <%= f.label :Strategy_id, class:'col-sm-3' %>
+            <div class="col-sm-9">
+              <%= f.collection_select :Strategy_id, @strategy, :id, :Name, :name => "trade[Strategy_id]", class:'form-control' %>
+             <p class="help-block">Lorem ipsum dolor sit amet</p>
+            </div>  
+        </div>
+
+        <div class="form-group">
+            <%= f.label :Azzet_id, class:'col-sm-3' %>
+            <div class="col-sm-9">
+              <%= f.collection_select :Azzet_id, Azzet.order(:Name), :id, :Name, :name => "trade[Azzet_id]", class:'form-control' %>
+             <p class="help-block">Lorem ipsum dolor sit amet</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <%= f.label :Option, class:'col-sm-3' %>
+            <div class="col-sm-9">
+              <%= select_tag(:Option, options_for_select([["CALL", "CALL"], ["PUT", "PUT"]], selected: :option), :name => "trade[Option]", class:'form-control') %>
+             <p class="help-block">Lorem ipsum dolor sit amet</p>
+            </div>
+        </div>
+
+        <div class="form-group ">
+            <%= f.label :Amount, class:'col-sm-3' %>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <%= f.number_field :Amount, class:'form-control' %>
+              </div>
+              <p class="help-block">Lorem ipsum dolor sit amet</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <%= f.label :OnProfit, class:'col-sm-3' %>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <span class="input-group-addon">%</span>
+                <%= f.text_field :OnProfit, class:'form-control', type:'text' %>
+              </div>
+             <p class="help-block">Lorem ipsum dolor sit amet</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <%= f.label :OnLoss, class:'col-sm-3' %>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <span class="input-group-addon">%</span>
+                <%= f.text_field :OnLoss, class:'form-control', type:'text' %>
+              </div>
+             <p class="help-block">Lorem ipsum dolor sit amet</p>
+            </div>
+        </div>
+
+        <%= f.hidden_field :Payout, :value => '' %>
+        <%= f.hidden_field :Result, :value => '' %>
+        <%= f.hidden_field :UseMartingale, :value => 'false' %>
+        <%= f.hidden_field :UseCompoundInterest, :value => 'false' %>
+
+        <div class="actions btn btn-default">
+          <%= f.submit %>
+        </div>
+    </form>
+    <!-- /.panel -->
+  </div>
+</div>
+<% end %>
