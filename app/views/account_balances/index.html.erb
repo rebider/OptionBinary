@@ -26,7 +26,7 @@
                       <tbody>
                         <% @account_balances.each do |account_balance| %>
                           <tr>
-                            <td><%= account_balance.broker_account.name %></td>
+                            <td><%= account_balance.broker_account %></td>
                             <td><%= account_balance.Amount %></td>
                             <td><%= account_balance.Type %></td>
                             <td><%= account_balance.TradeID %></td>
