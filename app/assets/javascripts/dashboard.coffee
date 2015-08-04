@@ -2,14 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-jQuery -> 
-    Morris.Line
-        element: 'trades_chart'
-        data: $('#trades_chart').data('trades')
-        xkey: 'created_at'
-        ykeys: ['total_win', 'total_tie', 'total_lost']
-        labels: ['WIN', 'TIE', 'LOST']
-        lineColors: ['#449d44', '#ec971f', '#c9302c']
 
 jQuery -> 
     Morris.Donut
@@ -29,11 +21,11 @@ jQuery ->
 
 jQuery -> 
     Morris.Line
-        element: 'performance_last_days_cashflow_chart'
-        data: $('#performance_last_days_cashflow_chart').data('trades')
+        element: 'performance_last_days_profit_chart'
+        data: $('#performance_last_days_profit_chart').data('trades')
         xkey: 'date'
-        ykeys: ['cashflow']
-        labels: ['Cashflow']
+        ykeys: ['profit']
+        labels: ['Profit']
         preUnits: '$'
 
 

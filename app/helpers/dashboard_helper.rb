@@ -28,13 +28,13 @@ module DashboardHelper
 
 	end
 
-	def cashflow_chart_data(start = 3.weeks.ago)
-		cashflow_by_day = Trade.where(:User_id => current_user.id).cashflow_grouped_by_date(start)
+	def profit_chart_data(start = 3.weeks.ago)
+		profit_by_day = Trade.where(:User_id => current_user.id).profit_grouped_by_date(start)
 		
 		(start.to_date..Time.zone.today).map do |date|
 			{
 				date: date,
-				cashflow: cashflow_by_day[date].try(:first).try(:cashflow) || 0,
+				profit: profit_by_day[date].try(:first).try(:profit) || 0,
 			}
 		end
 	end
