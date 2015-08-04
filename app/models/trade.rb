@@ -13,4 +13,11 @@ class Trade < ActiveRecord::Base
   	trades.group_by { |o| o.created_at.to_date }
   end
 
+  def self.cashflow_grouped_by_date(start)
+  	trades = where(created_at: start.beginning_of_day..Time.zone.today)
+  	trades = trades.group("date(created_at)")
+  	trades = trades.select("created_at, sum(payout) as cashflow")
+  	trades.group_by { |o| o.created_at.to_date }
+  end
+
 end

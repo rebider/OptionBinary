@@ -16,7 +16,7 @@
         <tbody>
             <% @closedTrades.each do |trade| %>
               <tr class="odd gradeX">
-                <td><%= trade.created_at %></td>
+                <td><%= trade.created_at.to_s(:short) %></td>
                 <td><%= trade.BrokerAccount.name %></td>
                 <td><%= trade.Azzet %></td>
                 <td><%= trade.Option %></td>

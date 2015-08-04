@@ -19,4 +19,5 @@
 //= require bootstrap-sprockets
 //= require raphael
 //= require morris
+//= require highcharts
 //= require_tree .

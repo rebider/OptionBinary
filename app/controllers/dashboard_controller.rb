@@ -65,5 +65,6 @@ class DashboardController < ApplicationController
       #params.require(:trade).permit(:id, :Result)
       params.require(:trade).permit(:User_id, :BrokerAccount_id, :Strategy_id, :Azzet_id, :Option, :Amount, :OnProfit, :OnLoss, :Payout, :Result, :UseMartingale, :UseCompoundInterest)
     end
+
 end
 
