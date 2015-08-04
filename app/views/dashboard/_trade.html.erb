@@ -14,7 +14,7 @@
         <tbody>
             <% @trades.each do |trade| %>
               <tr class="odd gradeX">
-                <td><%= trade.created_at.in_time_zone %></td>
+                <td><%= trade.created_at %></td>
                 <td><%= trade.Azzet %></td>
                 <td><%= trade.Option %></td>
                 <td><%= trade.Amount %></td>
