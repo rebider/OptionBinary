@@ -31,7 +31,7 @@
               <div class="form-group">
                   <%= f.label :broker_id, class:'col-sm-3' %>
                   <div class="col-sm-9">
-                    <%= f.collection_select :broker_id, Broker.order(:Name), :id, :Name, :name => "broker_account[broker_id]", class:'form-control' %>
+                    <%= f.collection_select :broker_id, Broker.order(:Name), :id, :Name,{prompt: "Select a broker"} , {class: "form-control"}  %>
 
                     <p class="help-block">Lorem ipsum dolor sit amet</p>
                   </div>
@@ -40,13 +40,11 @@
               <div class="form-group">
                   <%= f.label :DemoAccount, class:'col-sm-3' %>
                   <div class="col-sm-9">
-                    <%= f.text_field :DemoAccount, class:'form-control' %>
+                    <%= f.check_box :DemoAccount , class:'form-control'%>
                   </div>
               </div>
-               
-
-              <div class="btn btn-default">
-                <%= f.submit %>
+              <div>
+                <%= f.submit "Save" ,:class => "btn btn-default" %>
               </div>
             </form>
           </div>
