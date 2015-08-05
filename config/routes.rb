@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   
 
 
+  get 'statistics/index'
+
   resources :broker_accounts
   resources :azzets
   resources :trades
