@@ -1,5 +1,5 @@
 module StatisticsHelper
-<<<<<<< HEAD
+
 	def trades_chart_data(start = 3.weeks.ago)
 		win_by_day  = Trade.where(:User_id => current_user.id).where(result: 'WIN') .trades_grouped_by_date(start)
 		tie_by_day  = Trade.where(:User_id => current_user.id).where(result: 'TIE') .trades_grouped_by_date(start)
@@ -16,7 +16,5 @@ module StatisticsHelper
 		end
 
 	end
-=======
 
->>>>>>> 826b7bfd3d016352a283f0a1e7618183fe79f5bd
 end
