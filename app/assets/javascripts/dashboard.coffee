@@ -8,6 +8,14 @@ jQuery ->
         element: 'performance_today_chart'
         data: $('#performance_today_chart').data('trades')
         colors: ['#449d44', '#ec971f', '#c9302c']
+        resize: true
+
+jQuery -> 
+    Morris.Donut
+        element: 'performance_today_chart1'
+        data: $('#performance_today_chart1').data('trades')
+        colors: ['#449d44', '#ec971f', '#c9302c']
+        resize: true
 
 jQuery -> 
     Morris.Bar
