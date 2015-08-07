@@ -51,6 +51,8 @@ gem 'morrisjs-rails', '~> 0.5.1'
 
 gem 'jquery-datatables-rails', '~> 3.3.0'
 
+gem 'font-awesome-rails', '~> 4.4.0.0'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
