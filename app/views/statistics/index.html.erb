@@ -16,48 +16,60 @@
   	$( "#datepicker_end" ).datepicker();
   	$( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
   	$( "#datepicker_end" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-	
+
+
+    $(function () {
     $('#container').highcharts({
-        title: {
-            text: 'Trade diario',
-            x: -20 //center
+        chart: {
+            type: 'area'
         },
-        
+        title: {
+            text: 'Trade diario'
+        },
         xAxis: {
-        
-            categories: [
+            categories: 
+              [
             <% @categorias.each do |a| %>
             ' <%= a.created_at.to_date %> ' ,
             <% end %>]
+            ,
+            tickmarkPlacement: 'on',
+            title: {
+                enabled: false
+            }
         },
         yAxis: {
             title: {
-                text: 'Total Trades'
+                text: 'Total trades'
             },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
+            labels: {
+                formatter: function () {
+                    return this.value / 1000;
+                }
+            }
         },
         tooltip: {
-            valueSuffix: '#'
+            shared: true,
+            valueSuffix: ' No'
         },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
+        plotOptions: {
+            area: {
+                stacking: 'normal',
+                lineColor: '#666666',
+                lineWidth: 1,
+                marker: {
+                    lineWidth: 1,
+                    lineColor: '#666666'
+                }
+            }
         },
         series: [{
-            name: 'WIN',
+            name: 'Win',
             data: [<% (@win.count).map do |win| %>
                     <%= win[1] %> , 
                     <% end -%> 
             ]
-
-          }, 
-          {
+        }, {
             name: 'TIE',
             data: [<% (@tie.count).map do |tie| %>
                     <%= tie[1] %> || 0,
@@ -69,8 +81,13 @@
                     <% end -%>]
         }]
     });
+});
 
 
+
+
+
+	
 
     $('#container1').highcharts({
         title: {
