@@ -20,4 +20,6 @@ class Trade < ActiveRecord::Base
   	trades.group_by { |o| o.created_at.to_date }
   end
 
+ 
+
 end

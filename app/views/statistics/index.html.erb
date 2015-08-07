@@ -4,18 +4,163 @@
 <head>
 <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.5.1.css">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
 <%= javascript_tag do %>
 
   $(function() {
-	  Morris.Line
-	  ({
-	  	element: 'trades_chart',
-	  	data: $('#trades_chart').data('trades'),
-	  	xkey:   'created_at',
-	  	ykeys:  ['total_win', 'total_tie', 'total_lost'],
-	  	labels: ['WIN', 'TIE', 'LOST'],
-	  	lineColors: ['#449d44', '#ec971f', '#c9302c']
-	  });
+  	$( "#datepicker" ).datepicker();
+  	$( "#datepicker_end" ).datepicker();
+  	$( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+  	$( "#datepicker_end" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+	
+    $('#container').highcharts({
+        title: {
+            text: 'Trade diario',
+            x: -20 //center
+        },
+        
+        xAxis: {
+        
+            categories: [
+            <% @categorias.each do |a| %>
+            ' <%= a.created_at.to_date %> ' ,
+            <% end %>]
+        },
+        yAxis: {
+            title: {
+                text: 'Total Trades'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '#'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'WIN',
+            data: [<% (@win.count).map do |win| %>
+                    <%= win[1] %> , 
+                    <% end -%> 
+            ]
+
+          }, 
+          {
+            name: 'TIE',
+            data: [<% (@tie.count).map do |tie| %>
+                    <%= tie[1] %> || 0,
+                    <% end -%>]
+        }, {
+            name: 'LOST',
+            data: [<% (@lost.count).map do |lost| %>
+                    <%= lost[1] || 0 %>,
+                    <% end -%>]
+        }]
+    });
+
+
+
+    $('#container1').highcharts({
+        title: {
+            text: 'Balance diario',
+            x: -20 //center
+        },
+        
+        xAxis: {
+        
+            categories: [
+            <% @categorias1.each do |a| %>
+            ' <%= a.created_at.to_date %> ' ,
+            <% end %>]
+        },
+        yAxis: {
+            title: {
+                text: 'Total Balance'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '$'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Payout',
+            data: [<% (@suma_win).map do |win| %>
+                    <%= win[1] %> , 
+                    <% end -%> 
+            ]
+
+          }]
+    });
+
+
+
+
+
+
+    $('#container2').highcharts({
+        title: {
+            text: 'Balance diario acumulado',
+            x: -20 //center
+        },
+        
+        xAxis: {
+        
+            categories: [
+            <% @categorias2.each do |a| %>
+            ' <%= a.name %> ' ,
+            <% end %>]
+        },
+        yAxis: {
+            title: {
+                text: 'Total Balance'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '$'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Ammount',
+            data: [<% (@suma_balance).map do |win| %>
+                    <%= win[1] %> , 
+                    <% end -%> 
+            ]
+
+          }]
+    });
+
 
   });
 
@@ -24,17 +169,30 @@
 <title>Statistics</title>
 </head>
 <body>
-	<div></div>
+	<div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i>Filters
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+               	<p>Start: <input type="text" id="datepicker"></p>
+               	<p>End:   <input type="text" id="datepicker_end"></p>
+                <%= collection_select(:account, :broker, BrokerAccount.all, :id, :name,{},{:multiple => true})%>
+                <%= collection_select(:strategies, :broker, Strategy.all, :id, :Name)%>
+                <%= collection_select(:azzet, :broker, Azzet.all, :id, :Name)%>
+         
+            </div>
+            <!-- /.panel-body -->
+    </div> 
     <div class="panel panel-default">
             <div class="panel-heading">
                 <i class="fa fa-bar-chart-o fa-fw"></i>Trades
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-                
-           		<div id='container'></div>
- 				<%= content_tag :div, "", id: "trades_chart", data: {trades: trades_chart_data } %>
-            </div>
+            <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            <div id="container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             <!-- /.panel-body -->
         </div> 
 </body>
