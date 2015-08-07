@@ -5,18 +5,27 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+
 </head>
 <body>
 
-  <div class="container-fluid">
-    <div class="row">
-      <!-- Navigation -->
-      <%= render 'shared/navigation' %>
-    </div>
+  <div class="container" class="effect mainnav-lg">
+    <header id="navbar">
+      <div id="navbar-container" class="boxed">
+          <%= render 'shared/navigation' %>
+      </div>
+    </header>
 
-    <div class="row">
-        <%= yield %>
+    <div class="boxed">
+      <div id="content-container">
+        <div class="page-content">
+          <div class="row">
+              <%= yield %>
+          </div>
+        </div>
+      </div>
     </div>
+    
   </div>
 
 

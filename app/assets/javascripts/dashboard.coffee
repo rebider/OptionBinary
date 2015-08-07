@@ -11,29 +11,29 @@ jQuery ->
         resize: true
 
 jQuery -> 
-    Morris.Donut
-        element: 'performance_today_chart1'
-        data: $('#performance_today_chart1').data('trades')
-        colors: ['#449d44', '#ec971f', '#c9302c']
-        resize: true
+	Morris.Donut
+	element: 'performance_today_percent_chart'
+	data: $('#performance_today_percent_chart').data('trades')
+	formatter: (y) -> y + "%"
+	
 
-jQuery -> 
-    Morris.Bar
-        element: 'performance_last_days_trades_chart'
-        data: $('#performance_last_days_trades_chart').data('trades')
-        xkey: 'created_at'
-        ykeys: ['total_win', 'total_tie', 'total_lost']
-        labels: ['WIN', 'TIE', 'LOST']
-        lineColors: ['#449d44', '#ec971f', '#c9302c']
-        stacked: true
+#jQuery -> 
+#    Morris.Bar
+#        element: 'performance_last_days_trades_chart'
+#        data: $('#performance_last_days_trades_chart').data('trades')
+#        xkey: 'created_at'
+#        ykeys: ['total_win', 'total_tie', 'total_lost']
+#        labels: ['WIN', 'TIE', 'LOST']
+#        lineColors: ['#449d44', '#ec971f', '#c9302c']
+#        stacked: true
 
-jQuery -> 
-    Morris.Line
-        element: 'performance_last_days_profit_chart'
-        data: $('#performance_last_days_profit_chart').data('trades')
-        xkey: 'date'
-        ykeys: ['profit']
-        labels: ['Profit']
-        preUnits: '$'
+#jQuery -> 
+#    Morris.Line
+#        element: 'performance_last_days_profit_chart'
+#        data: $('#performance_last_days_profit_chart').data('trades')
+#        xkey: 'date'
+#        ykeys: ['profit']
+#        labels: ['Profit']
+#        preUnits: '$'
 
 
