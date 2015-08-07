@@ -1,4 +1,25 @@
-<div class="dataTable_wrapper">
+<div class="list-group">
+    <% @closedTrades.each do |trade| %>
+
+        <li class="list-group-item dropdown">
+
+            <span> <%= trade.created_at.strftime("%I:%M%p") %> </span>
+            <% if trade.Option == 'CALL' %>
+                <span class="glyphicon glyphicon-chevron-up" ></span>
+            <% else %>
+                <span class="glyphicon glyphicon-chevron-down" ></span>
+            <% end %>
+
+            <span> <%= trade.Azzet.Name %> </span>
+
+            <span> $ <%= trade.Payout %> </span>    
+
+        </li>
+
+    <% end %>
+</div>
+
+<!--div class="dataTable_wrapper">
     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
         <thead>
             <tr>
@@ -28,7 +49,7 @@
               </tr>
             <% end %>
         </tbody>
-        <%= will_paginate @closedTrades %>
+        
     </table>
-</div>
+</div-->
 <!-- /.table-responsive -->

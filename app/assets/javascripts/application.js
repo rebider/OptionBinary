@@ -17,8 +17,8 @@
 //= require dataTables/jquery.dataTables
 //= require turbolinks
 //= require bootstrap-sprockets
-//= require morris
 //= require raphael
+//= require morris
 //= require_tree .
 
 

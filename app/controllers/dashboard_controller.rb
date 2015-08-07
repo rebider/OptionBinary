@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
 	before_action :set_dashboard, only: [:show]
-  before_action :all_trades, only: [:index, :create, :update, :destroy]
+  before_action :all_trades, only: [:index, :create, :update, :destroy, :update_result]
   before_action :set_trades, only: [:edit, :update, :destroy, :update_result]
 	
 	respond_to :html, :json
@@ -35,7 +35,7 @@ class DashboardController < ApplicationController
     @trade.Result = params[:Result]
 
     if(params[:Result] == 'WIN')
-      @trade.Payout = Float(@trade.Amount) + ((Float(@trade.Amount) * Float(@trade.OnProfit)) / 100)
+      @trade.Payout = ((Float(@trade.Amount) * Float(@trade.OnProfit)) / 100)
       @pago      = AccountBalance.where(:broker_account_id => @trade.BrokerAccount_id).pluck(:Balance).last
       @total     = (Float(@pago) + Float(@trade.Payout))
       @actualiza = AccountBalance.create(
@@ -76,7 +76,7 @@ class DashboardController < ApplicationController
       @trades = Trade.where(:User_id => current_user.id).where(:Result => '')
 
       ## perform a paginated query:
-      @closedTrades = Trade.where(:User_id => current_user.id).where.not(:Result => '').paginate(:page => params[:page], :per_page => 10)
+      @closedTrades = Trade.where(:User_id => current_user.id).where.not(:Result => '')#.paginate(:page => params[:page], :per_page => 10)
 
     end
 
