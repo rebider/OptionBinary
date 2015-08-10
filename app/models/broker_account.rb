@@ -8,4 +8,5 @@ class BrokerAccount < ActiveRecord::Base
   #	@nombre = Broker.where(:id => broker_id).pluck(:Name)
   #  "#{name} - #{@nombre}"
   #end
+   
 end
