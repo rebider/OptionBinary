@@ -16,28 +16,31 @@
         <% if user_signed_in? %>
         <ul class="nav navbar-nav">
             <li>
-                <a href="/dashboard/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                <a href="/dashboard/"><i class="fa fa-dashboard fa-fw"></i><%= I18n.t('link_dasboard') %></a>
             </li>
 
             <li>
-                <a href="/statistics/"><i class="fa fa-dashboard fa-fw"></i>Estadisticas</a>
+                <a href="/statistics/"><i class="fa fa-dashboard fa-fw"></i><%= I18n.t('link_statistics') %></a>
             </li>
             <li>
-                <a href="/strategies/"><i class="fa fa-dashboard fa-fw"></i>Strategies</a>
+                <a href="/strategies/"><i class="fa fa-dashboard fa-fw"></i><%= I18n.t('link_strategies') %></a>
             </li>
             <li>
-                <a href="/broker_accounts/"><i class="fa fa-dashboard fa-fw"></i>Account</a>
+                <a href="/broker_accounts/"><i class="fa fa-dashboard fa-fw"></i><%= I18n.t('link_account') %></a>
             </li>
             <li>
-                <a href="/account_balances/"><i class="fa fa-dashboard fa-fw"></i>Account Balances</a>
+                <a href="/account_balances/"><i class="fa fa-dashboard fa-fw"></i><%= I18n.t('link_account_balance') %></a>
             </li>
             <li>
-                <a href="/settings/"><i class="fa fa-dashboard fa-fw"></i>Configuration</a>
+                <a href="/settings/"><i class="fa fa-dashboard fa-fw"></i><%= I18n.t('link_configuration') %></a>
             </li>
         </ul>
         <% end %>
         <% if user_signed_in? %>
             <ul class="nav navbar-nav navbar-right">
+                Lenguage: 
+                <%= link_to_unless_current "English", locale: "en" %>
+                <%= link_to_unless_current "Español", locale: "es" %>
                 <li><%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %></li>
                 <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %></li>
             </ul>

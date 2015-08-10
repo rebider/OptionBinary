@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
-
+devise_for :admins
+devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
+ scope "(:locale)", locale: /es|en/ do
 
   get 'statistics/index'
 
@@ -12,10 +14,10 @@ Rails.application.routes.draw do
   resources :statistics
   get 'ruteador/index'
 
-  devise_for :admins
+  
   get 'welcome/index'
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
+  
   resources :strategies
   resources :account_balances
   resources :brokers
@@ -80,4 +82,7 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+end
+# match '*path', to: redirect("/#{I18n.default_locate}/%{path}") 
+# match '',      to: redirect("/#{I18n.default_locate}") 
 end
