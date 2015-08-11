@@ -41,8 +41,8 @@
                 Lenguage: 
                 <%= link_to_unless_current "English", locale: "en" %>
                 <%= link_to_unless_current "Español", locale: "es" %>
-                <li><%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %></li>
-                <li><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %></li>
+                <li><%= link_to I18n.t('link_profile'), edit_user_registration_path, :class => 'navbar-link' %></li>
+                <li><%= link_to I18n.t('link_logout'), destroy_user_session_path, method: :delete, :class => 'navbar-link'  %></li>
             </ul>
         <% else %>
             <ul class="nav navbar-nav navbar-right">
