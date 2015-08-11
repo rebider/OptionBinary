@@ -51,6 +51,8 @@ gem 'raphael-rails', '~> 2.1.2'
 
 gem 'morrisjs-rails', '~> 0.5.1'
 
+gem 'devise-i18n'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
