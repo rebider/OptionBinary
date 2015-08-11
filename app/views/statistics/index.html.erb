@@ -145,7 +145,7 @@
         series: [{
             name: 'Payout',
             data: [<% (@start.to_date..@fechaf.to_date).map do |s| %>
-                <% @ganado  = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{s}%" ).where("BrokerAccount_id in (?)", [2,3]).group("date(created_at)") %>
+                <% @ganado  = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{s}%" ).where("BrokerAccount_id in (?)", [8,9,10]).group("date(created_at)") %>
                    <% if @ganado.blank? %> 
                           <%= 0 %>, 
                     <% else %>
