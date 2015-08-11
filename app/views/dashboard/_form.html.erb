@@ -1,6 +1,6 @@
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <h4 class="modal-title" id="myModalLabel">New Trade</h4>
+  <h4 class="modal-title" id="myModalLabel"><%= I18n.t('dashboard_new_trade') %></h4>
 </div>
 <div class="modal-body">
   
@@ -9,29 +9,29 @@
     <%= f.hidden_field :User_id, :value => current_user.id %>
 
     <div class="form-group">
-        <%= f.label :BrokerAccount_id, class:'control-label col-sm-3' %>
+        <%= f.label I18n.t('dashboard_broker_account'), class:'col-sm-3' %>
         <div class="col-sm-9">
-          <%= f.collection_select(:BrokerAccount_id, @brokerAccount, :id, :name ,{prompt: "Select an account"},  {class: "form-control", :name => "trade[BrokerAccount_id]"} ) %>
+          <%= f.collection_select(:BrokerAccount_id, @brokerAccount, :id, :name ,{prompt: I18n.t('dashboard_select_account')},  {class: "form-control", :name => "trade[BrokerAccount_id]"} ) %>
         </div>
     </div>
 
     <div class="form-group">
-        <%= f.label :Strategy_id, class:'col-sm-3' %>
+        <%= f.label I18n.t('dashboard_strategy'), class:'col-sm-3' %>
         <div class="col-sm-9">
 
-          <%= f.collection_select(:Strategy_id, @strategy, :id, :Name , {prompt: "Select an strategy"}, {class: "form-control", :name => "trade[Strategy_id]"}) %>
+          <%= f.collection_select(:Strategy_id, @strategy, :id, :Name , {prompt: I18n.t('dashboard_select_strategy')}, {class: "form-control", :name => "trade[Strategy_id]"}) %>
         </div>  
     </div>
 
     <div class="form-group">
-        <%= f.label :Azzet_id, class:'col-sm-3' %>
+        <%= f.label I18n.t('dashboard_azzet'), class:'col-sm-3' %>
         <div class="col-sm-9">
-           <%= f.collection_select(:Azzet_id, @azzets, :id, :Name , {prompt: "Select an asset"}, {class: "form-control", :name => "trade[Azzet_id]"}) %>
+           <%= f.collection_select(:Azzet_id, @azzets, :id, :Name , {prompt: I18n.t('dashboard_select_azzet')}, {class: "form-control", :name => "trade[Azzet_id]"}) %>
         </div>
     </div>
 
     <div class="form-group">
-      <%= f.label :Option, class:'col-sm-3' %>
+      <%= f.label I18n.t('dashboard_option'), class:'col-sm-3' %>
       <div class="col-sm-9">
           <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-success">
@@ -45,7 +45,7 @@
     </div>
 
     <div class="form-group ">
-        <%= f.label :Amount, class:'col-sm-3' %>
+        <%= f.label I18n.t('dashboard_amount'), class:'col-sm-3' %>
         <div class="col-sm-9">
           <div class="input-group">
             <span class="input-group-addon">$</span>
@@ -55,7 +55,7 @@
     </div>
 
     <div class="form-group">
-        <%= f.label :OnProfit, class:'col-sm-3' %>
+        <%= f.label I18n.t('dashboard_onprofit'), class:'col-sm-3' %>
         <div class="col-sm-9">
           <div class="input-group">
             <span class="input-group-addon">%</span>
@@ -65,7 +65,7 @@
     </div>
 
     <div class="form-group">
-        <%= f.label :OnLoss, class:'col-sm-3' %>
+        <%= f.label I18n.t('dashboard_onloss'), class:'col-sm-3' %>
         <div class="col-sm-9">
           <div class="input-group">
             <span class="input-group-addon">%</span>
@@ -80,8 +80,8 @@
     <%= f.hidden_field :UseCompoundInterest, :value => 'false' %>
 
     <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      <%= f.submit class: 'btn btn-primary' %>
+      <button type="button" class="btn btn-default" data-dismiss="modal"><%= I18n.t('dashboard_button_close') %></button>
+      <%= f.submit I18n.t('dashboard_button_create'), class: 'btn btn-primary' %>
     </div>
   <% end %>
 </div>

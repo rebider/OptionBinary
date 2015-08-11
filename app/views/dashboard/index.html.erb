@@ -9,11 +9,11 @@
             <div class="panel-heading">
                 <div class="panel-control">
                     <%= link_to new_dashboard_path, remote: true,  :data => { :toggle => 'modal', :target => 'myModal' } do %>
-                      <button class="btn btn-default btn-xs">New Trade</button>
+                      <button class="btn btn-default btn-xs"><%= I18n.t('dashboard_button_trades') %></button>
                     <% end %>
                 </div>
                 <h3>
-                    Opened Trades
+                    <%= I18n.t('dashboard_open_trades') %>
                 </h3>
             </div>
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -43,7 +43,7 @@
         <div class="panel">
             <div class="panel-heading">
                 <h3>
-                    Week Performance
+                    <%= I18n.t('dashboard_week_performance') %>
                 </h3>
             </div>
             <div style="overflow:hidden">
@@ -112,7 +112,7 @@
                 <div class="panel-control">
                 </div>
                 <h3>
-                    Today Performance
+                    <%= I18n.t('dashboard_today_performance') %>
                 </h3>
             </div>
 
@@ -128,7 +128,7 @@
                         </div>
                         <div class="bg-light pad-ver">
                             <h4 class="mar-no text-thin">
-                                Efectividad
+                                 <%= I18n.t('dashboard_effective') %> 
                             </h4>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                         </div>
                         <div class="bg-light pad-ver">
                             <h4 class="mar-no text-thin">
-                                Efectividad
+                               <%= I18n.t('dashboard_effective') %> 
                             </h4>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                         </div>
                         <div class="bg-light pad-ver">
                             <h4 class="mar-no text-thin">
-                                Efectividad
+                                <%= I18n.t('dashboard_effective') %> 
                             </h4>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
                         </div>
                         <div class="bg-light pad-ver">
                             <h4 class="mar-no text-thin">
-                                Efectividad
+                                <%= I18n.t('dashboard_effective') %> 
                             </h4>
                         </div>
                     </div>
@@ -190,7 +190,7 @@
         <!-- /.panel -->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i> Closed Trades
+                <i class="fa fa-bar-chart-o fa-fw"></i> <%= I18n.t('dashboard_trade_close') %> 
             </div>
 
             <div class="panel-body">
@@ -202,7 +202,7 @@
     <div class="col-lg-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i> Last 5 days trades
+                <i class="fa fa-bar-chart-o fa-fw"></i> <%= I18n.t('dashboard_last_5_trades') %> 
             </div>
             <div class="panel-body">
                 <!-- <%= content_tag :div, "", id: "performance_last_days_profit_chart", data: {trades: profit_chart_data(5.days.ago) } %> -->
@@ -212,7 +212,7 @@
     <div class="col-lg-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i> Last 5 days performance
+                <i class="fa fa-bar-chart-o fa-fw"></i> <%= I18n.t('dashboard_last_5_day') %>
             </div>
             <div class="panel-body">
                 <!--<%= content_tag :div, "", id: "performance_last_days_trades_chart", data: {trades: trades_chart_data(5.days.ago) } %> -->
@@ -222,7 +222,7 @@
     <div class="col-lg-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i> Last 5 days profit
+                <i class="fa fa-bar-chart-o fa-fw"></i> <%= I18n.t('dashboard_last_5_profit') %>
             </div>
             <div class="panel-body">
                 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>

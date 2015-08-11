@@ -1,7 +1,7 @@
 <%= form_for(@strategy) do |f| %>
   <div class="panel panel-default">
       <div class="panel-heading">
-          New Strategy
+          <%= I18n.t('strategies_title_new') %>
       </div>
       <div class="panel-body">
         <div class="row">
@@ -22,7 +22,7 @@
               <%= f.hidden_field :User_id, :value => current_user.id %>
 
               <div class="form-group">
-                  <%= f.label :Name, class:'col-sm-3' %>
+                  <%= f.label I18n.t('strategies_table_name'), class:'col-sm-3' %>
                   <div class="col-sm-9">
                     <%= f.text_field :Name, class:'form-control' %>
                   </div>
@@ -31,7 +31,7 @@
               <%= f.hidden_field :Type, :value => "Private" %>
 
               <div>
-                <%= f.submit "Save" , :class=> "btn btn-default" %>
+                <%= f.submit I18n.t('strategies_button_save') , :class=> "btn btn-default" %>
               </div>
             </form>
           </div>
