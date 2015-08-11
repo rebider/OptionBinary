@@ -1,7 +1,7 @@
 <%= form_for(@broker_account) do |f| %>
 <div class="panel panel-default">
       <div class="panel-heading">
-          New Broker Account
+          <%= I18n.t('account_title_new') %>
       </div>
       <div class="panel-body">
         <div class="row">
@@ -22,29 +22,29 @@
               <%= f.hidden_field :user_id, :value => current_user.id, :name => "broker_account[user_id]" %>
 
               <div class="form-group">
-                  <%= f.label :name, class:'col-sm-3' %>
+                  <%= f.label I18n.t('account_table_name'), class:'col-sm-3' %>
                   <div class="col-sm-9">
                     <%= f.text_field :name, class:'form-control' %>
                   </div>
               </div>
                
               <div class="form-group">
-                  <%= f.label :broker_id, class:'col-sm-3' %>
+                  <%= f.label I18n.t('account_table_broker'), class:'col-sm-3' %>
                   <div class="col-sm-9">
-                    <%= f.collection_select :broker_id, Broker.order(:Name), :id, :Name,{prompt: "Select a broker"} , {class: "form-control"}  %>
+                    <%= f.collection_select :broker_id, Broker.order(:Name), :id, :Name,{prompt: I18n.t('account_select_broker')} , {class: "form-control"}  %>
 
                     <p class="help-block">Lorem ipsum dolor sit amet</p>
                   </div>
               </div>
 
               <div class="form-group">
-                  <%= f.label :DemoAccount, class:'col-sm-3' %>
+                  <%= f.label I18n.t('account_table_demoaccount'), class:'col-sm-3' %>
                   <div class="col-sm-9">
                     <%= f.check_box :DemoAccount , class:'form-control'%>
                   </div>
               </div>
               <div>
-                <%= f.submit "Save" ,:class => "btn btn-default" %>
+                <%= f.submit I18n.t('account_button_save') ,:class => "btn btn-default" %>
               </div>
             </form>
           </div>

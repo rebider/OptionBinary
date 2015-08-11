@@ -1,7 +1,7 @@
 <%= form_for(@account_balance) do |f| %>
   <div class="panel panel-default">
     <div class="panel-heading">
-        New Balance
+       <%= I18n.t('account_balance_title') %>
     </div>
     <div class="panel-body">
       <div class="row">
@@ -19,21 +19,20 @@
                 <% end %>
 
                 <div class="form-group">
-                  <%= f.label :broker_account_id, class:'col-sm-3' %>
-                  <div class="col-sm-9">
-                    <%= f.collection_select(:broker_account_id, BrokerAccount.where(:user_id => current_user.id), :id, :name,{prompt: "Select an account"} , {class: "form-control", :name => "broker_account_id"} ) %>
+                  <%= f.label I18n.t('account_balance_table_broker_account')%>
+                  <div>
+                    <%= f.collection_select(:broker_account_id, BrokerAccount.where(:user_id => current_user.id), :id, :name,{prompt: I18n.t('account_balance_select_account')} , {:class => "form-control", :name => "broker_account_id"} ) %>
                   </div>
                 </div>
 
                 <div class="form-group ">
-                    <%= f.label :Amount, class:'col-sm-3' %>
-                    <div class="col-sm-9">
+                    <%= f.label I18n.t('account_balance_table_amount') %>
+
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
                         <%= f.text_field :Amount, class:'form-control', :name => "Amount" %>
                       </div>
                       <p class="help-block">Lorem ipsum dolor sit amet</p>
-                    </div>
                 </div>
 
                 <%= f.hidden_field :Type, :value => 'Manual', :name => "Type" %>
@@ -41,7 +40,7 @@
 
 
                 <div >
-                  <%= f.submit "Save" , :class=>"btn btn-default"%>
+                  <%= f.submit I18n.t('account_balance_button_save') , :class=>"btn btn-default"%>
                 </div>
 
               </form>
