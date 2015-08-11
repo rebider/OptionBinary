@@ -1,11 +1,26 @@
 class StatisticsController < ApplicationController
   def index
   	######### grafica 1
+  	@start = 3.weeks.ago
+  	@fechaf = Time.zone.today
+	# 	(@start.to_date..Time.zone.today).each do |s|
+	# 		@f_salida = s.to_date
+	# 		@win      = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{@f_salida}%" ).where(result: "WIN").group("date(created_at)") 
+			
+	# 	Rails.logger.info "Fechas #{@f_salida} "
+	# 	Rails.logger.info "Win #{@win.count} "
+
+			
+	# end
+
 
   	@categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") 
   	@win        = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).where(result: "WIN").group("date(created_at)") 
   	@tie        = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).where(result: "TIE").group("date(created_at)") 
   	@lost       = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).where(result: "LOST").group("date(created_at)") 
+  
+  	
+  	
     ######### fin grafica 1 #####
     ######### grafica 2
   	@categorias1  = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") 

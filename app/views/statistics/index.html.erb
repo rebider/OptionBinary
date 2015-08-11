@@ -19,7 +19,7 @@
 
 
     $(function () {
-    $('#container').highcharts({
+    $('#grafica1').highcharts({
         chart: {
             type: 'area'
         },
@@ -29,9 +29,9 @@
         xAxis: {
             categories: 
               [
-            <% @categorias.each do |a| %>
-            ' <%= a.created_at.to_date %> ' ,
-            <% end %>]
+            <% (@start.to_date..@fechaf.to_date).map do |s| %>
+            ' <%= s %> ' ,
+            <% end %> ]
             ,
             tickmarkPlacement: 'on',
             title: {
@@ -65,20 +65,41 @@
         },
         series: [{
             name: 'Win',
-            data: [<% (@win.count).map do |win| %>
-                    <%= win[1] %> , 
-                    <% end -%> 
+            data: [<% (@start.to_date..@fechaf.to_date).map do |s| %>
+                <% @win  = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{s}%" ).where(result: "WIN").group("date(created_at)") %>
+                   <% if @win.blank? %> 
+                          <%= 0 %>, 
+                    <% else %>
+                        <% (@win.count).map do |e| %>
+                          <%= e[1] %>,
+                        <% end %> 
+                    <% end %> 
+                <% end -%> 
             ]
         }, {
             name: 'TIE',
-            data: [<% (@tie.count).map do |tie| %>
-                    <%= tie[1] %> || 0,
-                    <% end -%>]
+            data: [<% (@start.to_date..@fechaf.to_date).map do |s| %>
+                <% @tie  = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{s}%" ).where(result: "TIE").group("date(created_at)") %>
+                   <% if @tie.blank? %> 
+                          <%= 0 %>, 
+                    <% else %>
+                        <% (@tie.count).map do |e| %>
+                          <%= e[1] %>,
+                        <% end %> 
+                    <% end %> 
+                <% end -%> ]
         }, {
             name: 'LOST',
-            data: [<% (@lost.count).map do |lost| %>
-                    <%= lost[1] || 0 %>,
-                    <% end -%>]
+            data: [<% (@start.to_date..@fechaf.to_date).map do |s| %>
+                <% @lost  = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{s}%" ).where(result: "LOST").group("date(created_at)") %>
+                   <% if @lost.blank? %> 
+                          <%= 0 %>, 
+                    <% else %>
+                        <% (@lost.count).map do |e| %>
+                          <%= e[1] %>,
+                        <% end %> 
+                    <% end %> 
+                <% end -%> ]
         }]
     });
 });
@@ -89,7 +110,7 @@
 
 	
 
-    $('#container1').highcharts({
+    $('#grafica2').highcharts({
         title: {
             text: 'Balance diario',
             x: -20 //center
@@ -98,9 +119,9 @@
         xAxis: {
         
             categories: [
-            <% @categorias1.each do |a| %>
-            ' <%= a.created_at.to_date %> ' ,
-            <% end %>]
+            <% (@start.to_date..@fechaf.to_date).map do |s| %>
+            ' <%= s %> ' ,
+            <% end %> ]
         },
         yAxis: {
             title: {
@@ -123,10 +144,17 @@
         },
         series: [{
             name: 'Payout',
-            data: [<% (@suma_win).map do |win| %>
-                    <%= win[1] %> , 
-                    <% end -%> 
-            ]
+            data: [<% (@start.to_date..@fechaf.to_date).map do |s| %>
+                <% @ganado  = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{s}%" ).where("BrokerAccount_id in (?)", [2,3]).group("date(created_at)") %>
+                   <% if @ganado.blank? %> 
+                          <%= 0 %>, 
+                    <% else %>
+                        <% (@ganado.sum(:Amount)).map do |e| %>
+                          <%= e[1] %>,
+                        <% end %> 
+                    <% end %> 
+                <% end -%> 
+             ]
 
           }]
     });
@@ -136,7 +164,7 @@
 
 
 
-    $('#container2').highcharts({
+    $('#grafica3').highcharts({
         chart: {
             type: 'area'
         },
@@ -145,10 +173,7 @@
         },
         xAxis: {
             categories: 
-              [
-            <% @categorias.each do |a| %>
-            ' <%= a.created_at.to_date %> ' ,
-            <% end %>]
+              [' <%= @f_salida %> ' ,]
             ,
             tickmarkPlacement: 'on',
             title: {
@@ -185,7 +210,7 @@
               name: 'Balance Acumulado',
               data: [ 
               <% (@suma).map do |win| %>
-                    <%= win[0] %> , 
+                  0 || <%= win[0] %> , 
                     <% end -%> 
               
                       ]},
@@ -213,7 +238,8 @@
                 <%= collection_select(:account, :broker, BrokerAccount.all, :id, :name,{},{:multiple => true})%>
                 <%= collection_select(:strategies, :broker, Strategy.all, :id, :Name)%>
                 <%= collection_select(:azzet, :broker, Azzet.all, :id, :Name)%>
-         
+                <%= content_tag :div, "", id: "performance_today_chart", data: {statistics: fecha } %>
+
             </div>
             <!-- /.panel-body -->
     </div> 
@@ -224,10 +250,12 @@
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-            <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            <div id="container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+            <div id="grafica1"  style="min-width: 310px; height:  400px; margin: 0 auto"></div>
+            <div id="grafica2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            <div id="grafica3" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             <!-- /.panel-body -->
+
 
 
         </div> 
