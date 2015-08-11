@@ -156,7 +156,7 @@
 
             data: [<% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
                  <% @categorias.each do |fecha| %>
-                    <% @ganado = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where("BrokerAccount_id in (?)", [8,9,10]).group("date(created_at)") %> 
+                    <% @ganado = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where("BrokerAccount_id in (?)", [2,3]).group("date(created_at)") %> 
                     <% if @ganado.blank? %> 
                           <%= 0 %>, 
                      <% else %>
@@ -222,7 +222,7 @@
             }
         },
         series: [   
-                <% @nombres  = BrokerAccount.where("id in (?)", [8,9,10]) %>
+                <% @nombres  = BrokerAccount.where("id in (?)", [2,3]) %>
                   <% @nombres.each do |d| %> 
                   {
                   name:  '<%= d.name %>',
@@ -248,7 +248,7 @@
                                         <% if @ganado.blank? %> 
                                               <%= 0 %>, 
                                          <% else %>
-                                           <% (@ganado.sum(:Amount)).map do |e| %>
+                                           <% (@ganado.sum(:Balance)).map do |e| %>
                                               <%= e[1] %>,
                                             <% end -%>
                                         <% end %>      
