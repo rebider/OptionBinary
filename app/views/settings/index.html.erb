@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Listing Settings</h1>
+        <h1 class="page-header"><%= I18n.t('configuration_title') %></h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -11,13 +11,13 @@
             <div class="panel-body">
                 <div class="dataTable_wrapper">
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                      <%= link_to 'Add new', new_setting_path, :class=> "btn btn-default" %>
+                      <%= link_to I18n.t('configuration_button_new'), new_setting_path, :class=> "btn btn-default" %>
                       <thead>
                         <tr>
-                          <th>User</th>
-                          <th>Maximumtradesperday</th>
-                          <th>Maximumpercentpertrade</th>
-                          <th>Maximumpercentlossperday</th>
+                          <th><%= I18n.t('configuration_table_user') %></th>
+                          <th><%= I18n.t('configuration_table_Maximumtradesperday') %></th>
+                          <th><%= I18n.t('configuration_table_Maximumpercentpertrade') %></th>
+                          <th><%= I18n.t('configuration_table_Maximumpercentlossperday') %></th>
                           <th colspan="3"></th>
                         </tr>
                       </thead>
@@ -29,9 +29,9 @@
                             <td><%= setting.MaximumTradesPerDay %></td>
                             <td><%= setting.MaximumPercentPerTrade %></td>
                             <td><%= setting.MaximumPercentLossPerDay %></td>
-                            <td><%= link_to 'Show', setting %></td>
-                            <td><%= link_to 'Edit', edit_setting_path(setting) %></td>
-                            <td><%= link_to 'Destroy', setting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                            <td><%= link_to I18n.t('configuration_button_show'), setting %></td>
+                            <td><%= link_to I18n.t('configuration_button_edit'), edit_setting_path(setting) %></td>
+                            <td><%= link_to I18n.t('configuration_button_destroy'), setting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
                           </tr>
                         <% end %>
                       </tbody>

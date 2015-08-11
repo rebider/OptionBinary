@@ -1,7 +1,7 @@
 <%= form_for(@setting) do |f| %>
   <div class="panel panel-default">
       <div class="panel-heading">
-          New Setting
+          <%= I18n.t('configuration_title_new') %>
       </div>
       <div class="panel-body">
         <div class="row">
@@ -22,7 +22,7 @@
               <%= f.hidden_field :user_id, :value => current_user.id %>
 
               <div class="form-group">
-                  <%= f.label :MaximumTradesPerDay, class:'col-sm-3' %>
+                  <%= f.label I18n.t('configuration_table_Maximumtradesperday'), class:'col-sm-3' %>
                   <div class="col-sm-9">
                     <div class="input-group">
                       <span class="input-group-addon">#</span>
@@ -33,7 +33,7 @@
               </div>
 
               <div class="form-group">
-                  <%= f.label :MaximumPercentPerTrade, class:'col-sm-3' %>
+                  <%= f.label I18n.t('configuration_table_Maximumpercentpertrade'), class:'col-sm-3' %>
                   <div class="col-sm-9">
                     <div class="input-group">
                       <span class="input-group-addon">%</span>
@@ -44,7 +44,7 @@
               </div>
 
               <div class="form-group">
-                  <%= f.label :MaximumPercentLossPerDay, class:'col-sm-3' %>
+                  <%= f.label I18n.t('configuration_table_Maximumpercentlossperday'), class:'col-sm-3' %>
                   <div class="col-sm-9">
                     <div class="input-group">
                       <span class="input-group-addon">%</span>
@@ -55,7 +55,7 @@
               </div>
 
               <div >
-                <%= f.submit "Save", :class=> "btn btn-default" %>
+                <%= f.submit I18n.t('configuration_button_save'), :class=> "btn btn-default" %>
               </div>
             </form>
           </div>
