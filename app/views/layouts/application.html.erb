@@ -7,27 +7,27 @@
   <%= csrf_meta_tags %>
 
 </head>
-<body>
+<body class="nifty-ready pace-done">
 
-  <div class="container" class="effect mainnav-lg">
-    <header id="navbar">
-      <div id="navbar-container" class="boxed">
-          <%= render 'shared/navigation' %>
-      </div>
-    </header>
+  <div id="container" class="effect mainnav-lg">
+
+    <%= render 'shared/navigation' %>
 
     <div class="boxed">
+
       <div id="content-container">
-        <div class="page-content">
-          <div class="row">
-              <%= yield %>
-          </div>
+
+        <div id="page-content">
+
+            <%= yield %>
+
         </div>
+
       </div>
     </div>
-    
-  </div>
 
+    <footer id="footer"></footer>
+  </div>
 
 </body>
 </html>
