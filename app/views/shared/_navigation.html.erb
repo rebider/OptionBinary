@@ -3,12 +3,13 @@
     <div id="navbar-container" class="boxed">
 
         <div class="navbar-header">
-
-            <%= link_to :controller => "dashboard" do %>
-                <%= image_tag("tracking.png", :alt => "Binary Tracking", :class => "brand-icon") %>
-                <div class="brand-title">
-                    <span class="brand-text">Binary Tracking</span>
-                </div>
+            <% if user_signed_in? %>
+                <%= link_to :controller => "dashboard" do %>
+                    <%= image_tag("tracking.png", :alt => "Binary Tracking", :class => "brand-icon") %>
+                    <div class="brand-title">
+                        <span class="brand-text">Binary Tracking</span>
+                    </div>
+                <% end %>
             <% end %>
         </div>
 
@@ -54,7 +55,6 @@
                     <li><%= link_to "Sign up", new_user_registration_path, :class => 'btn btn-success'  %></li>
                     <li><%= link_to "Login", new_user_session_path, :class => 'btn btn-primary'  %></li>
                 <% end %>
-                    </div>
                 </li>
             </ul>
         </div>
