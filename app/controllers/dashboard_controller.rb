@@ -6,9 +6,14 @@ class DashboardController < ApplicationController
 	respond_to :html, :json
 
   def new
-    @brokerAccount = BrokerAccount.where(:user_id => current_user.id)
-    @strategy = Strategy.where(:User_id => current_user.id)
-    @azzets = Azzet.order(:Name)
+    #@brokerAccount = BrokerAccount.where(:user_id => current_user.id)
+    @brokerAccount = BrokerAccount.user_brokerAccounts(current_user.id)
+
+    #@strategy = Strategy.where(:User_id => current_user.id)
+    @strategy = Strategy.user_strategies(current_user.id)
+
+    #@azzets = Azzet.order(:Name)
+    @azzets = Azzet.get_azzets
 
     @trade = Trade.new
   end

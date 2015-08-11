@@ -9,4 +9,11 @@ class BrokerAccount < ActiveRecord::Base
   #  "#{name} - #{@nombre}"
   #end
    
+
+  def self.user_brokerAccounts(userId)
+
+  	brokerAccounts = where(user_id: userId)
+
+  end
+
 end
