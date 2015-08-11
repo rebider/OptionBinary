@@ -5,67 +5,56 @@
 
         <div class="navbar-header">
 
-            <a href="/dashboard/" class="navbar-brand">
-                <img src="" alt="" class="brand-icon">
+            <%= link_to :controller => "dashboard" do %>
+                <%= image_tag("tracking.png", :alt => "Binary Tracking", :class => "brand-icon") %>
                 <div class="brand-title">
                     <span class="brand-text">Binary Tracking</span>
                 </div>
-            </a>
+            <% end %>
         </div>
 
         <div class="navbar-content clearfix">
             <ul class="nav navbar-top-links pull-left"></ul>
             <ul class="nav navbar-top-links pull-right">
                 <li>
-                    <%= link_to_unless_current "Ingles", locale: "en" %>
+                    <% if I18n.locale == I18n.default_locale %>
+                        <%= link_to image_tag("spain.png", :alt => "Spain", :class => "lang-flag") + "Español", :locale=>'es' %>
+                    <% else %>
+                        <%= link_to image_tag("united-kingdom.png", :alt => "English", :class => "lang-flag") + "Ingles", :locale=>'en' %>
+                    <% end %>
                 </li>
-                <li>
-                    <%= link_to_unless_current "Español", locale: "es"  %>
-                </li>
-                <!--<li class="dropdown">
-                    <a href="#" id="demo-lang-switch" class="lang-selector dropdown-toggle" data-toggle="dropdown">
-                        <span class="lang-selected">
-                            <%= image_tag("spain.png", :alt => "Spain", class: "lang-flag") %>
-                            <span class="lang-id">ES</span>
-                            <span class="lang-name">Español</span>
-                        </span>
-                    </a>
-                    <ul class="head-list dropdown-menu with-arrow">
-                        <li>
-                            <%= link_to_unless_current image_tag("united-kingdom.png", :alt => "English"), :class => 'lang-flag' %>
-                        </li>
-                        <li>
-                            <%= link_to_unless_current image_tag("spain.png", :alt => "Español"), :class => 'lang-flag' %>
-                        </li>
-                    </ul>
-                </li>-->
-                <li id="dropdown-user" class="dropdown">
-                    <a href="#" data-toggle="dropdown" class="dropdown-toggle text-right">
-                        <span class="pull-right">
-                            <img src="" class="img-circle img-user media-object" alt="Profile Picture">
-                        </span>
-                        <div class="username hidden-xs">Bienvenido</div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-md dropdown-menu-right with-arrow panel-default">
-                        <ul class="head-list">
-                            <li>
-                                <%= link_to edit_user_registration_path do %>
-                                    <i class="fa fa-user fa-fw fa-lg">Profile</i>
+                <% if user_signed_in? %>
+                    <li id="dropdown-user" class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle text-right">
+                            <span class="pull-right">
+                                <%= image_tag("icon-profile.png", :alt => "Profile Pictur", :class => "img-circle img-user media-object") %>
+                            </span>
+                            <div class="username hidden-xs">Bienvenido</div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-md dropdown-menu-right with-arrow panel-default">
+                            <ul class="head-list">
+                                <li>
+                                    <%= link_to edit_user_registration_path do %>
+                                        <i class="fa fa-user fa-fw fa-lg">Profile</i>
+                                    <% end %>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-question-circle fa-fw fa-lg">Help</i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="pad-all text-right">
+                                <%= link_to destroy_user_session_path, method: :delete, :class => 'btn btn-primary' do %>
+                                    <i class="fa fa-sign-out fa-fw">Logout</i>
                                 <% end %>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-question-circle fa-fw fa-lg">Help</i>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="pad-all text-right">
-                            <%= link_to destroy_user_session_path, method: :delete, :class => 'btn btn-primary' do %>
-                                <i class="fa fa-sign-out fa-fw">Logout</i>
-                            <% end %>
+                            </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
+                <% else %>
+                    <li><%= link_to "Sign up", new_user_registration_path, :class => 'btn btn-success'  %></li>
+                    <li><%= link_to "Login", new_user_session_path, :class => 'btn btn-primary'  %></li>
+                <% end %>
             </ul>
         </div>
 
@@ -73,59 +62,51 @@
 
 </header>
 
-
-<nav id="mainnav-container">
-    <div id="mainnav">
-        <div id="mainnav-menu-wrap">
-            <div class="nano has-scrollbar">
-                <div class="nano-content" tabindex="0" style="right: -17px;">
-                    <ul id="mainnav-menu" class="list-group">
-                        <li class="list-header">Navigation</li>
-                        <li class="active-link">
-                            <a href="/dashboard/" data-original-title title class>
-                                <i class="fa fa-dashboard"></i>
-                                <span class="menu-title">
-                                    <strong><%= I18n.t('link_dasboard') %></strong>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/statistics/">
-                                <i class="fa fa-line-chart"></i>
-                                <span class="menu-title">
-                                    <strong><%= I18n.t('link_statistics') %></strong>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-th"></i>
-                                <span class="menu-title">
-                                    <strong>My data</strong>
-                                </span>
-                                <i class="arrow"></i>
-                            </a>
-                            <ul class="collapse" aria-expanded="false" style="height: 0px;">
-                                <li>
-                                    <a href="/strategies/"><%= I18n.t('link_strategies') %></a>
-                                </li>
-                                <li>
-                                    <a href="/broker_accounts/"><%= I18n.t('link_account') %></a>
-                                </li>
-                                <li>
-                                    <a href="/account_balances/"><%= I18n.t('link_account_balance') %></a>
-                                </li>
-                                <li>
-                                    <a href="/settings/"><%= I18n.t('link_configuration') %></a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+<% if user_signed_in? %>
+    <nav id="mainnav-container">
+        <div id="mainnav">
+            <div id="mainnav-menu-wrap">
+                <div class="nano has-scrollbar">
+                    <div class="nano-content" tabindex="0" style="right: -17px;">
+                        <ul id="mainnav-menu" class="list-group">
+                            <li class="list-header">Navigation</li>
+                            <li class="active-link">
+                                <%= link_to :controller => "dashboard" do %>
+                                    <i class="fa fa-dashboard"></i>
+                                    <span class="menu-title">
+                                        <strong><%= I18n.t('link_dasboard') %></strong>
+                                    </span>
+                                <% end %>
+                            </li>
+                            <li>
+                                <%= link_to :controller => "statistics" do %>
+                                    <i class="fa fa-line-chart"></i>
+                                    <span class="menu-title">
+                                        <strong><%= I18n.t('link_statistics') %></strong>
+                                    </span>
+                                <% end %>
+                            </li>
+                            <li class="list-divider"></li>
+                            <li class="list-header">Catalogos</li>
+                            <li>
+                                <%= link_to I18n.t('link_strategies'), :controller => "strategies" %>
+                            </li>
+                            <li>
+                                <%= link_to I18n.t('link_account'), :controller => "broker_accounts" %>
+                            </li>
+                            <li>
+                                <%= link_to I18n.t('link_account_balance'), :controller => "account_balances" %>
+                            </li>
+                            <li>
+                                <%= link_to I18n.t('link_configuration'), :controller => "settings" %>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</nav>
+    </nav>
+<% end %>
 
 
