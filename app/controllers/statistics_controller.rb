@@ -43,6 +43,7 @@ class StatisticsController < ApplicationController
    }
 
  	######### fin grafica 3 #####
- 
+
+
   end
 end

@@ -260,7 +260,165 @@
     });
 
 
-  });
+
+       $('#grafica4').highcharts({
+          chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Trades by Asset'
+        },
+        xAxis: { 
+            categories: 
+              [
+            <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
+                 <% @categorias.each do |fecha| %>
+                ' <%= fecha.created_at.to_date %> ' ,
+                <% end -%>]
+            ,
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Eficiencia'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [ <% @nombres  = Azzet.where("id in (?)", [1,2]) %>
+                  <% @nombres.each do |d| %> 
+                  {
+                  name:  '<%= d.Name %>',
+                  <% if d == @nombres.last %> 
+                        data: [ 
+                                <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
+                                     <% @categorias.each do |fecha| %>
+                                     <% @ganadas = Trade.where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where("Azzet_id in (?)", d.id).where(:result => "WIN") %>
+                                     <% @ganado = Trade.where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where("Azzet_id in (?)", d.id)%>
+                                      <% if @ganado.blank? %> 
+                                            <%= 0 %>, 
+                                     <% else %>
+                                      <%= @result = (Float(@ganadas.count) / Float(@ganado.count)) * 100 %>,
+                                      <% end %>
+                                <%  end -%>
+                          ]}   
+                    <% else %>
+                        data: [ 
+                                <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
+                                     <% @categorias.each do |fecha| %>
+                                     <% @ganadas = Trade.where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where("Azzet_id in (?)", d.id).where(:result => "WIN") %>
+                                     <% @ganado = Trade.where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where("Azzet_id in (?)", d.id)%>
+                                      <% if @ganado.blank? %> 
+                                            <%= 0 %>, 
+                                         <% else %>
+                                            <%= @result = (Float(@ganadas.count) / Float(@ganado.count)) * 100 %>,
+                                      <% end %>
+                                <%  end -%>
+                          ]},
+                    <%  end %>
+                  <% end %>
+               ]
+    });
+
+
+
+
+
+
+ $('#grafica5').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Trade by Strategy'
+        },
+        xAxis: {
+            categories: [
+                <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
+                 <% @categorias.each do |fecha| %>
+                ' <%= fecha.created_at.to_date %> ' ,
+                <% end -%>
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Eficiencia'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [
+
+        <% @nombres  = Strategy.where("id in (?)", [1,2]) %>
+                  <% @nombres.each do |d| %> 
+                  {
+                  name:  '<%= d.Name %>',
+                  <% if d == @nombres.last %> 
+                        data: [ 
+                                <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
+                                     <% @categorias.each do |fecha| %>
+                                     <% @ganadas = Trade.where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where("Strategy_id in (?)", d.id).where(:result => "WIN") %>
+                                     <% @ganado = Trade.where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where("Strategy_id in (?)", d.id)%>
+                                     <% if @ganado.blank? %> 
+                                            <%= 0 %>, 
+                                         <% else %>
+                                            <%= @result = (Float(@ganadas.count) / Float(@ganado.count)) * 100 %>,
+                                      <% end %>
+                                <%  end -%>
+                          ]}   
+                    <% else %>
+                        data: [ 
+                                 <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
+                                     <% @categorias.each do |fecha| %>
+                                     <% @ganadas = Trade.where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where("Strategy_id in (?)", d.id).where(:result => "WIN") %>
+                                     <% @ganado = Trade.where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where("Strategy_id in (?)", d.id)%>
+                                       <% if @ganado.blank? %> 
+                                            <%= 0 %>, 
+                                         <% else %>
+                                      <%= @result = (Float(@ganadas.count) / Float(@ganado.count)) * 100 %>,
+                                      <% end %>
+                                <%  end -%>
+                          ]},
+                    <%  end %>
+                  <% end %>
+
+
+        ]
+    });
+
+
+
+
+});
+
+
 
 <% end -%>
 
@@ -295,6 +453,9 @@
             <div id="grafica1"  style="min-width: 310px; height:  400px; margin: 0 auto"></div>
             <div id="grafica2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             <div id="grafica3" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            <div id="grafica4" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            <div id="grafica5" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            <div id="grafica6" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             <!-- /.panel-body -->
 
 
