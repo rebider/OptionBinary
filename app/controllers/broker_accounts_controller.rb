@@ -39,7 +39,9 @@ class BrokerAccountsController < ApplicationController
   def current_balance
     
     respond_to do |format|
-       format.js { return AccountBalance.current_balance(params[:id]) }
+       format.json do 
+        render :json => AccountBalance.current_balance(params[:id])
+      end
      end
   end
 

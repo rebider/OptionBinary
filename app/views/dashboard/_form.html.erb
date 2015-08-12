@@ -12,9 +12,9 @@
         <%= f.label I18n.t('dashboard_broker_account'), class:'col-sm-3' %>
         <div class="col-sm-5">
           <%= f.collection_select(:BrokerAccount_id, @brokerAccount, :id, :name ,{prompt: I18n.t('dashboard_select_account')},  {class: "form-control", :name => "trade[BrokerAccount_id]", :onchange => 'get_balance(this.value)' } ) %>
-        </div> <!-- :onchange => 'get_balance(this.value)'-->
+        </div>
         <div class="col-sm-4">
-          Balance: $250.00
+          Balance: <span id="account_balance"></span>
         </div>
     </div>
 
@@ -113,7 +113,7 @@ function get_balance (accountId) {
     url: "/broker_accounts/" + accountId + "/current_balance",
     success: function(data){
 
-      alert(data)
+      $("#account_balance").text("$ " + data[0].current_balance);
 
     }
   });
