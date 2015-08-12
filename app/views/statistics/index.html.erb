@@ -1,7 +1,7 @@
 
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html>
-<head>
+<head-->
 <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.5.1.css">
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -20,7 +20,8 @@
     
 
 
-    $(function () {
+    //$(function () {
+
     $('#grafica1').highcharts({
         chart: {
             type: 'area'
@@ -115,13 +116,9 @@
                ]
         }]
     });
-});
 
+    //});
 
-
-
-
-	
 
     $('#grafica2').highcharts({
         title: {
@@ -174,9 +171,6 @@
 
           }]
     });
-
-
-
 
 
 
@@ -266,8 +260,8 @@
 
 
 
-       $('#grafica4').highcharts({
-          chart: {
+    $('#grafica4').highcharts({
+        chart: {
             type: 'column'
         },
         title: {
@@ -307,28 +301,29 @@
                 borderWidth: 0
             }
         },
-        series: [ {
+        series: [ 
+                {
                     name: 'WIN',
                     color:'#5fa2dd',
                     data: [
-                    <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "WIN").group(:Azzet_id)%>
-                    <% @categorias.each do |s| %>
-                        <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "WIN").where(:Azzet_id => s.Azzet_id)%>
-                        <% @creadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id)%> 
-                        <% if @creadas.count.blank? %> 
-                                <%= 0 %>, 
-                            <% else %>
-                                <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
-                            <% end %>
-                    <% end %>
+                        <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "WIN").group(:Azzet_id)%>
+                        <% @categorias.each do |s| %>
+                            <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "WIN").where(:Azzet_id => s.Azzet_id)%>
+                            <% @creadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id)%> 
+                            <% if @creadas.count.blank? %> 
+                                    <%= 0 %>, 
+                                <% else %>
+                                    <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                                <% end %>
+                        <% end %>
                     ]
                 },
                 {
                     name: 'TIE',
                     color:'#E6EBE0',
                     data: [
-                      <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "TIE").group(:Azzet_id)%>
-                    <% @categorias.each do |s| %>
+                        <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "TIE").group(:Azzet_id)%>
+                        <% @categorias.each do |s| %>
                         <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "TIE").where(:Azzet_id => s.Azzet_id)%>
                         <% @creadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id)%> 
                        <% if @creadas.count.blank? %> 
@@ -356,12 +351,11 @@
                         
                     <% end %>
                     ]
-                }]
-                  
+                }]       
     });
 
 
- $('#grafica5').highcharts({
+    $('#grafica5').highcharts({
         chart: {
             type: 'column'
         },
@@ -456,11 +450,14 @@
     });
 
 
-$('.selectpicker').selectpicker('selectAll');
+    ///$('.selectpicker').selectpicker('selectAll'); 
 
-});
+  });
 
 
+    /*$(document).ready(function(){    
+        $('.selectpicker').selectpicker('selectAll'); 
+    })*/
 
 <% end -%>
 
@@ -477,7 +474,7 @@ $('.selectpicker').selectpicker('selectAll');
                 <div class="filter_date">
                     <span>Start: <input type="text" id="datepicker"></span>
                     <span>End:   <input type="text" id="datepicker_end"></span>
-                    <span><%= collection_select(:account, :broker, BrokerAccount.all, :id, :name,{},{:class=> "selectpicker" ,:multiple => true})%>
+                    <span><%= collection_select(:account, :broker, BrokerAccount.all, :id, :name,{},{:class=> "selectpicker" ,:multiple => true, :onload => "selectpicker('selectAll')" })%>
                         
                     </span>
                     <button>Filter</button>
@@ -506,6 +503,6 @@ $('.selectpicker').selectpicker('selectAll');
 
 
 
-        </div> 
-</body>
-</html>
+    </div> 
+<!--</body>
+</html-->
