@@ -271,9 +271,10 @@
         xAxis: { 
             categories: 
               [
-                  'Win',
-                  'Tie',
-                  'Lost'
+                  <% @nombres  = Azzet.where("id in (?)", [1,2,3]) %>
+                  <% @nombres.each do |d| %> 
+                  '<%= d.Name %>',
+                  <% end -%>
                 ]
             ,
             crosshair: true
@@ -298,49 +299,54 @@
                 borderWidth: 0
             }
         },
-        series: [ <% @nombres  = Azzet.where("id in (?)", [1,2,3]) %>
-                  <% @nombres.each do |d| %> 
-                  {
-                  name:  '<%= d.Name %>',
-                  <% if d == @nombres.last %> 
-                        data: [ 
-                                <% @categorias = Trade.where(:User_id => current_user.id).where(:Azzet_id => d.id).group(:Azzet_id) %>
-                                
-                                     <% @categorias.each do |i| %>
-                                     <% @ganadas_win = Trade.where(:Azzet_id => d.id).where(:result => "WIN") %>
-                                     <% @ganadas_tie = Trade.where(:Azzet_id => d.id).where(:result => "TIE") %>
-                                      <% @ganadas_lost = Trade.where(:Azzet_id => d.id).where(:result => "LOST") %>
+        series: [ {
+                    name: 'WIN',
+                    data: [
+                    <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "WIN").group(:Azzet_id)%>
+                    <% @categorias.each do |s| %>
+                        <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "WIN").where(:Azzet_id => s.Azzet_id)%>
+                        <% @creadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id)%> 
+                        <% if @creadas.count.blank? %> 
+                                <%= 0 %>, 
+                            <% else %>
+                                <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                            <% end %>
+                    <% end %>
+                    ]
+                },
+                {
+                    name: 'TIE',
+                    data: [
+                      <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "TIE").group(:Azzet_id)%>
+                    <% @categorias.each do |s| %>
+                        <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "TIE").where(:Azzet_id => s.Azzet_id)%>
+                        <% @creadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id)%> 
+                       <% if @creadas.count.blank? %> 
+                                <%= 0 %>, 
+                            <% else %>
+                                <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                            <% end %>
+                    <% end %>
 
-                                     <% @ganado = Trade.where(:Azzet_id => d.id)%>      
-                                      <% if @ganado.blank? %> 
-                                            <%= 0 %>, 
-                                     <% else %>
-                                      <%= @result = (Float(@ganadas_win.count) / Float(@ganado.count)) * 100 %>,
-                                      <%= @result1 = (Float(@ganadas_tie.count) / Float(@ganado.count)) * 100 %>,
-                                      <%= @result2 = (Float(@ganadas_lost.count) / Float(@ganado.count)) * 100 %>
-                                      <% end %>
-                                <%  end -%>
-                          ]}   
-                    <% else %>
-                        data: [ 
-                                <% @categorias = Trade.where(:User_id => current_user.id).where(:Azzet_id => d.id).group(:Azzet_id) %>
-                                     <% @categorias.each do |i| %>
-                                     <% @ganadas_win = Trade.where(:Azzet_id => d.id).where(:result => "WIN") %>
-                                     <% @ganadas_tie = Trade.where(:Azzet_id => d.id).where(:result => "TIE") %>
-                                      <% @ganadas_lost = Trade.where(:Azzet_id => d.id).where(:result => "LOST") %>
-                                     <% @ganado = Trade.where(:Azzet_id => d.id)%>
-                                      <% if @ganado.blank? %> 
-                                            <%= 0 %>, 
-                                         <% else %>
-                                             <%= @result = (Float(@ganadas_win.count) / Float(@ganado.count)) * 100 %>,
-                                            <%= @result1 = (Float(@ganadas_tie.count) / Float(@ganado.count)) * 100 %>,
-                                            <%= @result2 = (Float(@ganadas_lost.count) / Float(@ganado.count)) * 100 %>
-                                      <% end %>
-                                <%  end -%>
-                          ]},
-                    <%  end %>
-                  <% end %>
-               ]
+                    ]
+                },
+                {
+                    name: 'LOST',
+                    data: [
+                    <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "LOST").group(:Azzet_id)%>
+                    <% @categorias.each do |s| %>
+                        <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "LOST").where(:Azzet_id => s.Azzet_id)%>
+                        <% @creadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id)%> 
+                         <% if @creadas.count.blank? %> 
+                                <%= 0 %>, 
+                            <% else %>
+                                <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                            <% end %>
+                        
+                    <% end %>
+                    ]
+                }]
+                  
     });
 
 
