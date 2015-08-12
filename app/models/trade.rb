@@ -20,4 +20,15 @@ class Trade < ActiveRecord::Base
   	trades.group_by { |o| o.created_at.to_date }
   end
 
+  def self.total_trades_by_strategy(strategyId, userId)
+    trades = where(strategy_id: strategyId).where(user_id: userId)
+    trades = trades.group("result")
+    trades = trades.select("result, count(id) as total_trades")
+  end
+
+  def self.total_trades_by_azzet(azzetId, userId)
+    trades = where(azzet_id: azzetId).where(user_id: userId)
+    trades = trades.group("result")
+    trades = trades.select("result, count(id) as total_trades")
+  end
 end

@@ -33,6 +33,11 @@ devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
 
   get 'broker_accounts/:id/current_balance' => 'broker_accounts#current_balance', as: :current_balance
 
+  get 'strategies/:id/total_trades' => 'strategies#total_trades', as: :strategies_total_trades
+  get 'azzets/:id/total_trades' => 'azzets#total_trades', as: :azzets_total_trades
+
+  get 'settings/user_settings' => 'settings#user_settings', as: :user_settings
+
   get 'statistics/index'
   #get 'statistics/today_scores' => 'statistics#today_scores', as: :today_scores
 

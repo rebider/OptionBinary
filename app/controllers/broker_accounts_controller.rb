@@ -1,10 +1,11 @@
 class BrokerAccountsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_broker_account, only: [:show, :edit, :update, :destroy, :current_balance]
 
   respond_to :html
 
   def index
-    @broker_accounts = BrokerAccount.all
+    @broker_accounts = BrokerAccount.user_brokerAccounts(current_user.id)
     respond_with(@broker_accounts)
   end
 

@@ -1,5 +1,6 @@
 class AzzetsController < ApplicationController
-  before_action :set_azzet, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :set_azzet, only: [:show, :edit, :update, :destroy, :total_trades]
 
   respond_to :html
 
@@ -34,6 +35,14 @@ class AzzetsController < ApplicationController
   def destroy
     @azzet.destroy
     respond_with(@azzet)
+  end
+
+  def total_trades
+    respond_to do |format|
+       format.json do 
+        render :json => Trade.total_trades_by_azzet(params[:id], current_user.id)
+      end
+     end
   end
 
   private

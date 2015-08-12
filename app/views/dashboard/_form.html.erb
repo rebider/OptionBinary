@@ -14,7 +14,7 @@
           <%= f.collection_select(:BrokerAccount_id, @brokerAccount, :id, :name ,{prompt: I18n.t('dashboard_select_account')},  {class: "form-control", :name => "trade[BrokerAccount_id]", :onchange => 'get_balance(this.value)' } ) %>
         </div>
         <div class="col-sm-4">
-          Balance: <span id="account_balance"></span>
+          Balance: <span id="lbl_account_balance"></span>
         </div>
     </div>
 
@@ -22,21 +22,21 @@
         <%= f.label I18n.t('dashboard_strategy'), class:'col-sm-3' %>
         <div class="col-sm-5">
 
-          <%= f.collection_select(:Strategy_id, @strategy, :id, :Name , {prompt: I18n.t('dashboard_select_strategy')}, {class: "form-control", :name => "trade[Strategy_id]"}) %>
+          <%= f.collection_select(:Strategy_id, @strategy, :id, :Name , {prompt: I18n.t('dashboard_select_strategy')}, {class: "form-control", :name => "trade[Strategy_id]", :onchange => 'get_strategy_success_rate(this.value)'}) %>
         </div>  
 
         <div class="col-sm-4">
-          Efectividad: 65%
+          Efectividad: <span id="lbl_strategy_rate"></span>
         </div>
     </div>
 
     <div class="form-group">
         <%= f.label I18n.t('dashboard_azzet'), class:'col-sm-3' %>
         <div class="col-sm-5">
-           <%= f.collection_select(:Azzet_id, @azzets, :id, :Name , {prompt: I18n.t('dashboard_select_azzet')}, {class: "form-control", :name => "trade[Azzet_id]"}) %>
+           <%= f.collection_select(:Azzet_id, @azzets, :id, :Name , {prompt: I18n.t('dashboard_select_azzet')}, {class: "form-control", :name => "trade[Azzet_id]", :onchange => 'get_azzet_success_rate(this.value)'}) %>
         </div>
         <div class="col-sm-4">
-          Efectividad: 70%
+          Efectividad: <span id="lbl_azzet_rate"></span>
         </div>
     </div>
 
@@ -63,7 +63,7 @@
           </div>       
         </div>
         <div class="col-sm-4">
-          2.5 %
+          Sugerido: <span id="lbl_percent_suggested"></span>
         </div>
     </div>
 
@@ -76,7 +76,7 @@
           </div>
         </div>
         <div class="col-sm-4">
-          Payout $ 107 USD
+          Payout: <span id="lbl_onprofit_payout"></span>
         </div>        
     </div>
 
@@ -89,7 +89,7 @@
           </div>
         </div>
         <div class="col-sm-4">
-          Payout $ 0
+          Payout <span id="lbl_onlost_payout"></span>
         </div>
     </div>
 
@@ -106,15 +106,67 @@
 </div>
       
 <script type="text/javascript">
-  
+  var account_balance = 0;
 function get_balance (accountId) {
   $.ajax({
     type: "GET",
     url: "/broker_accounts/" + accountId + "/current_balance",
     success: function(data){
 
-      $("#account_balance").text("$ " + data[0].current_balance);
+      account_balance = Math.round(data[0].current_balance);
+      $("#lbl_account_balance").text("$ " + account_balance);
 
+    }
+  });
+}
+
+function get_strategy_success_rate(strategyId) {
+  $.ajax({
+    type: "GET",
+    url: "/strategies/" + strategyId + "/total_trades",
+    success: function(data){
+
+      won = data[2] != null ? data[2].total_trades : 0;
+      tie = data[1] != null ? data[1].total_trades : 0;
+      lost = data[0] != null ? data[0].total_trades : 0;
+      total_trades = won + tie + lost;
+      success_rate = Math.round(((won + tie) / total_trades) * 100);
+
+      $("#lbl_strategy_rate").text(success_rate + " %");
+    }
+  });
+}
+
+function get_azzet_success_rate(azzetId) {
+  $.ajax({
+    type: "GET",
+    url: "/azzets/" + azzetId + "/total_trades",
+    success: function(data){
+
+      won = data[2] != null ? data[2].total_trades : 0;
+      tie = data[1] != null ? data[1].total_trades : 0;
+      lost = data[0] != null ? data[0].total_trades : 0;
+      total_trades = won + tie + lost;
+      success_rate = Math.round(((won + tie) / total_trades) * 100);
+
+      $("#lbl_azzet_rate").text(success_rate + " %");
+    }
+  });
+}
+
+function get_maximum_percent_trade() {
+  $.ajax({
+    type: "GET",
+    url: "/settings/" + azzetId + "/total_trades",
+    success: function(data){
+
+      won = data[2] != null ? data[2].total_trades : 0;
+      tie = data[1] != null ? data[1].total_trades : 0;
+      lost = data[0] != null ? data[0].total_trades : 0;
+      total_trades = won + tie + lost;
+      success_rate = Math.round(((won + tie) / total_trades) * 100);
+
+      $("#lbl_azzet_rate").text(success_rate + " %");
     }
   });
 }

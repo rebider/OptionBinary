@@ -1,10 +1,13 @@
 class SettingsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_setting, only: [:show, :edit, :update, :destroy]
-
+  before_action :get_setting, only: [:user_settings]
+  
   respond_to :html
+  respond_to :json
 
   def index
-    @settings = Setting.all
+    @settings = Setting.user_settings(current_user.id)
     respond_with(@settings)
   end
 
@@ -36,9 +39,22 @@ class SettingsController < ApplicationController
     respond_with(@setting)
   end
 
+  def user_settings
+    
+    respond_to do |format|
+       format.json do 
+        render :json => Setting.user_settings(current_user.id)
+      end
+     end
+  end
+
   private
     def set_setting
       @setting = Setting.find(params[:id])
+    end
+
+    def get_setting
+      Setting.user_settings(current_user.id)
     end
 
     def setting_params

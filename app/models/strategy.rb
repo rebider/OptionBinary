@@ -7,4 +7,6 @@ class Strategy < ActiveRecord::Base
   	strategies = where(user_id: userId)
 
   end
+
+
 end

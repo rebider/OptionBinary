@@ -1,10 +1,11 @@
 class StrategiesController < ApplicationController
-  before_action :set_strategy, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :set_strategy, only: [:show, :edit, :update, :destroy, :total_trades]
 
   # GET /strategies
   # GET /strategies.json
   def index
-    @strategies = Strategy.where(:User_id => current_user.id)
+    @strategies = Strategy.user_strategies(current_user.id)
   end
 
   # GET /strategies/1
@@ -59,6 +60,15 @@ class StrategiesController < ApplicationController
       format.html { redirect_to strategies_url, notice: 'Strategy was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+
+  def total_trades
+    respond_to do |format|
+       format.json do 
+        render :json => Trade.total_trades_by_strategy(params[:id], current_user.id)
+      end
+     end
   end
 
   private

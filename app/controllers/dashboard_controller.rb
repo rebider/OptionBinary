@@ -1,4 +1,5 @@
 class DashboardController < ApplicationController
+  before_action :authenticate_user!
 	before_action :set_dashboard, only: [:show]
   before_action :all_trades, only: [:index, :create, :update, :destroy, :update_result]
   before_action :set_trades, only: [:edit, :update, :destroy, :update_result]
