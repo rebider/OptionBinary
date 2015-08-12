@@ -36,4 +36,3 @@ jQuery ->
 #        labels: ['Profit']
 #        preUnits: '$'
 
-

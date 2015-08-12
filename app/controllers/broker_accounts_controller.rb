@@ -1,5 +1,5 @@
 class BrokerAccountsController < ApplicationController
-  before_action :set_broker_account, only: [:show, :edit, :update, :destroy]
+  before_action :set_broker_account, only: [:show, :edit, :update, :destroy, :current_balance]
 
   respond_to :html
 
@@ -34,6 +34,13 @@ class BrokerAccountsController < ApplicationController
   def destroy
     @broker_account.destroy
     respond_with(@broker_account)
+  end
+
+  def current_balance
+    
+    respond_to do |format|
+       format.js { return AccountBalance.current_balance(params[:id]) }
+     end
   end
 
   private

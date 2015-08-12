@@ -31,6 +31,8 @@ devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
   post 'dashboard/:id/update_result' => 'dashboard#update_result', as: :update_result
   post 'dashboard/create' => 'dashboard#create', as: :create_dashboard
 
+  get 'broker_accounts/:id/current_balance' => 'broker_accounts#current_balance', as: :current_balance
+
   get 'statistics/index'
   #get 'statistics/today_scores' => 'statistics#today_scores', as: :today_scores
 

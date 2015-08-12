@@ -30,9 +30,9 @@
                         <tbody>
                             <% @trades.each do |trade| %>
                               <tr class="odd gradeX">
-                                <td><%= trade.BrokerAccount %></td>
-                                <td><%= trade.Strategy %></td>
-                                <td><%= trade.Azzet %></td>
+                                <td><%= trade.BrokerAccount.name %></td>
+                                <td><%= trade.Strategy.Name %></td>
+                                <td><%= trade.Azzet.Name %></td>
                                 <td><%= trade.Option %></td>
                                 <td><%= trade.Amount %></td>
                                 <td><%= trade.OnProfit %></td>

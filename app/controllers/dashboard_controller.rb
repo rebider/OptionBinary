@@ -36,7 +36,6 @@ class DashboardController < ApplicationController
 
   def update_result
 
-    
     @trade.Result = params[:Result]
 
     if(params[:Result] == 'WIN')
@@ -71,7 +70,6 @@ class DashboardController < ApplicationController
         :Type => "Automatic")
     end
     @trade.save
-
 
   end
 

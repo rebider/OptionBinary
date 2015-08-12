@@ -24,7 +24,7 @@
                   <div class="form-group">
                       <%= f.label :BrokerAccount_id, class:'col-sm-3' %>
                       <div class="col-sm-9">
-                        <%= f.collection_select :BrokerAccount_id, @brokerAccount, :id, :name,{prompt: "Select an account"} , {class: "form-control", :name => "trade[BrokerAccount_id]"} %>
+                        <%= f.collection_select :BrokerAccount_id, @brokerAccount, :id, :name,{prompt: "Select an account"} , {class: "form-control selectpicker", :name => "trade[BrokerAccount_id]", :data => { :"live-search"=> "true"}} %>
                         <p class="help-block">Lorem ipsum dolor sit amet</p>
                       </div>
                   </div>
@@ -32,7 +32,7 @@
                   <div class="form-group">
                       <%= f.label :Strategy_id, class:'col-sm-3' %>
                       <div class="col-sm-9">
-                        <%= f.collection_select :Strategy_id, @strategy, :id, :Name,{prompt: "Select an strategy"} , {class: "form-control", :name => "trade[Strategy_id]"} %>
+                        <%= f.collection_select :Strategy_id, @strategy, :id, :Name,{prompt: "Select an strategy"} , {class: "form-control selectpicker", :name => "trade[Strategy_id]", :data => { :"live-search"=> "true"}} %>
                        <p class="help-block">Lorem ipsum dolor sit amet</p>
                       </div>  
                   </div>
@@ -40,7 +40,7 @@
                   <div class="form-group">
                       <%= f.label "Asset", class:'col-sm-3' %>
                       <div class="col-sm-9">
-                        <%= f.collection_select :Azzet_id, Azzet.order(:Name), :id, :Name ,{prompt: "Select an Asset"} , {class: "form-control", :name => "trade[Azzet_id]"} %>
+                        <%= f.collection_select :Azzet_id, Azzet.order(:Name), :id, :Name ,{prompt: "Select an Asset"} , {class: "form-control selectpicker", :name => "trade[Azzet_id]", :data => { :"live-search"=> "true"}} %>
                        <p class="help-block">Lorem ipsum dolor sit amet</p>
                       </div>
                   </div>
