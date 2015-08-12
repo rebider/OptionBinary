@@ -4,8 +4,6 @@ class Setting < ActiveRecord::Base
 
 
   def self.user_settings(userId)
-
   	settings = where(user_id: userId)
-
   end
 end
