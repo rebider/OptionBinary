@@ -4,8 +4,6 @@ class SettingsController < ApplicationController
   before_action :set_setting_json, only: [:show]
   before_action :get_setting, only: [:user_settings]
 
- 
-  
   respond_to :html
   respond_to :json
 
