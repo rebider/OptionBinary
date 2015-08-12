@@ -66,7 +66,7 @@
         },
         series: [{
             name: 'Win',
-            color:'hsl(138, 54%, 79%)',
+            color:'#9BC1BC',
             data: [
                 <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
                  <% @categorias.each do |fecha| %>
@@ -82,7 +82,7 @@
             ]
         }, {
             name: 'TIE',
-            color:'hsl(204, 12%, 92%)',
+            color:'#E6EBE0',
             data: [
                 <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
                  <% @categorias.each do |fecha| %>
@@ -98,7 +98,7 @@
                 ]
         }, {
             name: 'LOST',
-            color: 'hsl(194, 62%, 72%)',
+            color: '#ED6A5A',
             data: [ <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
                  <% @categorias.each do |fecha| %>
                     <% @lost  = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where(result: "LOST").group("date(created_at)") %> 
@@ -307,7 +307,7 @@
         },
         series: [ {
                     name: 'WIN',
-                    color:'hsl(138, 54%, 79%)',
+                    color:'#9BC1BC',
                     data: [
                     <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "WIN").group(:Azzet_id)%>
                     <% @categorias.each do |s| %>
@@ -323,7 +323,7 @@
                 },
                 {
                     name: 'TIE',
-                    color:'hsl(204, 12%, 92%)',
+                    color:'#E6EBE0',
                     data: [
                       <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "TIE").group(:Azzet_id)%>
                     <% @categorias.each do |s| %>
@@ -340,7 +340,7 @@
                 },
                 {
                     name: 'LOST',
-                    color: 'hsl(194, 62%, 72%)',
+                    color: '#ED6A5A',
                     data: [
                     <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "LOST").group(:Azzet_id)%>
                     <% @categorias.each do |s| %>
@@ -398,7 +398,7 @@
         series: [
                     {
                         name: 'WIN',
-                        color:'hsl(138, 54%, 79%)',
+                        color:'#9BC1BC',
                         data: [
                         <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "WIN").group(:Strategy_id)%>
                         <% @categorias.each do |s| %>
@@ -417,7 +417,7 @@
 
                     {
                         name: 'TIE',
-                        color:'hsl(204, 12%, 92%)',
+                        color:'#E6EBE0',
                         data: [
                         <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "TIE").group(:Strategy_id)%>
                         <% @categorias.each do |s| %>
@@ -435,7 +435,7 @@
                     },
                     {
                         name: 'LOST',
-                        color: 'hsl(194, 62%, 72%)',
+                        color: '#ED6A5A',
                         data: [
                                 <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "LOST").group(:Strategy_id)%>
                                 <% @categorias.each do |s| %>
