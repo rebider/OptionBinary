@@ -271,10 +271,13 @@
         xAxis: { 
             categories: 
               [
-                  <% @nombres  = Azzet.where("id in (?)", [1,2,3]) %>
-                  <% @nombres.each do |d| %> 
-                  '<%= d.Name %>',
-                  <% end -%>
+                  <% @Azzet_id  = Trade.where(:User_id => current_user.id).group(:Azzet_id) %>
+                  <% @Azzet_id.each do |d| %> 
+                    <% @Azzet_nombre = Azzet.where(:id => d.Azzet_id) %>
+                         <% @Azzet_nombre.each do |a| %>
+                          '<%= a.Name %>',
+                         <% end -%>
+                   <% end -%>
                 ]
             ,
             crosshair: true
@@ -350,10 +353,6 @@
     });
 
 
-
-
-
-
  $('#grafica5').highcharts({
         chart: {
             type: 'column'
@@ -363,7 +362,10 @@
         },
         xAxis: {
             categories: [
-                'Eficiencia Global'
+                  <% @nombres  = Strategy.where(:User_id => current_user.id) %>
+                  <% @nombres.each do |d| %> 
+                  '<%= d.Name %>',
+                  <% end -%>
             ],
             crosshair: true
         },
@@ -388,40 +390,58 @@
             }
         },
         series: [
+                    {
+                        name: 'WIN',
+                        data: [
+                        <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "WIN").group(:Strategy_id)%>
+                        <% @categorias.each do |s| %>
+                        <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "WIN").where(:Strategy_id => s.Strategy_id)%>
+                        <% @creadas = Trade.where(:User_id => current_user.id).where(:Strategy_id => s.Strategy_id)%> 
+                         <% if @creadas.count.blank? %> 
+                                <%= 0 %>, 
+                            <% else %>
+                                <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                            <% end %>
+                        
+                    <% end %>
 
-        <% @nombres  = Strategy.where("id in (?)", [1,2,3]) %>
-                  <% @nombres.each do |d| %> 
-                  {
-                  name:  '<%= d.Name %>',
-                  <% if d == @nombres.last %> 
-                        data: [ 
-                                <% @categorias = Trade.where(:User_id => current_user.id).where(:Strategy_id => d.id).group(:Strategy_id) %>
-                                     <% @categorias.each do |i| %>
-                                     <% @ganadas = Trade.where(:Strategy_id => d.id).where(:result => "WIN") %>
-                                      <% @ganado = Trade.where(:Strategy_id => d.id)%>
-                                     <% if @ganado.blank? %> 
-                                            <%= 0 %>, 
-                                         <% else %>
-                                            <%= @result = (Float(@ganadas.count) / Float(@ganado.count)) * 100 %>,
-                                      <% end %>
-                                <%  end -%>
-                          ]}   
-                    <% else %>
-                        data: [ 
-                                 <% @categorias = Trade.where(:User_id => current_user.id).where(:Strategy_id => d.id).group(:Strategy_id) %>
-                                     <% @categorias.each do |i| %>
-                                     <% @ganadas = Trade.where(:Strategy_id => d.id).where(:result => "WIN") %>
-                                      <% @ganado = Trade.where(:Strategy_id => d.id)%>
-                                       <% if @ganado.blank? %> 
-                                            <%= 0 %>, 
-                                         <% else %>
-                                      <%= @result = (Float(@ganadas.count) / Float(@ganado.count)) * 100 %>,
-                                      <% end %>
-                                <%  end -%>
-                          ]},
-                    <%  end %>
-                  <% end %>
+                        ]
+                    },
 
+                    {
+                        name: 'TIE',
+                        data: [
+                        <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "TIE").group(:Strategy_id)%>
+                        <% @categorias.each do |s| %>
+                        <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "TIE").where(:Strategy_id => s.Strategy_id)%>
+                        <% @creadas = Trade.where(:User_id => current_user.id).where(:Strategy_id => s.Strategy_id)%> 
+                         <% if @creadas.count.blank? %> 
+                                <%= 0 %>, 
+                            <% else %>
+                                <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                            <% end %>
+                        
+                    <% end %>
+
+                        ]
+                    },
+                    {
+                        name: 'LOST',
+                        data: [
+                                <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "LOST").group(:Strategy_id)%>
+                                <% @categorias.each do |s| %>
+                                <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "LOST").where(:Strategy_id => s.Strategy_id)%>
+                                <% @creadas = Trade.where(:User_id => current_user.id).where(:Strategy_id => s.Strategy_id)%> 
+                                 <% if @creadas.count.blank? %> 
+                                        <%= 0 %>, 
+                                    <% else %>
+                                        <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                                    <% end %>    
+                                 <% end %>
+
+
+                                 ]
+                    }
 
         ]
     });
@@ -468,7 +488,6 @@
 
             <div id="grafica1"  style="min-width: 310px; height:  400px; margin: 0 auto"></div>
             <div id="grafica2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            
             <div id="grafica4" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             <div id="grafica5" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
           
