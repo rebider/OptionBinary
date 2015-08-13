@@ -13,8 +13,8 @@
 <script type="text/javascript">
 function filter() {
  var myParams = { broker: ['1','2'] };
- jQuery.param(myParams);
-alert(jQuery.param(myParams));
+ var a = $.param(myParams);
+ alert(a);
 
 }
 
@@ -329,7 +329,19 @@ alert(jQuery.param(myParams));
                                     <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
                                 <% end %>
                         <% end %>
-                    ]
+                    ],
+                            dataLabels: {
+                            enabled: true,
+                            rotation: -90,
+                            color: '#FFFFFF',
+                            align: 'right',
+                            format: '{point.y:.1f}', // one decimal
+                            y: 10, // 10 pixels down from the top
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif'
+                            }
+                        }
                 },
                 {
                     name: 'TIE',
@@ -346,7 +358,19 @@ alert(jQuery.param(myParams));
                             <% end %>
                     <% end %>
 
-                    ]
+                    ],
+                            dataLabels: {
+                            enabled: true,
+                            rotation: -90,
+                            color: '#FFFFFF',
+                            align: 'right',
+                            format: '{point.y:.1f}', // one decimal
+                            y: 10, // 10 pixels down from the top
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif'
+                            }
+                        }
                 },
                 {
                     name: 'LOST',
@@ -363,7 +387,19 @@ alert(jQuery.param(myParams));
                             <% end %>
                         
                     <% end %>
-                    ]
+                    ],
+                            dataLabels: {
+                            enabled: true,
+                            rotation: -90,
+                            color: '#FFFFFF',
+                            align: 'right',
+                            format: '{point.y:.1f}', // one decimal
+                            y: 10, // 10 pixels down from the top
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif'
+                            }
+                        }
                 }]       
     });
 
@@ -382,6 +418,7 @@ alert(jQuery.param(myParams));
                   '<%= d.Name %>',
                   <% end -%>
             ],
+
             crosshair: true
         },
         yAxis: {
@@ -421,7 +458,19 @@ alert(jQuery.param(myParams));
                         
                     <% end %>
 
-                        ]
+                        ],
+                            dataLabels: {
+                            enabled: true,
+                            rotation: -90,
+                            color: '#FFFFFF',
+                            align: 'right',
+                            format: '{point.y:.1f}', // one decimal
+                            y: 10, // 10 pixels down from the top
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif'
+                            }
+                        }
                     },
 
                     {
@@ -441,6 +490,19 @@ alert(jQuery.param(myParams));
                     <% end %>
 
                         ]
+                        ,
+                            dataLabels: {
+                            enabled: true,
+                            rotation: -90,
+                            color: '#FFFFFF',
+                            align: 'right',
+                            format: '{point.y:.1f}', // one decimal
+                            y: 10, // 10 pixels down from the top
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif'
+                            }
+                        }
                     },
                     {
                         name: 'LOST',
@@ -456,7 +518,19 @@ alert(jQuery.param(myParams));
                                         <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
                                     <% end %>    
                                  <% end %>
-                                 ]
+                                 ],
+                            dataLabels: {
+                            enabled: true,
+                            rotation: -90,
+                            color: '#FFFFFF',
+                            align: 'right',
+                            format: '{point.y:.1f}', // one decimal
+                            y: 10, // 10 pixels down from the top
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif'
+                            }
+                        }
                     }
 
         ]
