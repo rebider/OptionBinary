@@ -59,11 +59,11 @@
         <div class="col-sm-5">
           <div class="input-group">
             <span class="input-group-addon">$</span>
-            <%= f.number_field :Amount, class:'form-control' %>
+            <%= f.number_field :Amount, class:'form-control', :onchange => 'calcule_percent()' %>
           </div>       
         </div>
         <div class="col-sm-4">
-          Sugerido: <span id="lbl_percent_suggested"></span>
+          <span id="lbl_percent_suggested"></span>
         </div>
     </div>
 
@@ -72,11 +72,11 @@
         <div class="col-sm-5">
           <div class="input-group">
             <span class="input-group-addon">%</span>
-            <%= f.text_field :OnProfit, class:'form-control', type:'text' %>
+            <%= f.text_field :OnProfit, class:'form-control', type:'text', :onchange => 'calcule_onprofit()' %>
           </div>
         </div>
         <div class="col-sm-4">
-          Payout: <span id="lbl_onprofit_payout"></span>
+          <span id="lbl_onprofit_payout"></span>
         </div>        
     </div>
 
@@ -85,11 +85,11 @@
         <div class="col-sm-5">
           <div class="input-group">
             <span class="input-group-addon">%</span>
-            <%= f.text_field :OnLoss, class:'form-control', type:'text' %>
+            <%= f.text_field :OnLoss, class:'form-control', type:'text', :onchange => 'calcule_onlost()' %>
           </div>
         </div>
         <div class="col-sm-4">
-          Payout <span id="lbl_onlost_payout"></span>
+          <span id="lbl_onlost_payout"></span>
         </div>
     </div>
 
@@ -107,6 +107,18 @@
       
 <script type="text/javascript">
   var account_balance = 0;
+  var maximum_percent_per_trade = 0;
+
+  $.ajax({
+    type: "GET",
+    url: "/settings/user_settings",
+    success: function(data){
+
+      maximum_percent_per_trade = data[0] != null ? data[0].MaximumPercentPerTrade : 0;
+    }
+  });
+
+
 function get_balance (accountId) {
   $.ajax({
     type: "GET",
@@ -116,6 +128,11 @@ function get_balance (accountId) {
       account_balance = Math.round(data[0].current_balance);
       $("#lbl_account_balance").text("$ " + account_balance);
 
+
+      //Calcular la cantidad a invertir sugerida
+      amount_suggested = Math.round((maximum_percent_per_trade * account_balance) / 100);
+      $("#trade_Amount").val(amount_suggested);
+      $("#lbl_percent_suggested").text(maximum_percent_per_trade + " %");
     }
   });
 }
@@ -154,21 +171,27 @@ function get_azzet_success_rate(azzetId) {
   });
 }
 
-function get_maximum_percent_trade() {
-  $.ajax({
-    type: "GET",
-    url: "/settings/" + azzetId + "/total_trades",
-    success: function(data){
+function calcule_percent(){
+    amount = $("#trade_Amount").val();
+    percent = Math.round((amount / account_balance) * 100);
+    
+    $("#lbl_percent_suggested").text(percent + " %");
+}
 
-      won = data[2] != null ? data[2].total_trades : 0;
-      tie = data[1] != null ? data[1].total_trades : 0;
-      lost = data[0] != null ? data[0].total_trades : 0;
-      total_trades = won + tie + lost;
-      success_rate = Math.round(((won + tie) / total_trades) * 100);
+function calcule_onprofit(){
+    amount = $("#trade_Amount").val();
+    onprofit = $("#trade_OnProfit").val();
+    payout = Math.round((amount * onprofit) / 100);
+    
+    $("#lbl_onprofit_payout").text("$ " + payout);
+}
 
-      $("#lbl_azzet_rate").text(success_rate + " %");
-    }
-  });
+function calcule_onlost(){
+    amount = $("#trade_Amount").val();
+    onprofit = $("#trade_OnLoss").val();
+    payout = Math.round((amount * onprofit) / 100);
+    
+    $("#lbl_onlost_payout").text("$ " + payout);
 }
 
 </script>
