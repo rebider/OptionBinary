@@ -39,7 +39,7 @@ class DashboardController < ApplicationController
 
     @trade.Result = params[:Result]
 
-    if(params[:Result] == 'WIN')
+    if(params[:Result] == 'WON')
       @trade.Payout = ((Float(@trade.Amount) * Float(@trade.OnProfit)) / 100)
       @pago      = AccountBalance.where(:broker_account_id => @trade.BrokerAccount_id).pluck(:Balance).last
       @total     = (Float(@pago) + Float(@trade.Payout))
@@ -77,10 +77,11 @@ class DashboardController < ApplicationController
   private
 
     def all_trades
-      @trades = Trade.where(:User_id => current_user.id).where(:Result => '')
+      #@trades = Trade.where(:User_id => current_user.id).where(:Result => '')
+      @trades = Trade.open_trades(current_user.id)
 
       ## perform a paginated query:
-      @closedTrades = Trade.where(:User_id => current_user.id).where.not(:Result => '')#.paginate(:page => params[:page], :per_page => 10)
+      #@closedTrades = Trade.where(:User_id => current_user.id).where.not(:Result => '')#.paginate(:page => params[:page], :per_page => 10)
 
     end
 

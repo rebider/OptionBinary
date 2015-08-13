@@ -13,6 +13,7 @@
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                             <tr>
+                                <th>Position</th>
                                 <th>Broker</th>
                                 <th>Strategy</th>
                                 <th>Asset</th>
@@ -25,11 +26,13 @@
                                 <!--th>Usemartingale</th>
                                 <th>Usecompoundinterest</th>
                                 <th colspan="3"></th-->
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <% @trades.each do |trade| %>
                               <tr class="odd gradeX">
+                                <td><%= trade.Position %></td>
                                 <td><%= trade.BrokerAccount.name %></td>
                                 <td><%= trade.Strategy.Name %></td>
                                 <td><%= trade.Azzet.Name %></td>
@@ -39,10 +42,8 @@
                                 <td><%= trade.OnLoss %></td>
                                 <td><%= trade.Payout %></td>
                                 <td><%= trade.Result %></td>
-                                <!--td><%= trade.UseMartingale %></td>
-                                <td><%= trade.UseCompoundInterest %></td>
                                 <td><%= link_to 'Show', trade %></td>
-                                <td><%= link_to 'Edit', edit_trade_path(trade) %></td>
+                                <!--td><%= link_to 'Edit', edit_trade_path(trade) %></td>
                                 <td><%= link_to 'Destroy', trade, method: :delete, data: { confirm: 'Are you sure?' } %></td-->
                               </tr>
                             <% end %>

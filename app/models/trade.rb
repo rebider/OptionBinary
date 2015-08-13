@@ -6,6 +6,14 @@ class Trade < ActiveRecord::Base
 
   attr_accessible :User_id, :BrokerAccount_id, :Strategy_id, :Azzet_id, :Option, :Amount, :OnProfit, :OnLoss, :Payout, :Result, :UseMartingale, :UseCompoundInterest
 
+  def self.open_trades(userId)
+    trades = where(result: '').where(user_id: userId)
+  end
+
+  def self.user_trades(userId)
+    trades = where(user_id: userId)
+  end
+
   def self.trades_grouped_by_date(start)
   	trades = where(created_at: start.beginning_of_day..Time.zone.now)
   	trades = trades.group("date(created_at)")

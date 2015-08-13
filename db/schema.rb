@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150804203824) do
+ActiveRecord::Schema.define(version: 20150813181250) do
 
   create_table "account_balances", force: :cascade do |t|
     t.string   "Amount"
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20150804203824) do
     t.datetime "Created"
     t.integer  "Azzet_id"
     t.integer  "BrokerAccount_id"
+    t.string   "Position"
   end
 
   add_index "trades", ["Azzet_id"], name: "index_trades_on_Azzet_id"

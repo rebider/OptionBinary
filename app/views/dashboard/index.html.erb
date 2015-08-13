@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 <script src="http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.min.js"></script>
 
+<%= content_tag :div, "", id: "one_month_data_chart", data: {trades: trades_chart_data(1.month.ago) } %>
 
 <div class="row">
     <div class="col-lg-6">

@@ -30,6 +30,7 @@ es:
   dashboard_amount:			 "Cantidad"
   dashboard_onprofit:		 "Beneficio"
   dashboard_onloss:		     "Perdida"
+  dashboard_position:        "ID de la posicion"
   dashboard_button_close:    "Cerrar"
   dashboard_button_create:   "Crear"
   #strategies
