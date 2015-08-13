@@ -143,12 +143,27 @@ function get_strategy_success_rate(strategyId) {
     url: "/strategies/" + strategyId + "/total_trades",
     success: function(data){
 
-      won = data[2] != null ? data[2].total_trades : 0;
-      tie = data[1] != null ? data[1].total_trades : 0;
-      lost = data[0] != null ? data[0].total_trades : 0;
+      //won = data[2] != null ? data[2].total_trades : 0;
+      //tie = data[1] != null ? data[1].total_trades : 0;
+      //lost = data[0] != null ? data[0].total_trades : 0;
+      
+      won = tie = lost = 0;
+
+      $.each(data, function (i, item) {
+        if (item.Result === 'WIN') {
+          won = item.total_trades;
+        }
+        else if (item.Result === 'TIE') {
+          tie = item.total_trades;
+        }
+        else if (item.Result === 'LOST') {
+          lost = item.total_trades;
+        }
+      });
+
       total_trades = won + tie + lost;
       success_rate = Math.round(((won + tie) / total_trades) * 100);
-
+      
       $("#lbl_strategy_rate").text(success_rate + " %");
     }
   });
