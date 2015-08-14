@@ -93,6 +93,15 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <%= f.label I18n.t('dashboard_position'), class:'col-sm-3' %>
+        <div class="col-sm-5">
+            <%= f.text_field :Position, class:'form-control', type:'text' %>
+        </div>
+        <div class="col-sm-4">
+        </div>
+    </div>
+
     <%= f.hidden_field :Payout, :value => '' %>
     <%= f.hidden_field :Result, :value => '' %>
     <%= f.hidden_field :UseMartingale, :value => 'false' %>
@@ -125,7 +134,7 @@ function get_balance (accountId) {
     url: "/broker_accounts/" + accountId + "/current_balance",
     success: function(data){
 
-      account_balance = Math.round(data[0].current_balance);
+      account_balance = (data[0].current_balance).toFixed(2);
       $("#lbl_account_balance").text("$ " + account_balance);
 
 
@@ -143,12 +152,23 @@ function get_strategy_success_rate(strategyId) {
     url: "/strategies/" + strategyId + "/total_trades",
     success: function(data){
 
-      won = data[2] != null ? data[2].total_trades : 0;
-      tie = data[1] != null ? data[1].total_trades : 0;
-      lost = data[0] != null ? data[0].total_trades : 0;
+      won = tie = lost = 0;
+
+      $.each(data, function (i, item) {
+        if (item.Result === 'WIN') {
+          won = item.total_trades;
+        }
+        else if (item.Result === 'TIE') {
+          tie = item.total_trades;
+        }
+        else if (item.Result === 'LOST') {
+          lost = item.total_trades;
+        }
+      });
+
       total_trades = won + tie + lost;
       success_rate = Math.round(((won + tie) / total_trades) * 100);
-
+      
       $("#lbl_strategy_rate").text(success_rate + " %");
     }
   });
@@ -181,7 +201,7 @@ function calcule_percent(){
 function calcule_onprofit(){
     amount = $("#trade_Amount").val();
     onprofit = $("#trade_OnProfit").val();
-    payout = Math.round((amount * onprofit) / 100);
+    payout = ((amount * onprofit) / 100).toFixed(2);
     
     $("#lbl_onprofit_payout").text("$ " + payout);
 }
@@ -189,7 +209,7 @@ function calcule_onprofit(){
 function calcule_onlost(){
     amount = $("#trade_Amount").val();
     onprofit = $("#trade_OnLoss").val();
-    payout = Math.round((amount * onprofit) / 100);
+    payout = ((amount * onprofit) / 100).toFixed(2);
     
     $("#lbl_onlost_payout").text("$ " + payout);
 }

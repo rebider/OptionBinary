@@ -14,4 +14,8 @@ class AccountBalance < ActiveRecord::Base
   	accountbalances = where(broker_account_id: accountId)
   	accountbalances = accountbalances.select("sum(Amount) as current_balance")
   end
+
+  def self.user_balances(userId)
+    accountbalances = where(user_id: userId)
+  end
 end

@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 <script src="http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.min.js"></script>
 
+<%= content_tag :div, "", id: "one_month_data", data: {trades: trades_chart_data(1.month.ago) } %>
 
 <div class="row">
     <div class="col-lg-6">
@@ -39,15 +40,22 @@
             <div class="col-sm-6 col-lg-6">
                 <div class="panel panel-mint panel-colorful">
                     <div class="pad-all media">
-                        <div class="media-left">
-                            <span class="icon-wrap icon-wrap-xs">
-                                <i class="fa fa-comment fa-3x"></i>
-                            </span>
-                        </div>
-                        <div class="media-body">
-                            <p class="h3 text-thin media-heading">58%</p>
-                            <small class="text-uppercase">comments</small>
-                        </div>
+                        <div class="row">
+                            <div class="col-sm-5 col-lg-5">
+                                <div class="media-left">
+                                    <span class="icon-wrap icon-wrap-xs">
+                                        <i class="fa fa-comment fa-3x"></i>
+                                    </span>
+                                </div>
+                                <div class="media-body">
+                                    <p class="h3 text-thin media-heading">58%</p>
+                                    <small class="text-uppercase">Efectividad</small>
+                                </div>
+                            </div>
+                            <div class="col-sm-7 col-lg-7">
+                                <div id="today-performance-chart" style="height:120px"></div>
+                            </div>
+                        </div>                        
                     </div>
                     <div class="progress progress-xs progress-dark-base mar-no">
                         <div class></div>
@@ -94,22 +102,17 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-control"></div>
-                <h3 class="panel-title">Services</h3>
+                <h3 class="panel-title">Last 30 days performance</h3>
             </div>
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-6 text-center">
-                        <div class="morris-donut" id="demo-morris-donut"></div>
-                    </div>
-                    <div class="col-sm-6"></div>
-                </div>
+                <div id="month-performance-chart" style="height: 212px; position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- /.row -->
-<div class="row">
+<!--div class="row">
     <div class="col-lg-3">
         <div class="panel">
             <div class="panel-heading">
@@ -122,7 +125,6 @@
                     <%= I18n.t('dashboard_open_trades') %>
                 </h3>
             </div>
-            <!-- /.panel-body -->
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
@@ -132,7 +134,6 @@
                     </div>
                 </div>                  
             </div>
-                <!-- /.panel -->
         </div>
     </div>
     <div class="col-lg-6">
@@ -212,13 +213,12 @@
                 </h3>
             </div>
 
-            <!-- /.panel-body -->
             <div class="panel-body">
              <div class="row">
                 <div class="col-sm-6 col-lg-6">
                     <div classs="panel panel-success panel-colorful text-center">
                         <div class="panel-body">
-                            <!--div id="demo-sparkline-area"></div-->
+ 
                              <%= content_tag :div, "", id: "performance_today_chart", data: {trades: today_trades_chart_data } %>
 
                         </div>
@@ -269,121 +269,61 @@
                 </div>
             </div>           
             </div>
-                <!-- /.panel -->
         </div>
-
-
     </div>
-</div>
+</div-->
 
  <!--<%= content_tag :div, "", id: "performance_today_chart", data: {trades: today_trades_chart_data } %> -->
 
-<!-- /.row -->
-<div class="row">
-
-    <div class="col-lg-3">
- 
-        <!-- /.panel -->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i> <%= I18n.t('dashboard_trade_close') %> 
-            </div>
-
-            <div class="panel-body">
-               
-            </div>
-        </div>      
-
-    </div>
-    <div class="col-lg-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i> <%= I18n.t('dashboard_last_5_trades') %> 
-            </div>
-            <div class="panel-body">
-                <!-- <%= content_tag :div, "", id: "performance_last_days_profit_chart", data: {trades: profit_chart_data(5.days.ago) } %> -->
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i> <%= I18n.t('dashboard_last_5_day') %>
-            </div>
-            <div class="panel-body">
-                <!--<%= content_tag :div, "", id: "performance_last_days_trades_chart", data: {trades: trades_chart_data(5.days.ago) } %> -->
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i> <%= I18n.t('dashboard_last_5_profit') %>
-            </div>
-            <div class="panel-body">
-                <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /.row -->
-
-<div class="row">
-    <div class="col-lg-12">
-       
-    </div>
-</div>
 
 <script type="text/javascript">
-    /*$('#container').highcharts({
-        credits: {                                                                                               
-          enabled: false                                                                                         
-        },
-        title: {
-            text: '',
-        },
-        
-        xAxis: {
-        
-           categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            labels: {
-                enabled: false
-            }
-        },
-        yAxis: {
-            title: {
-                text: 'Total Trades'
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }],
-            labels: {
-                enabled: false
-            }
-        },
-        tooltip: {
-            valueSuffix: '°C'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
-        },
-        series: [{
-            name: 'WIN',
-            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-        }, {
-            name: 'TIE',
-            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-        }, {
-            name: 'LOST',
-            data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-        }]
-    });*/
+   
+   update_today_chart();
+   update_month_chart();
+
+   function update_today_chart()
+   {
+        Morris.Donut({
+            element: 'today-performance-chart',
+            data: get_today_data(),
+            colors: [
+                '#c686be',
+                '#986291',
+                '#ab6fa3'
+            ],
+            resize:true
+        });
+   }
+
+   function get_today_data(){
+
+        today_data = $("#one_month_data").data("trades")[31];
+
+        return [
+            {"label" :"WON", "value" : today_data.total_won},
+            {"label" :"TIE", "value" : today_data.total_tie},
+            {"label" :"LOST", "value" : today_data.total_lost},
+        ]
+   }
+
+    function get_today_profit(){
+
+        today_data = $("#one_month_data").data("trades")[31];
+
+        return today_data.profit;
+   }
+
+   function update_month_chart()
+   {
+        Morris.Area({
+            element: 'month-performance-chart',
+            data: $('#one_month_data').data('trades'),
+            xkey: 'date',
+            ykeys: ['total_won', 'total_tie', 'total_lost'],
+            labels: ['WON', 'TIE', 'LOST']
+        });
+    }
+
 
     /*$("#demo-sparkline-area").sparkline([57,69,70,68,73,76,75,79,73,76,77,73], {
         type: 'line',
@@ -435,7 +375,7 @@
     // -----------------------------------------------------------------
     // http://omnipotent.net/jquery.sparkline/#s-about
     // =================================================================
-    $("#demo-chart-visitors").sparkline([476,643,356,453,745,976,867,886,984,645,767,799], {
+    /*$("#demo-chart-visitors").sparkline([476,643,356,453,745,976,867,886,984,645,767,799], {
         type: 'line',
         width: '110',
         height: '22',
@@ -450,7 +390,7 @@
         highlightSpotColor: '#ffffff',
         tooltipChartTitle: 'Visitors',
         tooltipSuffix:' k',
-    });
+    });*/
 
 
 
@@ -462,7 +402,7 @@
     // -----------------------------------------------------------------
     // http://omnipotent.net/jquery.sparkline/#s-about
     // =================================================================
-    $("#demo-chart-bounce-rate").sparkline([23,24,22,27,35,40,39,29,27,33,29,37], {
+    /*$("#demo-chart-bounce-rate").sparkline([23,24,22,27,35,40,39,29,27,33,29,37], {
         type: 'line',
         width: '110',
         height: '22',
@@ -478,9 +418,9 @@
         tooltipChartTitle: 'Bounce rate',
         tooltipSuffix:' %'
 
-    });
+    });*/
 
-    $(function () {
+    /*$(function () {
 
             var day_data = [
             {"elapsed": "2013 - 01", "value": 24, b:2},
@@ -535,7 +475,7 @@
             hideHover: 'auto'
         });
 
-    });
+    });*/
 
     /*$(".dropdown").hover(            
             function() {

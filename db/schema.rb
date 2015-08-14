@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20150804165957) do
+=======
+ActiveRecord::Schema.define(version: 20150814003510) do
+>>>>>>> caebc63efcbb3494f5e7acf36ea858d7fd071b13
 
   create_table "account_balances", force: :cascade do |t|
     t.string   "Amount"
@@ -22,10 +26,15 @@ ActiveRecord::Schema.define(version: 20150804165957) do
     t.float    "Balance"
     t.integer  "broker_id"
     t.integer  "broker_account_id"
+    t.integer  "user_id"
   end
 
   add_index "account_balances", ["broker_account_id"], name: "index_account_balances_on_broker_account_id"
+<<<<<<< HEAD
   add_index "account_balances", ["broker_id"], name: "index_account_balances_on_broker_id"
+=======
+  add_index "account_balances", ["user_id"], name: "index_account_balances_on_user_id"
+>>>>>>> caebc63efcbb3494f5e7acf36ea858d7fd071b13
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",              default: "", null: false
@@ -118,6 +127,7 @@ ActiveRecord::Schema.define(version: 20150804165957) do
     t.datetime "Created"
     t.integer  "Azzet_id"
     t.integer  "BrokerAccount_id"
+    t.string   "Position"
   end
 
   add_index "trades", ["Azzet_id"], name: "index_trades_on_Azzet_id"

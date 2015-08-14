@@ -81,16 +81,16 @@ function filter() {
             }
         },
         series: [{
-            name: 'Win',
+            name: 'Won',
             color:'#5fa2dd',
             data: [
                 <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
                  <% @categorias.each do |fecha| %>
-                    <% @win  = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where(result: "WIN").group("date(created_at)") %> 
-                    <% if @win.blank? %> 
+                    <% @won  = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where(result: "WON").group("date(created_at)") %> 
+                    <% if @won.blank? %> 
                           <%= 0 %>, 
                      <% else %>
-                       <% (@win.count).map do |e| %>
+                       <% (@won.count).map do |e| %>
                           <%= e[1] %>,
                         <% end -%>
                     <% end %>      
@@ -280,7 +280,7 @@ function filter() {
             type: 'column'
         },
         title: {
-            text: 'Trades by Asset Global'
+            text: 'Trades by Asset Global (%)'
         },
         xAxis: { 
             categories: 
@@ -311,97 +311,100 @@ function filter() {
             useHTML: true
         },
         plotOptions: {
-            column: {
+            /*column: {
                 pointPadding: 0.2,
                 borderWidth: 0
-            }
+            }*/
+            /*series: {
+                stacking: 'normal'
+            }*/
         },
         series: [ 
                 {
                     name: 'WON',
                     color:'#5fa2dd',
                     data: [
-                        <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "WIN").group(:Azzet_id)%>
+                        
+                        <% @categorias = Trade.where(:User_id => current_user.id).group(:Azzet_id)%>
                         <% @categorias.each do |s| %>
-                            <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "WIN").where(:Azzet_id => s.Azzet_id)%>
-                            <% @creadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id).where("result  IN (?)",["WIN","TIE","LOST"])%> 
+                            <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "WON").where(:Azzet_id => s.Azzet_id)%>
+                            <% @creadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id).where("result  IN (?)",["WON","TIE","LOST"])%>
                             <% if @creadas.count.blank? %> 
                                     <%= 0 %>, 
                                 <% else %>
-                                    <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                                    <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100  %>,
                                 <% end %>
                         <% end %>
                     ],
-                            dataLabels: {
-                            enabled: true,
-                            rotation: -90,
-                            color: '#FFFFFF',
-                            align: 'right',
-                            format: '{point.y:.1f} %', // one decimal
-                            y: 10, // 10 pixels down from the top
-                            style: {
-                                fontSize: '12px',
-                                fontFamily: 'Verdana, sans-serif'
-                            }
+                    dataLabels: {
+                        enabled: true,
+                        //rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'center',
+                        format: '{point.y:.0f}', // one decimal
+                        //y: 10, // 10 pixels down from the top
+                        style: {
+                            fontSize: '10px',
+                            fontFamily: 'Verdana, sans-serif'
                         }
+                    }
                 },
                 {
                     name: 'TIE',
                     color:'#E6EBE0',
                     data: [
-                        <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "TIE").group(:Azzet_id)%>
+                        <!--% @categorias = Trade.where(:User_id => current_user.id).group(:Azzet_id)%-->
                         <% @categorias.each do |s| %>
-                        <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "TIE").where(:Azzet_id => s.Azzet_id)%>
-                        <% @creadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id).where("result  IN (?)",["WIN","TIE","LOST"])%> 
-                       <% if @creadas.count.blank? %> 
+                            <% @empatadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id).where(:result => "TIE")%>
+                            <% @creadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id).where("result  IN (?)",["WON","TIE","LOST"])%>
+                            <% if @creadas.count.blank? %> 
                                 <%= 0 %>, 
                             <% else %>
-                                <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                                <%= @result = (Float(@empatadas.count) / Float(@creadas.count)) * 100  %>,
                             <% end %>
-                    <% end %>
-
+                        <% end %>
                     ],
-                            dataLabels: {
-                            enabled: true,
-                            rotation: -90,
-                            color: '#FFFFFF',
-                            align: 'right',
-                            format: '{point.y:.1f} %', // one decimal
-                            y: 10, // 10 pixels down from the top
-                            style: {
-                                fontSize: '12px',
-                                fontFamily: 'Verdana, sans-serif'
-                            }
+                    dataLabels: {
+                        enabled: true,
+                        //rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'center',
+                        format: '{point.y:.0f}', // one decimal
+                        //y: 10, // 10 pixels down from the top
+                        style: {
+                            fontSize: '10px',
+                            fontFamily: 'Verdana, sans-serif'
                         }
+                    }
                 },
                 {
                     name: 'LOST',
                     color: '#F45B69',
                     data: [
-                    <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "LOST").group(:Azzet_id)%>
+                    <!--% @categorias = Trade.where(:User_id => current_user.id).group(:Azzet_id)%-->
                     <% @categorias.each do |s| %>
-                        <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "LOST").where(:Azzet_id => s.Azzet_id)%>
-                        <% @creadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id).where("result  IN (?)",["WIN","TIE","LOST"])%> 
-                         <% if @creadas.count.blank? %> 
-                                <%= 0 %>, 
-                            <% else %>
-                                <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
-                            <% end %>
+                        <% @perdidas = Trade.where(:User_id => current_user.id).where(:result => "LOST").where(:Azzet_id => s.Azzet_id)%>
+                        <% @creadas = Trade.where(:User_id => current_user.id).where("result  IN (?)",["WON","TIE","LOST"]).where(:Azzet_id => s.Azzet_id)%>
+                        <% if @creadas.count.blank? %> 
+                            <%= 0 %>, 
+                        <% else %>
+                            <%= @result = (Float(@perdidas.count) / Float(@creadas.count)) * 100 %>,
+                        <% end %>
                         
                     <% end %>
                     ],
-                            dataLabels: {
-                            enabled: true,
-                            rotation: -90,
-                            color: '#FFFFFF',
-                            align: 'right',
-                            format: '{point.y:.1f} %', // one decimal
-                            y: 10, // 10 pixels down from the top
-                            style: {
-                                fontSize: '12px',
-                                fontFamily: 'Verdana, sans-serif'
-                            }
+                    dataLabels: {
+                        enabled: true,
+                        //rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'center',
+                        format: '{point.y:.0f}', // one decimal
+                        //y: 10, // 10 pixels down from the top
+                        style: {
+                            fontSize: '10px',
+                            fontFamily: 'Verdana, sans-serif'
                         }
+                    }
                 }]       
     });
 
@@ -411,7 +414,7 @@ function filter() {
             type: 'column'
         },
         title: {
-            text: 'Trade by Strategy Global'
+            text: 'Trade by Strategy Global (%)'
         },
         xAxis: {
             categories: [
@@ -438,38 +441,36 @@ function filter() {
             useHTML: true
         },
         plotOptions: {
-            column: {
+            /*column: {
                 pointPadding: 0.2,
                 borderWidth: 0
-            }
+            }*/
         },
         series: [
                     {
                         name: 'WON',
                         color:'#5fa2dd',
                         data: [
-                        <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "WIN").group(:Strategy_id)%>
-                        <% @categorias.each do |s| %>
-                        <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "WIN").where(:Strategy_id => s.Strategy_id)%>
-                        <% @creadas = Trade.where(:User_id => current_user.id).where(:Strategy_id => s.Strategy_id).where("result  IN (?)",["WIN","TIE","LOST"])%> 
-                         <% if @creadas.count.blank? %> 
-                                <%= 0 %>, 
-                            <% else %>
-                                <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                            <% @categorias = Trade.where(:User_id => current_user.id).group(:Strategy_id)%>
+                            <% @categorias.each do |s| %>
+                                <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "WON").where(:Strategy_id => s.Strategy_id)%>
+                                <% @creadas = Trade.where(:User_id => current_user.id).where(:Strategy_id => s.Strategy_id).where("result  IN (?)",["WON","TIE","LOST"])%> 
+                                <% if @creadas.count.blank? %> 
+                                    <%= 0 %>, 
+                                <% else %>
+                                    <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                                <% end %>
                             <% end %>
-                        
-                    <% end %>
-
                         ],
-                            dataLabels: {
+                        dataLabels: {
                             enabled: true,
-                            rotation: 0,
+                            //rotation: -90,
                             color: '#FFFFFF',
-                            align: 'right',
-                            format: '{point.y:.1f} %', // one decimal
-                            y: 10, // 10 pixels down from the top
+                            align: 'center',
+                            format: '{point.y:.0f}', // one decimal
+                            //y: 10, // 10 pixels down from the top
                             style: {
-                                fontSize: '12px',
+                                fontSize: '10px',
                                 fontFamily: 'Verdana, sans-serif'
                             }
                         }
@@ -479,29 +480,26 @@ function filter() {
                         name: 'TIE',
                         color:'#E6EBE0',
                         data: [
-                        <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "TIE").group(:Strategy_id)%>
-                        <% @categorias.each do |s| %>
-                        <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "TIE").where(:Strategy_id => s.Strategy_id)%>
-                        <% @creadas = Trade.where(:User_id => current_user.id).where(:Strategy_id => s.Strategy_id).where("result  IN (?)",["WIN","TIE","LOST"])%> 
-                         <% if @creadas.count.blank? %> 
-                                <%= 0 %>, 
-                            <% else %>
-                                <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                            <!--% @categorias = Trade.where(:User_id => current_user.id).group(:Strategy_id)%-->
+                            <% @categorias.each do |s| %>
+                                <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "TIE").where(:Strategy_id => s.Strategy_id)%>
+                                <% @creadas = Trade.where(:User_id => current_user.id).where(:Strategy_id => s.Strategy_id).where("result  IN (?)",["WON","TIE","LOST"])%> 
+                                <% if @creadas.count.blank? %> 
+                                    <%= 0 %>, 
+                                <% else %>
+                                    <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                                <% end %>                            
                             <% end %>
-                        
-                    <% end %>
-
-                        ]
-                        ,
-                            dataLabels: {
+                        ],
+                        dataLabels: {
                             enabled: true,
-                            rotation: -90,
+                            //rotation: -90,
                             color: '#FFFFFF',
-                            align: 'right',
-                            format: '{point.y:.1f} %', // one decimal
-                            y: 10, // 10 pixels down from the top
+                            align: 'center',
+                            format: '{point.y:.0f}', // one decimal
+                            //y: 10, // 10 pixels down from the top
                             style: {
-                                fontSize: '12px',
+                                fontSize: '10px',
                                 fontFamily: 'Verdana, sans-serif'
                             }
                         }
@@ -510,26 +508,26 @@ function filter() {
                         name: 'LOST',
                         color: '#F45B69',
                         data: [
-                                <% @categorias = Trade.where(:User_id => current_user.id).where(:result => "LOST").group(:Strategy_id)%>
-                                <% @categorias.each do |s| %>
+                            <!--% @categorias = Trade.where(:User_id => current_user.id).group(:Strategy_id)%-->
+                            <% @categorias.each do |s| %>
                                 <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "LOST").where(:Strategy_id => s.Strategy_id)%>
-                                <% @creadas = Trade.where(:User_id => current_user.id).where(:Strategy_id => s.Strategy_id).where("result  IN (?)",["WIN","TIE","LOST"])%> 
+                                <% @creadas = Trade.where(:User_id => current_user.id).where(:Strategy_id => s.Strategy_id).where("result  IN (?)",["WON","TIE","LOST"])%> 
                                  <% if @creadas.count.blank? %> 
-                                        <%= 0 %>, 
-                                    <% else %>
-                                        <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
-                                    <% end %>    
-                                 <% end %>
-                                 ],
-                            dataLabels: {
+                                    <%= 0 %>, 
+                                <% else %>
+                                    <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
+                                <% end %>    
+                            <% end %>
+                        ],
+                        dataLabels: {
                             enabled: true,
-                            rotation: -90,
+                            //rotation: -90,
                             color: '#FFFFFF',
-                            align: 'right',
-                            format: '{point.y:.1f} %', // one decimal
-                            y: 10, // 10 pixels down from the top
+                            align: 'center',
+                            format: '{point.y:.0f}', // one decimal
+                            //y: 10, // 10 pixels down from the top
                             style: {
-                                fontSize: '12px',
+                                fontSize: '10px',
                                 fontFamily: 'Verdana, sans-serif'
                             }
                         }

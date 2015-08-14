@@ -3,18 +3,28 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 
-jQuery -> 
-    Morris.Donut
-        element: 'performance_today_chart'
-        data: $('#performance_today_chart').data('trades')
-        colors: ['#449d44', '#ec971f', '#c9302c']
-        resize: true
+#jQuery -> 
+#    Morris.Donut
+#        element: 'today-performance-chart'
+#        data: $('#today_data').data('trades')
+       # colors: ['#449d44', '#ec971f', '#c9302c']
+#        resize: true
 
-jQuery -> 
-	Morris.Donut
-	element: 'performance_today_percent_chart'
-	data: $('#performance_today_percent_chart').data('trades')
-	formatter: (y) -> y + "%"
+#jQuery -> 
+#	Morris.Donut
+#	element: 'performance_today_percent_chart'
+#	data: $('#performance_today_percent_chart').data('trades')
+#	formatter: (y) -> y + "%"
+#
+#jQuery -> 
+#    Morris.Area
+#        element: 'month-performance-chart'
+#        data: $('#one_month_data').data('trades')
+#        xkey: 'date'
+#        ykeys: ['total_won', 'total_tie', 'total_lost']
+#        labels: ['WON', 'TIE', 'LOST']
+ #       lineColors: ['#449d44', '#ec971f', '#c9302c']
+
 	
 
 #jQuery -> 

@@ -39,7 +39,7 @@ class DashboardController < ApplicationController
 
     @trade.Result = params[:Result]
 
-    if(params[:Result] == 'WIN')
+    if(params[:Result] == 'WON')
       @trade.Payout = ((Float(@trade.Amount) * Float(@trade.OnProfit)) / 100)
       @pago      = AccountBalance.where(:broker_account_id => @trade.BrokerAccount_id).pluck(:Balance).last
       @total     = (Float(@pago) + Float(@trade.Payout))
@@ -48,9 +48,10 @@ class DashboardController < ApplicationController
         :Amount  => Float(@trade.Payout),
         :Balance => @total, 
         :TradeID => @trade.id, 
-        :Type => "Automatic")
+        :Type => "Automatic",
+        :user_id => current_user.id)
     elsif (params[:Result] == 'TIE') 
-      @trade.Payout = Float(@trade.Amount)
+      @trade.Payout = 0#Float(@trade.Amount)
       @pago      = AccountBalance.where(:broker_account_id => @trade.BrokerAccount_id).pluck(:Balance).last
       @total     = (Float(@pago) + Float(@trade.Payout))
       @actualiza = AccountBalance.create(
@@ -58,7 +59,8 @@ class DashboardController < ApplicationController
         :Amount  => Float(@trade.Payout),
         :Balance => @total, 
         :TradeID => @trade.id, 
-        :Type => "Automatic")
+        :Type => "Automatic",
+        :user_id => current_user.id)
     else
       @trade.Payout = 0 - Float(@trade.Amount) + (Float(@trade.Amount) * Float(@trade.OnLoss)) / 100
       @pago      = AccountBalance.where(:broker_account_id => @trade.BrokerAccount_id).pluck(:Balance).last
@@ -68,7 +70,8 @@ class DashboardController < ApplicationController
         :Amount  => Float(@trade.Payout),
         :Balance => @total, 
         :TradeID => @trade.id, 
-        :Type => "Automatic")
+        :Type => "Automatic",
+        :user_id => current_user.id)
     end
     @trade.save
 
@@ -77,10 +80,11 @@ class DashboardController < ApplicationController
   private
 
     def all_trades
-      @trades = Trade.where(:User_id => current_user.id).where(:Result => '')
+      #@trades = Trade.where(:User_id => current_user.id).where(:Result => '')
+      @trades = Trade.open_trades(current_user.id)
 
       ## perform a paginated query:
-      @closedTrades = Trade.where(:User_id => current_user.id).where.not(:Result => '')#.paginate(:page => params[:page], :per_page => 10)
+      #@closedTrades = Trade.where(:User_id => current_user.id).where.not(:Result => '')#.paginate(:page => params[:page], :per_page => 10)
 
     end
 
