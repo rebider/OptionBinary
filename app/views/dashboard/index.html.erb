@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 <script src="http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.min.js"></script>
 
-<%= content_tag :div, "", id: "one_month_data_chart", data: {trades: trades_chart_data(1.month.ago) } %>
+<%= content_tag :div, "", id: "one_month_data", data: {trades: trades_chart_data(1.month.ago) } %>
 
 <div class="row">
     <div class="col-lg-6">
@@ -40,15 +40,22 @@
             <div class="col-sm-6 col-lg-6">
                 <div class="panel panel-mint panel-colorful">
                     <div class="pad-all media">
-                        <div class="media-left">
-                            <span class="icon-wrap icon-wrap-xs">
-                                <i class="fa fa-comment fa-3x"></i>
-                            </span>
-                        </div>
-                        <div class="media-body">
-                            <p class="h3 text-thin media-heading">58%</p>
-                            <small class="text-uppercase">comments</small>
-                        </div>
+                        <div class="row">
+                            <div class="col-sm-5 col-lg-5">
+                                <div class="media-left">
+                                    <span class="icon-wrap icon-wrap-xs">
+                                        <i class="fa fa-comment fa-3x"></i>
+                                    </span>
+                                </div>
+                                <div class="media-body">
+                                    <p class="h3 text-thin media-heading">58%</p>
+                                    <small class="text-uppercase">Efectividad</small>
+                                </div>
+                            </div>
+                            <div class="col-sm-7 col-lg-7">
+                                <div id="today-performance-chart" style="height:120px"></div>
+                            </div>
+                        </div>                        
                     </div>
                     <div class="progress progress-xs progress-dark-base mar-no">
                         <div class></div>
@@ -95,15 +102,10 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-control"></div>
-                <h3 class="panel-title">Services</h3>
+                <h3 class="panel-title">Last 30 days performance</h3>
             </div>
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-6 text-center">
-                        <div class="morris-donut" id="demo-morris-donut"></div>
-                    </div>
-                    <div class="col-sm-6"></div>
-                </div>
+                <div id="month-performance-chart" style="height: 212px; position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div>
             </div>
         </div>
     </div>
@@ -276,6 +278,52 @@
 
 <script type="text/javascript">
    
+   update_today_chart();
+   update_month_chart();
+
+   function update_today_chart()
+   {
+        Morris.Donut({
+            element: 'today-performance-chart',
+            data: get_today_data(),
+            colors: [
+                '#c686be',
+                '#986291',
+                '#ab6fa3'
+            ],
+            resize:true
+        });
+   }
+
+   function get_today_data(){
+
+        today_data = $("#one_month_data").data("trades")[31];
+
+        return [
+            {"label" :"WON", "value" : today_data.total_won},
+            {"label" :"TIE", "value" : today_data.total_tie},
+            {"label" :"LOST", "value" : today_data.total_lost},
+        ]
+   }
+
+    function get_today_profit(){
+
+        today_data = $("#one_month_data").data("trades")[31];
+
+        return today_data.profit;
+   }
+
+   function update_month_chart()
+   {
+        Morris.Area({
+            element: 'month-performance-chart',
+            data: $('#one_month_data').data('trades'),
+            xkey: 'date',
+            ykeys: ['total_won', 'total_tie', 'total_lost'],
+            labels: ['WON', 'TIE', 'LOST']
+        });
+    }
+
 
     /*$("#demo-sparkline-area").sparkline([57,69,70,68,73,76,75,79,73,76,77,73], {
         type: 'line',

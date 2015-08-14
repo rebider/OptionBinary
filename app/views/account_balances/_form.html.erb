@@ -18,6 +18,8 @@
                   </div>
                 <% end %>
 
+                <%= f.hidden_field :user_id, :value => current_user.id, :name => "account_balance[user_id]" %>
+
                 <div class="form-group">
                   <%= f.label I18n.t('account_balance_table_broker_account')%>
                   <div>

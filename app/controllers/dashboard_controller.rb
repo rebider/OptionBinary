@@ -48,9 +48,10 @@ class DashboardController < ApplicationController
         :Amount  => Float(@trade.Payout),
         :Balance => @total, 
         :TradeID => @trade.id, 
-        :Type => "Automatic")
+        :Type => "Automatic",
+        :user_id => current_user.id)
     elsif (params[:Result] == 'TIE') 
-      @trade.Payout = Float(@trade.Amount)
+      @trade.Payout = 0#Float(@trade.Amount)
       @pago      = AccountBalance.where(:broker_account_id => @trade.BrokerAccount_id).pluck(:Balance).last
       @total     = (Float(@pago) + Float(@trade.Payout))
       @actualiza = AccountBalance.create(
@@ -58,7 +59,8 @@ class DashboardController < ApplicationController
         :Amount  => Float(@trade.Payout),
         :Balance => @total, 
         :TradeID => @trade.id, 
-        :Type => "Automatic")
+        :Type => "Automatic",
+        :user_id => current_user.id)
     else
       @trade.Payout = 0 - Float(@trade.Amount) + (Float(@trade.Amount) * Float(@trade.OnLoss)) / 100
       @pago      = AccountBalance.where(:broker_account_id => @trade.BrokerAccount_id).pluck(:Balance).last
@@ -68,7 +70,8 @@ class DashboardController < ApplicationController
         :Amount  => Float(@trade.Payout),
         :Balance => @total, 
         :TradeID => @trade.id, 
-        :Type => "Automatic")
+        :Type => "Automatic",
+        :user_id => current_user.id)
     end
     @trade.save
 
