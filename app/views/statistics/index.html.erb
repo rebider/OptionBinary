@@ -12,7 +12,8 @@
 
 <script type="text/javascript">
 function filter() {
- var myParams = { broker: ['1','2'] };
+
+ var myParams = { broker: [$("#multiple").val().replace("%5B%5D%5B%5D", "[]")] };
  var a = $.param(myParams);
  alert(a);
  window.location.href = "/statistics?" + a;
