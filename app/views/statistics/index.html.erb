@@ -13,7 +13,7 @@
 <script type="text/javascript">
 function filter() {
 
- var myParams = { broker: [$("#multiple").val().replace("%5B%5D%5B%5D", "[]")] };
+ var myParams = { broker: [$("#multiple").val().toString().replace("%5B%5D%5B%5D", "[]")] };
  var a = $.param(myParams);
  alert(a);
  window.location.href = "/statistics?" + a;
@@ -418,10 +418,14 @@ function filter() {
         },
         xAxis: {
             categories: [
-                  <% @nombres  = Strategy.where(:User_id => current_user.id) %>
-                  <% @nombres.each do |d| %> 
-                  '<%= d.Name %>',
-                  <% end -%>
+                    <% @strategy  = Trade.where(:User_id => current_user.id).group(:Strategy_id) %>
+                    <% @strategy.each do |d| %> 
+                    <% @strategy_nombre = Strategy.where(:id => d.Strategy_id) %>
+                         <% @strategy_nombre.each do |a| %>
+                          '<%= a.Name %>',
+                         <% end -%>
+                   <% end -%>
+                  
             ],
 
             crosshair: true
