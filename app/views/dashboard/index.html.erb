@@ -39,12 +39,12 @@
         <div class="row">
             <div class="col-sm-6 col-lg-6">
                 <div class="panel panel-mint panel-colorful">
-                    <div class="pad-all media">
+                    <div class="pad-all media" style="text-align: center;">
                         <div class="row">
                             <div class="col-sm-5 col-lg-5">
                                 <div class="media-left">
                                     <span class="icon-wrap icon-wrap-xs">
-                                        <i class="fa fa-comment fa-3x"></i>
+                                        <i class="glyphicon glyphicon-send fa-2x"></i>
                                     </span>
                                 </div>
                                 <div class="media-body">
@@ -59,55 +59,41 @@
                             </div>
                         </div>                        
                     </div>
-                    <!--div class="progress progress-xs progress-dark-base mar-no">
-                        <div class></div>
-                    </div>
-                    <div class="pad-all text-right">
-                        <small>
-                            <span class="text-semibold">
-                                <i class="fa fa-unlock-alt fa-fw"></i>
-                                312
-                            </span>
-                             Unapproved comments
-                        </small>
-                    </div-->
                 </div>
             </div>
-            <div class="col-sm-6 col-lg-6">
+            <div class="col-sm-3 col-lg-3">
                 <div class="panel panel-purple panel-colorful">
-                    <div class="pad-all media">
-                        <div class="row">
-                            <div class="col-sm-5 col-lg-5">
-                                <div class="media-left">
-                                    <span class="icon-wrap icon-wrap-xs">
-                                        <i class="fa fa-comment fa-3x"></i>
-                                    </span>
-                                </div>
-                                <div class="media-body">
-                                    <p class="h3 text-thin media-heading">
-                                        <span id="lbl-today-profit"></span>
-                                    </p>
-                                    <small class="text-uppercase">Profit Today</small>
-                                </div>
-                            </div>
-                            <div class="col-sm-7 col-lg-7">
-                                <div id="week-profit-chart" ></div>
-                            </div>
-                        </div>                        
-                    </div>
-
-                    <!--div class="progress progress-xs progress-dark-base mar-no">
-                        <div class></div>
-                    </div>
-                    <div class="pad-all text-right">
-                        <small>
-                            <span class="text-semibold">
-                                <i class="fa fa-unlock-alt fa-fw"></i>
-                                312
+                    <div class="pad-all media" style="text-align: center;">
+                        <div class="media-left">
+                            <span class="icon-wrap icon-wrap-xs">
+                                <i class="glyphicon glyphicon-usd fa-2x"></i>
                             </span>
-                             Unapproved comments
-                        </small>
-                    </div-->
+                        </div>
+                        <div class="media-body">
+                            <p class="h3 text-thin media-heading">
+                                <span id="lbl-today-profit-real"></span>
+                            </p>
+                            <span id="lbl-today-profit-demo"></span>
+                            <small class="text-uppercase">Profit Today</small>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-lg-3">
+                <div class="panel panel-purple panel-colorful">
+                    <div class="pad-all media" style="text-align: center;">
+                        <div class="media-left">
+                            <span class="icon-wrap icon-wrap-xs">
+                                <i class="glyphicon glyphicon-briefcase fa-2x"></i>
+                            </span>
+                        </div>
+                        <div class="media-body">
+                            <p class="h3 text-thin media-heading">
+                                <span id="lbl-balance"><%= @total_balance %></span>
+                            </p>
+                            <small class="text-uppercase">Balance</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -294,7 +280,7 @@
    update_today_chart();
    update_today_profit();
    update_today_performance();
-   update_week_profit_chart()
+   //update_week_profit_chart()
 
    function update_today_chart()
    {
@@ -325,7 +311,7 @@
 
         today_data = $("#one_month_data").data("trades")[31];
 
-        $("#lbl-today-profit").text("$ " + today_data.profit);
+        $("#lbl-today-profit-real").text(today_data.profit);
     }
 
     function update_today_performance(){
@@ -361,7 +347,7 @@
         });
     }
 
-    function update_week_profit_chart()
+    /*function update_week_profit_chart()
     {
         week_trades = $("#one_month_data").data("trades").slice( 26, 32 );
         week_profits = [];
@@ -370,12 +356,6 @@
            week_profits.push(value.profit);
         });
 
-        // EARNING - SPARKLINE LINE CHART
-        // =================================================================
-        // Require sparkline
-        // -----------------------------------------------------------------
-        // http://omnipotent.net/jquery.sparkline/#s-about
-        // =================================================================
         $("#week-profit-chart").sparkline(week_profits, {
             type: 'line',
             width: '110',
@@ -396,7 +376,7 @@
             }
         });
 
-    }
+    }*/
 
 
     /*$("#demo-sparkline-area").sparkline([57,69,70,68,73,76,75,79,73,76,77,73], {

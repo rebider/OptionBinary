@@ -80,12 +80,10 @@ class DashboardController < ApplicationController
   private
 
     def all_trades
-      #@trades = Trade.where(:User_id => current_user.id).where(:Result => '')
       @trades = Trade.open_trades(current_user.id)
+      #@total_balance = AccountBalance.total_balance(current_user.id)
 
-      ## perform a paginated query:
-      #@closedTrades = Trade.where(:User_id => current_user.id).where.not(:Result => '')#.paginate(:page => params[:page], :per_page => 10)
-
+      @total_balance = AccountBalance.where(user_id: current_user.id).sum(:Amount)#.pluck(:Amount)
     end
 
     def set_trades
