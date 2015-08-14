@@ -48,8 +48,10 @@
                                     </span>
                                 </div>
                                 <div class="media-body">
-                                    <p class="h3 text-thin media-heading">58%</p>
-                                    <small class="text-uppercase">Efectividad</small>
+                                    <p class="h3 text-thin media-heading">
+                                        <span id="lbl-today-performance"></span>
+                                    </p>
+                                    <small class="text-uppercase">Success Rate Today</small>
                                 </div>
                             </div>
                             <div class="col-sm-7 col-lg-7">
@@ -57,7 +59,7 @@
                             </div>
                         </div>                        
                     </div>
-                    <div class="progress progress-xs progress-dark-base mar-no">
+                    <!--div class="progress progress-xs progress-dark-base mar-no">
                         <div class></div>
                     </div>
                     <div class="pad-all text-right">
@@ -68,23 +70,33 @@
                             </span>
                              Unapproved comments
                         </small>
-                    </div>
+                    </div-->
                 </div>
             </div>
             <div class="col-sm-6 col-lg-6">
                 <div class="panel panel-purple panel-colorful">
                     <div class="pad-all media">
-                        <div class="media-left">
-                            <span class="icon-wrap icon-wrap-xs">
-                                <i class="fa fa-comment fa-3x"></i>
-                            </span>
-                        </div>
-                        <div class="media-body">
-                            <p class="h3 text-thin media-heading">63%</p>
-                            <small class="text-uppercase">comments</small>
-                        </div>
+                        <div class="row">
+                            <div class="col-sm-5 col-lg-5">
+                                <div class="media-left">
+                                    <span class="icon-wrap icon-wrap-xs">
+                                        <i class="fa fa-comment fa-3x"></i>
+                                    </span>
+                                </div>
+                                <div class="media-body">
+                                    <p class="h3 text-thin media-heading">
+                                        <span id="lbl-today-profit"></span>
+                                    </p>
+                                    <small class="text-uppercase">Profit Today</small>
+                                </div>
+                            </div>
+                            <div class="col-sm-7 col-lg-7">
+                                <div id="week-profit-chart" ></div>
+                            </div>
+                        </div>                        
                     </div>
-                    <div class="progress progress-xs progress-dark-base mar-no">
+
+                    <!--div class="progress progress-xs progress-dark-base mar-no">
                         <div class></div>
                     </div>
                     <div class="pad-all text-right">
@@ -95,7 +107,7 @@
                             </span>
                              Unapproved comments
                         </small>
-                    </div>
+                    </div-->
                 </div>
             </div>
         </div>
@@ -278,8 +290,11 @@
 
 <script type="text/javascript">
    
-   update_today_chart();
    update_month_chart();
+   update_today_chart();
+   update_today_profit();
+   update_today_performance();
+   update_week_profit_chart()
 
    function update_today_chart()
    {
@@ -306,12 +321,23 @@
         ]
    }
 
-    function get_today_profit(){
+    function update_today_profit(){
 
         today_data = $("#one_month_data").data("trades")[31];
 
-        return today_data.profit;
-   }
+        $("#lbl-today-profit").text("$ " + today_data.profit);
+    }
+
+    function update_today_performance(){
+
+        today_data = $("#one_month_data").data("trades")[31];
+
+        today_trades = today_data.total_won + today_data.total_tie + today_data.total_lost;
+        today_success = today_data.total_won + today_data.total_tie;
+        today_performance = Math.round((today_success / today_trades) * 100);
+
+        $("#lbl-today-performance").text(today_performance + " %");
+    }
 
    function update_month_chart()
    {
@@ -320,8 +346,56 @@
             data: $('#one_month_data').data('trades'),
             xkey: 'date',
             ykeys: ['total_won', 'total_tie', 'total_lost'],
-            labels: ['WON', 'TIE', 'LOST']
+            labels: ['WON', 'TIE', 'LOST'],
+            //gridEnabled: false,
+            //gridLineColor: 'transparent',
+            behaveLikeLine: true,
+            lineColors: ['#045d97'],
+            pointSize: 0,
+            pointStrokeColors : ['#045d97'],
+            lineWidth: 0,
+            resize:true,
+            hideHover: 'auto',
+            fillOpacity: 0.7,
+            parseTime:false
         });
+    }
+
+    function update_week_profit_chart()
+    {
+        week_trades = $("#one_month_data").data("trades").slice( 26, 32 );
+        week_profits = [];
+
+        $.each(week_trades, function( index, value ) {
+           week_profits.push(value.profit);
+        });
+
+        // EARNING - SPARKLINE LINE CHART
+        // =================================================================
+        // Require sparkline
+        // -----------------------------------------------------------------
+        // http://omnipotent.net/jquery.sparkline/#s-about
+        // =================================================================
+        $("#week-profit-chart").sparkline(week_profits, {
+            type: 'line',
+            width: '110',
+            height: '50',
+            spotRadius: 2.5,
+            lineWidth:1.5,
+            lineColor:'#ffffff',
+            fillColor: false,
+            minSpotColor :false,
+            maxSpotColor : false,
+            highlightLineColor : '#ffffff',
+            highlightSpotColor: '#ffffff',
+            tooltipChartTitle: 'Earning',
+            tooltipPrefix :'$ ',
+            spotColor:'#ffffff',
+            valueSpots : {
+                '0:': '#ffffff'
+            }
+        });
+
     }
 
 
@@ -343,31 +417,6 @@
 
     });
 
-    // EARNING - SPARKLINE LINE CHART
-    // =================================================================
-    // Require sparkline
-    // -----------------------------------------------------------------
-    // http://omnipotent.net/jquery.sparkline/#s-about
-    // =================================================================
-    $("#demo-sparkline-line").sparkline([345,404,305,455,378,767], {
-        type: 'line',
-        width: '110',
-        height: '50',
-        spotRadius: 2.5,
-        lineWidth:1.5,
-        lineColor:'#ffffff',
-        fillColor: false,
-        minSpotColor :false,
-        maxSpotColor : false,
-        highlightLineColor : '#ffffff',
-        highlightSpotColor: '#ffffff',
-        tooltipChartTitle: 'Earning',
-        tooltipPrefix :'$ ',
-        spotColor:'#ffffff',
-        valueSpots : {
-            '0:': '#ffffff'
-        }
-    });*/
 
     // Visitor chart ( Sparkline chart )
     // =================================================================
