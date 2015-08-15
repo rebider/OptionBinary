@@ -1,4 +1,8 @@
 class Trade < ActiveRecord::Base
+  scope :won, -> { where(result: 'WON') }
+  scope :tie, -> { where(result: 'TIE') }
+  scope :lost, -> { where(result: 'LOST') }
+  
   belongs_to :User
   belongs_to :Strategy
   belongs_to :Azzet
@@ -39,4 +43,6 @@ class Trade < ActiveRecord::Base
     trades = trades.group("result")
     trades = trades.select("result, count(id) as total_trades")
   end
+
+
 end

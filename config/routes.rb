@@ -38,6 +38,10 @@ devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
 
   get 'settings/user_settings' => 'settings#user_settings', as: :user_settings
 
+  #post 'statistics/filter_data' => 'statistics#filter_data', as: :filter_data
+
+  get 'statistics/filter_data/:begin_date/:end_date' => 'statistics#filter_data', as: :filter_data
+
   get 'statistics/index'
   #get 'statistics/today_scores' => 'statistics#today_scores', as: :today_scores
 

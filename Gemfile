@@ -53,6 +53,8 @@ gem 'morrisjs-rails', '~> 0.5.1'
 
 gem 'devise-i18n'
 
+gem 'lazy_high_charts'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

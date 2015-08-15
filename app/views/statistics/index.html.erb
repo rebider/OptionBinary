@@ -2,149 +2,134 @@
 <!--<!DOCTYPE html>
 <html>
 <head-->
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-  <script src="http://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.js"></script>
-  <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.5.1.css">
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.js"></script>
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
 <script type="text/javascript">
-function filter() {
+    function filter() {
+
+         /*var myParams = { broker: ["2","3"] };
+         var a = $.param(myParams);
+         alert(a);
+         window.location.href = "/statistics?" + a;*/
+
+         update_date_range();
+
+    }
+
+    function update_date_range()
+    {
+        var dt_begin_date = $("#dt_begin_date").val();
+        var dt_end_date = $("#dt_end_date").val();
+
+        var url =  "/statistics/filter" + dt_begin_date + "/" + dt_end_date;
 
 
- var myParams = { broker: ["2","3"] };
- var a = $.param(myParams);
- alert(a);
- window.location.href = "/statistics?" + a;
+        $.ajax({
+            type: 'GET', 
+            url: url, 
+            dataType: 'script',
+            //data: { 'begin_date': dt_begin_date, 'end_date': dt_end_date },
+            success: function(data){
 
-}
+            alert(data);
+              var chart = $('#grafica1').highcharts();
+              chart.destroy();
+              create_chart1();
+                
+            }
+        });
+
+    }
+
+
+    function create_chart1()
+    {
+
+        $('#grafica1').highcharts({
+            chart: {
+                type: 'area'
+            },
+            title: {
+                text: 'Trade diario'
+            },
+            xAxis: {
+                type: "datetime",
+                tickmarkPlacement: 'on',
+                title: {
+                    enabled: false
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Total trades'
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                }
+            },
+            tooltip: {
+                shared: true,
+                valueSuffix: ''
+            },
+            plotOptions: {
+                area: {
+                    stacking: 'normal',
+                    lineColor: '#666666',
+                    lineWidth: 1,
+                    marker: {
+                        lineWidth: 1,
+                        lineColor: '#666666'
+                    }
+                }
+            },
+            series:
+            [
+                <% { "Won" => Trade.won.where(:User_id => current_user.id), "Tie" => Trade.tie.where(:User_id => current_user.id), "Lost" => Trade.lost.where(:User_id => current_user.id) }.each do |name, trades| %>
+                {
+                    name: "<%= name %>",
+                    //color:'#5fa2dd',
+                    pointInterval: <%= 3.day.to_i * 1000 %>,
+                    pointStart: <%= 3.weeks.ago.to_i * 1000 %>,
+                    data: 
+                    <%= trades_chart_series(trades, @filter_begin_date, @filter_end_date) %>
+                }, 
+                <% end %>
+            ]
+        });
+    }
 
 </script>
 
-<%= javascript_tag do %>
+<script type="text/javascript">
   
 
   $(function() {
-    $( "#datepicker" ).datepicker();
-    $( "#datepicker_end" ).datepicker();
-    $( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-    $( "#datepicker_end" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+    $( "#dt_begin_date" ).datepicker();
+    $( "#dt_end_date" ).datepicker();
+    $( "#dt_begin_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+    $( "#dt_end_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
     
- 
+    /*<% @rango_fechas = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>*/
 
-    //$(function () {
-
-    $('#grafica1').highcharts({
-        chart: {
-            type: 'area'
-        },
-        title: {
-            text: 'Trade diario'
-        },
-        xAxis: {
-            categories: 
-              [
-            <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
-                 <% @categorias.each do |fecha| %>
-                ' <%= fecha.created_at.to_date %> ' ,
-                <% end -%>]
-            ,
-            tickmarkPlacement: 'on',
-            title: {
-                enabled: false
-            }
-        },
-        yAxis: {
-            title: {
-                text: 'Total trades'
-            },
-            labels: {
-                formatter: function () {
-                    return this.value;
-                }
-            }
-        },
-        tooltip: {
-            shared: true,
-            valueSuffix: ''
-        },
-        plotOptions: {
-            area: {
-                stacking: 'normal',
-                lineColor: '#666666',
-                lineWidth: 1,
-                marker: {
-                    lineWidth: 1,
-                    lineColor: '#666666'
-                }
-            }
-        },
-        series: [{
-            name: 'Won',
-            color:'#5fa2dd',
-            data: [
-                <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
-                 <% @categorias.each do |fecha| %>
-                    <% @won  = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where(result: "WON").group("date(created_at)") %> 
-                    <% if @won.blank? %> 
-                          <%= 0 %>, 
-                     <% else %>
-                       <% (@won.count).map do |e| %>
-                          <%= e[1] %>,
-                        <% end -%>
-                    <% end %>      
-                <%  end -%>
-            ]
-        }, {
-            name: 'TIE',
-            color:'#E6EBE0',
-            data: [
-                <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
-                 <% @categorias.each do |fecha| %>
-                    <% @tie  = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where(result: "TIE").group("date(created_at)") %> 
-                    <% if @tie.blank? %> 
-                          <%= 0 %>, 
-                     <% else %>
-                       <% (@tie.count).map do |e| %>
-                          <%= e[1] %>,
-                        <% end -%>
-                    <% end %>      
-                <%  end -%>
-                ]
-        }, {
-            name: 'LOST',
-            color: '#F45B69',
-            data: [ <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
-                 <% @categorias.each do |fecha| %>
-                    <% @lost  = Trade.where(:User_id => current_user.id).where("created_at LIKE (?)", "#{fecha.created_at.to_date}%").where(result: "LOST").group("date(created_at)") %> 
-                    <% if @lost.blank? %> 
-                          <%= 0 %>, 
-                     <% else %>
-                       <% (@lost.count).map do |e| %>
-                          <%= e[1] %>,
-                        <% end -%>
-                    <% end %>      
-                <%  end -%>
-               ]
-        }]
-    });
-
-    //});
+    create_chart1();
 
 
-
+    /*
     $('#grafica2').highcharts({
-
         title: {
             text: 'Balance diario',
             x: -20 //center
         },
-        
         xAxis: {
             categories: [
-            <% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>
+            <!--<% @categorias = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>-->
                  <% @categorias.each do |fecha| %>
                 ' <%= fecha.created_at.to_date %> ' ,
             <% end -%> ]
@@ -185,9 +170,6 @@ function filter() {
 
           }]
     });
-
-
-
 
 
     $('#grafica3').highcharts({
@@ -275,7 +257,6 @@ function filter() {
     });
 
 
-
     $('#grafica4').highcharts({
         chart: {
             type: 'column'
@@ -312,13 +293,10 @@ function filter() {
             useHTML: true
         },
         plotOptions: {
-            /*column: {
+            column: {
                 pointPadding: 0.2,
                 borderWidth: 0
-            }*/
-            /*series: {
-                stacking: 'normal'
-            }*/
+            }
         },
         series: [ 
                 {
@@ -446,10 +424,10 @@ function filter() {
             useHTML: true
         },
         plotOptions: {
-            /*column: {
+            column: {
                 pointPadding: 0.2,
                 borderWidth: 0
-            }*/
+            }
         },
         series: [
                     {
@@ -540,15 +518,16 @@ function filter() {
 
         ]
     });
+*/
 
 
-   $('#multiple').selectpicker('selectAll'); 
+    $('#multiple').selectpicker('selectAll'); 
 
-    
 
   });
 
-<% end -%>
+</script>
+
 <style type="text/css">
     .bton{
       background-color:#F67E7D;
@@ -571,55 +550,79 @@ function filter() {
 </head>
 <body>
     <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i>Filters
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i>Filters
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="filter_date">
+                <span>Start: <input type="text" id="dt_begin_date"></span>
+                <span>End:   <input type="text" id="dt_end_date"></span>
+                <%= collection_select(:account, :broker, BrokerAccount.all, :id, :name,{},{:class=> "s" ,:multiple => true, :id => "multiple"})%>
+                
+                <a href="javascript:filter();" class="btn btn-default bton" id="filter">Filter</a>
             </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <div class="filter_date">
-                    <span>Start: <input type="text" id="datepicker"></span>
-                    <span>End:   <input type="text" id="datepicker_end"></span>
-                        <%= collection_select(:account, :broker, BrokerAccount.all, :id, :name,{},{:class=> "s" ,:multiple => true, :id => "multiple"})%>
-                    
-                    <a href="javascript:filter();" class="btn btn-default bton" id="filter">Filter</a>
-                </div>
-                
-                
-                
-
-            </div>
-            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel-body -->
     </div> 
 
+    <%= high_chart("some_id", @chart) %>
+    
     <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i>Trades
+        <div class="panel-heading">
+            <i class="fa fa-bar-chart-o fa-fw"></i>Trades
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+
+            <%= @filter_begin_date %><br>
+            <%= @filter_end_date %>
+
+        <!--div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Trades</th>                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <% trades_chart_series(Trade.won.where(:User_id => current_user.id), 3.weeks.ago, 1.day.ago).each do |trade| %>
+
+                     <td><%= trade %></td>                  
+                    <% end %>
+                </tr>
+                <tr>
+                    <% trades_chart_series(Trade.tie.where(:User_id => current_user.id), 3.weeks.ago, 1.day.ago).each do |trade| %>
+
+                     <td><%= trade %></td>                  
+                    <% end %>
+                </tr>
+                <tr>
+                    <% trades_chart_series(Trade.lost.where(:User_id => current_user.id), 3.weeks.ago, 1.day.ago).each do |trade| %>
+
+                     <td><%= trade %></td>                  
+                    <% end %>
+                </tr>
+              </tbody>
+            </table>
+        </div-->
+
+        <div class="graficas">
+            <div>
+                <div id="grafica1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-            <div class="graficas">
-                <div>
-                    <div id="grafica1"  style="min-width: 310px; height:  400px; margin: 0 auto"></div>
-                </div>
-                <div>
-                     <div id="grafica2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-                </div>
-                <div>
-                    <div id="grafica4" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-                </div>
-                <div>
-                    <div id="grafica5" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-                </div>
+            <div>
+                <div id="grafica2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
-            
-           
-            
-            
-          
-            <!-- /.panel-body -->
-
-
-
+            <div>
+                <div id="grafica4" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            </div>
+            <div>
+                <div id="grafica5" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            </div>
+        </div>
+        <!-- /.panel-body -->
     </div> 
 <!--</body>
 </html-->
