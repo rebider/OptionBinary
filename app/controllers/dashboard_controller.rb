@@ -83,7 +83,7 @@ class DashboardController < ApplicationController
       @trades = Trade.open_trades(current_user.id)
       #@total_balance = AccountBalance.total_balance(current_user.id)
 
-      @total_balance = AccountBalance.where(user_id: current_user.id).sum(:Amount)#.pluck(:Amount)
+      #@total_balance = AccountBalance.where(user_id: current_user.id).sum(:Amount)#.pluck(:Amount)
     end
 
     def set_trades
