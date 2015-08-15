@@ -12,10 +12,10 @@ devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
   resources :settings
   resources :dashboard
   resources :statistics
-  get 'ruteador/index'
+  #get 'ruteador/index'
 
   
-  get 'welcome/index'
+  #get 'welcome/index'
 
   
   resources :strategies

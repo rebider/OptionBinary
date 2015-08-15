@@ -1,5 +1,7 @@
 
 en:
+  page_principal:       "Welcome"
+  page_description:     "We simplify the gestions of your capital in binary options"
   link_dasboard:        "Dashboard"
   link_statistics:      "Statistics"
   link_strategies:      "Strategies"
