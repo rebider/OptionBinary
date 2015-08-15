@@ -1,4 +1,7 @@
 es:
+  page_principal:       "Bienvenido"
+  page_description:     "Simplificamos la gestions de tu capital en opciones binarias"
+
   link_dasboard:        "Tablero"
   link_statistics:      "Estadisticas"
   link_strategies:      "Estrategias"
