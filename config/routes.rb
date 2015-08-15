@@ -27,6 +27,7 @@ devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
   # You can have the root of your site routed with "root"
   root 'ruteador#index'
   get 'home' => 'welcome#index', as: :welcome
+  get '/dashboard' => 'dashboard#index', as: :home
 
   post 'dashboard/:id/update_result' => 'dashboard#update_result', as: :update_result
   post 'dashboard/create' => 'dashboard#create', as: :create_dashboard
