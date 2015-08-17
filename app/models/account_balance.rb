@@ -21,6 +21,6 @@ class AccountBalance < ActiveRecord::Base
   end
 
   def self.user_balances(userId)
-    accountbalances = where(user_id: userId)
+    accountbalances = where(user_id: userId).order(:Name)
   end
 end

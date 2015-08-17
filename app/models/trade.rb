@@ -1,8 +1,10 @@
 class Trade < ActiveRecord::Base
-  scope :won, -> { where(:result => 'WON') }
-  scope :tie, -> { where(:result => 'TIE') }
-  scope :lost, -> { where(:result => 'LOST') }
-  
+
+  scope :won, -> { where(result: 'WON') }
+  scope :tie, -> { where(result: 'TIE') }
+  scope :lost, -> { where(result: 'LOST') }
+  scope :all_closed, -> { where.not(result: '') }
+
   belongs_to :User
   belongs_to :Strategy
   belongs_to :Azzet
