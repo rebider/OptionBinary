@@ -155,7 +155,7 @@ function get_strategy_success_rate(strategyId) {
       won = tie = lost = 0;
 
       $.each(data, function (i, item) {
-        if (item.Result === 'WIN') {
+        if (item.Result === 'WON') {
           won = item.total_trades;
         }
         else if (item.Result === 'TIE') {
