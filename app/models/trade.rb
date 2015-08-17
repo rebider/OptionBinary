@@ -11,17 +11,17 @@ class Trade < ActiveRecord::Base
   attr_accessible :User_id, :BrokerAccount_id, :Strategy_id, :Azzet_id, :Option, :Amount, :OnProfit, :OnLoss, :Payout, :Result, :UseMartingale, :UseCompoundInterest
 
   def self.open_trades(userId)
-    trades = where(:result => '').where(user_id: userId)
+    trades = where(:Result => '').where(:User_id => userId)
   end
 
   def self.user_trades(userId)
-    trades = where(user_id: userId)
+    trades = where(:User_id => userId)
   end
 
   def self.trades_grouped_by_date(start)
   	trades = where(created_at: start.beginning_of_day..Time.zone.now)
   	trades = trades.group("date(created_at)")
-  	trades = trades.select("created_at, count(\"Result\") as total_trades, sum(\"Payout\"::integer) as profit")
+  	trades = trades.select("date(created_at), count('#{:Result}') as total_trades, SUM(\"Payout\"::integer) as profit")
   	trades.group_by { |o| o.created_at.to_date }
   end
 
