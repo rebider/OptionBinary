@@ -1,7 +1,7 @@
 class Trade < ActiveRecord::Base
-  scope :won, -> { where(result: 'WON') }
-  scope :tie, -> { where(result: 'TIE') }
-  scope :lost, -> { where(result: 'LOST') }
+  scope :won, -> { where(:Result => 'WON') }
+  scope :tie, -> { where(:Result => 'TIE') }
+  scope :lost, -> { where(:Result => 'LOST') }
   
   belongs_to :User
   belongs_to :Strategy
@@ -34,8 +34,8 @@ class Trade < ActiveRecord::Base
 
   def self.total_trades_by_strategy(strategyId, userId)
     trades = where(strategy_id: strategyId).where(user_id: userId)
-    trades = trades.group("result")
-    trades = trades.select("result, count(id) as total_trades")
+    trades = trades.group("Result")
+    trades = trades.select("Result, count(id) as total_trades")
   end
 
   def self.total_trades_by_azzet(azzetId, userId)
