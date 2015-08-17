@@ -12,7 +12,7 @@ class BrokerAccount < ActiveRecord::Base
 
   def self.user_brokerAccounts(userId)
 
-  	brokerAccounts = where(user_id: userId)
+  	brokerAccount = where(user_id: userId).order(:Name)
 
   end
 

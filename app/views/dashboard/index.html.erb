@@ -51,7 +51,7 @@
                                     <p class="h3 text-thin media-heading">
                                         <span id="lbl-today-performance"></span>
                                     </p>
-                                    <small class="text-uppercase">Success Rate Today</small>
+                                    <small class="text-uppercase"><%= I18n.t('dashboard_success_rate_today') %></small>
                                 </div>
                             </div>
                             <div class="col-sm-7 col-lg-7">
@@ -74,7 +74,7 @@
                                 <span id="lbl-today-profit-real"></span>
                             </p>
                             <span id="lbl-today-profit-demo"></span>
-                            <small class="text-uppercase">Profit Today</small>
+                            <small class="text-uppercase"><%= I18n.t('dashboard_profit_today') %></small>
                         </div>                
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                             <p class="h3 text-thin media-heading">
                                 <span id="lbl-balance"><!--<%= @total_balance %>--></span>
                             </p>
-                            <small class="text-uppercase">Balance</small>
+                            <small class="text-uppercase"><%= I18n.t('dashboard_account_balance') %></small>
                         </div>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-control"></div>
-                <h3 class="panel-title">Last 30 days performance</h3>
+                <h3 class="panel-title"><%= I18n.t('dashboard_last_30_day_performance') %></h3>
             </div>
             <div class="panel-body">
                 <div id="month-performance-chart" style="height: 212px; position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div>
@@ -216,8 +216,6 @@
                 <div class="col-sm-6 col-lg-6">
                     <div classs="panel panel-success panel-colorful text-center">
                         <div class="panel-body">
- 
-                             <%= content_tag :div, "", id: "performance_today_chart", data: {trades: today_trades_chart_data } %>
 
                         </div>
                         <div class="bg-light pad-ver">
@@ -271,9 +269,6 @@
     </div>
 </div-->
 
- <!--<%= content_tag :div, "", id: "performance_today_chart", data: {trades: today_trades_chart_data } %> -->
-
-
 <script type="text/javascript">
    
    update_month_chart();
@@ -311,7 +306,7 @@
 
         today_data = $("#one_month_data").data("trades")[31];
 
-        $("#lbl-today-profit-real").text(today_data.profit);
+        $("#lbl-today-profit-real").text(parseFloat(today_data.profit).toFixed(2));
     }
 
     function update_today_performance(){

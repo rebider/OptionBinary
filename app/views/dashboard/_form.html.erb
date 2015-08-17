@@ -14,7 +14,7 @@
           <%= f.collection_select(:BrokerAccount_id, @brokerAccount, :id, :name ,{prompt: I18n.t('dashboard_select_account')},  {class: "form-control", :name => "trade[BrokerAccount_id]", :onchange => 'get_balance(this.value)' } ) %>
         </div>
         <div class="col-sm-4">
-          Balance: <span id="lbl_account_balance"></span>
+          <%= I18n.t('dashboard_account_balance') %>: <span id="lbl_account_balance"></span>
         </div>
     </div>
 
@@ -26,7 +26,7 @@
         </div>  
 
         <div class="col-sm-4">
-          Efectividad: <span id="lbl_strategy_rate"></span>
+          <%= I18n.t('dashboard_effective') %>: <span id="lbl_strategy_rate"></span>
         </div>
     </div>
 
@@ -36,7 +36,7 @@
            <%= f.collection_select(:Azzet_id, @azzets, :id, :Name , {prompt: I18n.t('dashboard_select_azzet')}, {class: "form-control", :name => "trade[Azzet_id]", :onchange => 'get_azzet_success_rate(this.value)'}) %>
         </div>
         <div class="col-sm-4">
-          Efectividad: <span id="lbl_azzet_rate"></span>
+          <%= I18n.t('dashboard_effective') %>: <span id="lbl_azzet_rate"></span>
         </div>
     </div>
 
@@ -154,22 +154,29 @@ function get_strategy_success_rate(strategyId) {
 
       won = tie = lost = 0;
 
-      $.each(data, function (i, item) {
-        if (item.Result === 'WIN') {
-          won = item.total_trades;
-        }
-        else if (item.Result === 'TIE') {
-          tie = item.total_trades;
-        }
-        else if (item.Result === 'LOST') {
-          lost = item.total_trades;
-        }
-      });
+      if(data.length > 0)
+      {
+        $.each(data, function (i, item) {
+          if (item.Result === 'WON') {
+            won = item.total_trades;
+          }
+          else if (item.Result === 'TIE') {
+            tie = item.total_trades;
+          }
+          else if (item.Result === 'LOST') {
+            lost = item.total_trades;
+          }
+        });
 
-      total_trades = won + tie + lost;
-      success_rate = Math.round(((won + tie) / total_trades) * 100);
-      
-      $("#lbl_strategy_rate").text(success_rate + " %");
+        total_trades = won + tie + lost;
+        success_rate = Math.round(((won + tie) / total_trades) * 100);
+
+        $("#lbl_strategy_rate").text(success_rate + " %");
+      }
+      else
+      {
+        $("#lbl_strategy_rate").text("N/A");
+      }
     }
   });
 }
@@ -180,13 +187,20 @@ function get_azzet_success_rate(azzetId) {
     url: "/azzets/" + azzetId + "/total_trades",
     success: function(data){
 
-      won = data[2] != null ? data[2].total_trades : 0;
-      tie = data[1] != null ? data[1].total_trades : 0;
-      lost = data[0] != null ? data[0].total_trades : 0;
-      total_trades = won + tie + lost;
-      success_rate = Math.round(((won + tie) / total_trades) * 100);
+      if(data.length > 0)
+      {
+        won = data[2] != null ? data[2].total_trades : 0;
+        tie = data[1] != null ? data[1].total_trades : 0;
+        lost = data[0] != null ? data[0].total_trades : 0;
+        total_trades = won + tie + lost;
+        success_rate = Math.round(((won + tie) / total_trades) * 100);
 
-      $("#lbl_azzet_rate").text(success_rate + " %");
+        $("#lbl_azzet_rate").text(success_rate + " %");
+      }
+      else
+      {
+        $("#lbl_azzet_rate").text("N/A"); 
+      }
     }
   });
 }

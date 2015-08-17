@@ -1,107 +1,165 @@
 
-<!--<!DOCTYPE html>
-<html>
-<head-->
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="http://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.js"></script>
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>
 
 <script type="text/javascript">
-    function filter() {
 
-         /*var myParams = { broker: ["2","3"] };
-         var a = $.param(myParams);
-         alert(a);
-         window.location.href = "/statistics?" + a;*/
+    var dt_begin_date = '';
+    var dt_end_date = '';
+    var accounts = "?";
+    var params = "?";
 
-         update_date_range();
+    function update_charts() 
+    {
+
+         update_filters();
+         update_trades_chart();
+         update_estrategies_chart();
+         update_azzets_chart();
 
     }
 
-    function update_date_range()
+    function update_filters()
     {
-        var dt_begin_date = $("#dt_begin_date").val();
-        var dt_end_date = $("#dt_end_date").val();
+        dt_begin_date = $("#dt_begin_date").val();
+        dt_end_date = $("#dt_end_date").val();
 
-        var url =  "/statistics/filter" + dt_begin_date + "/" + dt_end_date;
+        accounts = "";
 
+        var selected_accounts = $("#ls_accounts").val();
+
+        for (i = 0; i < selected_accounts.length; i++) { 
+            accounts += "account[]=" + selected_accounts[i] + "&";
+        }
+
+        params = "?";
+        params += "begin_date=" + dt_begin_date + "&";
+        params += "end_date=" + dt_end_date + "&";
+        params += accounts;
+    }
+
+    function update_trades_chart()
+    {
+        //var url =  "/statistics/trades_chart/1/" + dt_begin_date + "/" + dt_end_date+ "/" + accounts;
+        var url =  "/statistics/trades_chart/1/" + params;
 
         $.ajax({
             type: 'GET', 
             url: url, 
             dataType: 'script',
-            //data: { 'begin_date': dt_begin_date, 'end_date': dt_end_date },
             success: function(data){
 
-            alert(data);
-              var chart = $('#grafica1').highcharts();
-              chart.destroy();
-              create_chart1();
+                data = jQuery.parseJSON(data);
+                var chart = $('#trades-chart').highcharts();
+
                 
+                chart.series[0].update({
+                    pointStart: data[0].pointStart,
+                    pointInterval: data[0].pointInterval,
+                    data: data[0].data
+                }, false);
+
+                chart.series[1].update({
+                    pointStart: data[1].pointStart,
+                    pointInterval: data[1].pointInterval,
+                    data: data[1].data
+                }, false);
+
+                chart.series[2].update({
+                    pointStart: data[2].pointStart,
+                    pointInterval: data[2].pointInterval,
+                    data: data[2].data
+                }, false);
+
+                chart.series[3].update({
+                    data: data[3].data
+                }, false);
+              
+                chart.redraw();
             }
         });
-
     }
 
-
-    function create_chart1()
+    function update_estrategies_chart()
     {
+        //var url =  "/statistics/strategies_chart/1/" + dt_begin_date + "/" + dt_end_date+ "/" + accounts;
+        var url =  "/statistics/strategies_chart/1/" + params;
 
-        $('#grafica1').highcharts({
-            chart: {
-                type: 'area'
-            },
-            title: {
-                text: 'Trade diario'
-            },
-            xAxis: {
-                type: "datetime",
-                tickmarkPlacement: 'on',
-                title: {
-                    enabled: false
-                }
-            },
-            yAxis: {
-                title: {
-                    text: 'Total trades'
-                },
-                labels: {
-                    formatter: function () {
-                        return this.value;
-                    }
-                }
-            },
-            tooltip: {
-                shared: true,
-                valueSuffix: ''
-            },
-            plotOptions: {
-                area: {
-                    stacking: 'normal',
-                    lineColor: '#666666',
-                    lineWidth: 1,
-                    marker: {
-                        lineWidth: 1,
-                        lineColor: '#666666'
-                    }
-                }
-            },
-            series:
-            [
-                <% { "Won" => Trade.won.where(:User_id => current_user.id), "Tie" => Trade.tie.where(:User_id => current_user.id), "Lost" => Trade.lost.where(:User_id => current_user.id) }.each do |name, trades| %>
-                {
-                    name: "<%= name %>",
-                    //color:'#5fa2dd',
-                    pointInterval: <%= 3.day.to_i * 1000 %>,
-                    pointStart: <%= 3.weeks.ago.to_i * 1000 %>,
-                    data: 
-                    <%= trades_chart_series(trades, @filter_begin_date, @filter_end_date) %>
-                }, 
-                <% end %>
-            ]
+        $.ajax({
+            type: 'GET', 
+            url: url, 
+            dataType: 'script',
+            success: function(data){
+
+                data = jQuery.parseJSON(data);
+                var chart = $('#strategy-chart').highcharts();
+
+                
+                chart.series[0].update({
+                    pointStart: data[0].pointStart,
+                    pointInterval: data[0].pointInterval,
+                    data: data[0].data
+                }, false);
+
+                chart.series[1].update({
+                    pointStart: data[1].pointStart,
+                    pointInterval: data[1].pointInterval,
+                    data: data[1].data
+                }, false);
+
+                chart.series[2].update({
+                    pointStart: data[2].pointStart,
+                    pointInterval: data[2].pointInterval,
+                    data: data[2].data
+                }, false);
+
+                chart.xAxis[0].setCategories(data[3].data);
+              
+                chart.redraw();
+            }
+        });
+    }
+
+    function update_azzets_chart()
+    {
+        //var url =  "/statistics/azzets_chart/1/" + dt_begin_date + "/" + dt_end_date+ "/" + accounts;
+        var url =  "/statistics/azzets_chart/1/" + params;
+
+        $.ajax({
+            type: 'GET', 
+            url: url, 
+            dataType: 'script',
+            success: function(data){
+
+                data = jQuery.parseJSON(data);
+                var chart = $('#azzet-chart').highcharts();
+
+                
+                chart.series[0].update({
+                    pointStart: data[0].pointStart,
+                    pointInterval: data[0].pointInterval,
+                    data: data[0].data
+                }, false);
+
+                chart.series[1].update({
+                    pointStart: data[1].pointStart,
+                    pointInterval: data[1].pointInterval,
+                    data: data[1].data
+                }, false);
+
+                chart.series[2].update({
+                    pointStart: data[2].pointStart,
+                    pointInterval: data[2].pointInterval,
+                    data: data[2].data
+                }, false);
+
+                chart.xAxis[0].setCategories(data[3].data);
+              
+                chart.redraw();
+            }
         });
     }
 
@@ -115,17 +173,99 @@
     $( "#dt_end_date" ).datepicker();
     $( "#dt_begin_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
     $( "#dt_end_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+
+
+    $('#trades-chart').highcharts({
+        title: {
+            text: 'Trade diario'
+        },
+        credits: {
+            enabled: false
+        },
+        xAxis: {
+            type: "datetime",
+            tickmarkPlacement: 'on',
+            title: {
+                enabled: false
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Total trades'
+            },
+            labels: {
+                formatter: function () {
+                    return this.value;
+                }
+            }
+        },
+        tooltip: {
+            shared: true,
+            valueSuffix: ''
+        },
+        plotOptions: {
+            area: {
+                stacking: 'normal',
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 2,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
+            }
+        },
+        series:
+        [
+            {
+                type: 'area',
+                name: 'Won',
+                color:'#5fa2dd',
+                pointInterval: '',
+                pointStart: '',
+                data: []
+            },
+            {
+                type: 'area',
+                name: 'Tie',
+                color:'#E6EBE0',
+                pointInterval: '',
+                pointStart: '',
+                data: []
+            },
+            {
+                type: 'area',
+                name: 'Lost',
+                color: '#F45B69',
+                pointInterval: '',
+                pointStart: '',
+                data: []
+            },
+            {
+                type: 'pie',
+                name: 'Total trades',
+                data: [],
+                center: [100, 80],
+                size: 100,
+                showInLegend: false,
+                dataLabels: {
+                    enabled: false
+                }
+            }
+        ]
+    });
+
     
-    /*<% @rango_fechas = Trade.where(:User_id => current_user.id).where(created_at: "2015-07-15"..Time.zone.now).group("date(created_at)") %>*/
-
-    create_chart1();
-
-
-    /*
-    $('#grafica2').highcharts({
+    $('#balance-chart').highcharts({
         title: {
             text: 'Balance diario',
             x: -20 //center
+        },
+        credits: {
+            enabled: false
         },
         xAxis: {
             categories: [
@@ -171,7 +311,7 @@
           }]
     });
 
-
+/*
     $('#grafica3').highcharts({
         chart: {
             type: 'area'
@@ -255,276 +395,205 @@
                   <% end %>
         ]
     });
-
-
-    $('#grafica4').highcharts({
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Trades by Asset Global (%)'
-        },
-        xAxis: { 
-            categories: 
-              [
-                  <% @Azzet_id  = Trade.where(:User_id => current_user.id).group(:Azzet_id) %>
-                  <% @Azzet_id.each do |d| %> 
-                    <% @Azzet_nombre = Azzet.where(:id => d.Azzet_id) %>
-                         <% @Azzet_nombre.each do |a| %>
-                          '<%= a.Name %>',
-                         <% end -%>
-                   <% end -%>
-                ]
-            ,
-            crosshair: true
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Eficiencia'
-            }
-        },
-        tooltip: {
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
-            footerFormat: '</table>',
-            shared: true,
-            useHTML: true
-        },
-        plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
-            }
-        },
-        series: [ 
-                {
-                    name: 'WON',
-                    color:'#5fa2dd',
-                    data: [
-                        
-                        <% @categorias = Trade.where(:User_id => current_user.id).group(:Azzet_id)%>
-                        <% @categorias.each do |s| %>
-                            <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "WON").where(:Azzet_id => s.Azzet_id)%>
-                            <% @creadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id).where("result  IN (?)",["WON","TIE","LOST"])%>
-                            <% if @creadas.count.blank? %> 
-                                    <%= 0 %>, 
-                                <% else %>
-                                    <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100  %>,
-                                <% end %>
-                        <% end %>
-                    ],
-                    dataLabels: {
-                        enabled: true,
-                        //rotation: -90,
-                        color: '#FFFFFF',
-                        align: 'center',
-                        format: '{point.y:.0f}', // one decimal
-                        //y: 10, // 10 pixels down from the top
-                        style: {
-                            fontSize: '10px',
-                            fontFamily: 'Verdana, sans-serif'
-                        }
-                    }
-                },
-                {
-                    name: 'TIE',
-                    color:'#E6EBE0',
-                    data: [
-                        <!--% @categorias = Trade.where(:User_id => current_user.id).group(:Azzet_id)%-->
-                        <% @categorias.each do |s| %>
-                            <% @empatadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id).where(:result => "TIE")%>
-                            <% @creadas = Trade.where(:User_id => current_user.id).where(:Azzet_id => s.Azzet_id).where("result  IN (?)",["WON","TIE","LOST"])%>
-                            <% if @creadas.count.blank? %> 
-                                <%= 0 %>, 
-                            <% else %>
-                                <%= @result = (Float(@empatadas.count) / Float(@creadas.count)) * 100  %>,
-                            <% end %>
-                        <% end %>
-                    ],
-                    dataLabels: {
-                        enabled: true,
-                        //rotation: -90,
-                        color: '#FFFFFF',
-                        align: 'center',
-                        format: '{point.y:.0f}', // one decimal
-                        //y: 10, // 10 pixels down from the top
-                        style: {
-                            fontSize: '10px',
-                            fontFamily: 'Verdana, sans-serif'
-                        }
-                    }
-                },
-                {
-                    name: 'LOST',
-                    color: '#F45B69',
-                    data: [
-                    <!--% @categorias = Trade.where(:User_id => current_user.id).group(:Azzet_id)%-->
-                    <% @categorias.each do |s| %>
-                        <% @perdidas = Trade.where(:User_id => current_user.id).where(:result => "LOST").where(:Azzet_id => s.Azzet_id)%>
-                        <% @creadas = Trade.where(:User_id => current_user.id).where("result  IN (?)",["WON","TIE","LOST"]).where(:Azzet_id => s.Azzet_id)%>
-                        <% if @creadas.count.blank? %> 
-                            <%= 0 %>, 
-                        <% else %>
-                            <%= @result = (Float(@perdidas.count) / Float(@creadas.count)) * 100 %>,
-                        <% end %>
-                        
-                    <% end %>
-                    ],
-                    dataLabels: {
-                        enabled: true,
-                        //rotation: -90,
-                        color: '#FFFFFF',
-                        align: 'center',
-                        format: '{point.y:.0f}', // one decimal
-                        //y: 10, // 10 pixels down from the top
-                        style: {
-                            fontSize: '10px',
-                            fontFamily: 'Verdana, sans-serif'
-                        }
-                    }
-                }]       
-    });
-
-
-    $('#grafica5').highcharts({
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Trade by Strategy Global (%)'
-        },
-        xAxis: {
-            categories: [
-                    <% @strategy  = Trade.where(:User_id => current_user.id).group(:Strategy_id) %>
-                    <% @strategy.each do |d| %> 
-                    <% @strategy_nombre = Strategy.where(:id => d.Strategy_id) %>
-                         <% @strategy_nombre.each do |a| %>
-                          '<%= a.Name %>',
-                         <% end -%>
-                   <% end -%>
-                  
-            ],
-
-            crosshair: true
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Eficiencia'
-            }
-        },
-        tooltip: {
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
-            footerFormat: '</table>',
-            shared: true,
-            useHTML: true
-        },
-        plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
-            }
-        },
-        series: [
-                    {
-                        name: 'WON',
-                        color:'#5fa2dd',
-                        data: [
-                            <% @categorias = Trade.where(:User_id => current_user.id).group(:Strategy_id)%>
-                            <% @categorias.each do |s| %>
-                                <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "WON").where(:Strategy_id => s.Strategy_id)%>
-                                <% @creadas = Trade.where(:User_id => current_user.id).where(:Strategy_id => s.Strategy_id).where("result  IN (?)",["WON","TIE","LOST"])%> 
-                                <% if @creadas.count.blank? %> 
-                                    <%= 0 %>, 
-                                <% else %>
-                                    <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
-                                <% end %>
-                            <% end %>
-                        ],
-                        dataLabels: {
-                            enabled: true,
-                            //rotation: -90,
-                            color: '#FFFFFF',
-                            align: 'center',
-                            format: '{point.y:.0f}', // one decimal
-                            //y: 10, // 10 pixels down from the top
-                            style: {
-                                fontSize: '10px',
-                                fontFamily: 'Verdana, sans-serif'
-                            }
-                        }
-                    },
-
-                    {
-                        name: 'TIE',
-                        color:'#E6EBE0',
-                        data: [
-                            <!--% @categorias = Trade.where(:User_id => current_user.id).group(:Strategy_id)%-->
-                            <% @categorias.each do |s| %>
-                                <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "TIE").where(:Strategy_id => s.Strategy_id)%>
-                                <% @creadas = Trade.where(:User_id => current_user.id).where(:Strategy_id => s.Strategy_id).where("result  IN (?)",["WON","TIE","LOST"])%> 
-                                <% if @creadas.count.blank? %> 
-                                    <%= 0 %>, 
-                                <% else %>
-                                    <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
-                                <% end %>                            
-                            <% end %>
-                        ],
-                        dataLabels: {
-                            enabled: true,
-                            //rotation: -90,
-                            color: '#FFFFFF',
-                            align: 'center',
-                            format: '{point.y:.0f}', // one decimal
-                            //y: 10, // 10 pixels down from the top
-                            style: {
-                                fontSize: '10px',
-                                fontFamily: 'Verdana, sans-serif'
-                            }
-                        }
-                    },
-                    {
-                        name: 'LOST',
-                        color: '#F45B69',
-                        data: [
-                            <!--% @categorias = Trade.where(:User_id => current_user.id).group(:Strategy_id)%-->
-                            <% @categorias.each do |s| %>
-                                <% @ganadas = Trade.where(:User_id => current_user.id).where(:result => "LOST").where(:Strategy_id => s.Strategy_id)%>
-                                <% @creadas = Trade.where(:User_id => current_user.id).where(:Strategy_id => s.Strategy_id).where("result  IN (?)",["WON","TIE","LOST"])%> 
-                                 <% if @creadas.count.blank? %> 
-                                    <%= 0 %>, 
-                                <% else %>
-                                    <%= @result = (Float(@ganadas.count) / Float(@creadas.count)) * 100 %>,
-                                <% end %>    
-                            <% end %>
-                        ],
-                        dataLabels: {
-                            enabled: true,
-                            //rotation: -90,
-                            color: '#FFFFFF',
-                            align: 'center',
-                            format: '{point.y:.0f}', // one decimal
-                            //y: 10, // 10 pixels down from the top
-                            style: {
-                                fontSize: '10px',
-                                fontFamily: 'Verdana, sans-serif'
-                            }
-                        }
-                    }
-
-        ]
-    });
 */
 
 
-    $('#multiple').selectpicker('selectAll'); 
+    $('#strategy-chart').highcharts({
+        chart: {
+            type: 'column'
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Trade by Strategy Global'
+        },
+        xAxis: {
+            categories: [                  
+            ]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Eficiencia'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.0f} </b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: 
+        [
+            {
+                name: 'WON',
+                color:'#5fa2dd',
+                data: [
+                    
+                ],
+                dataLabels: {
+                    enabled: true,
+                    //rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'center',
+                    format: '{point.y:.0f}', // one decimal
+                    //y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            {
+                name: 'TIE',
+                color:'#E6EBE0',
+                data: [
+                    
+                ],
+                dataLabels: {
+                    enabled: true,
+                    //rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'center',
+                    format: '{point.y:.0f}', // one decimal
+                    //y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            {
+                name: 'LOST',
+                color: '#F45B69',
+                data: [
+                    
+                ],
+                dataLabels: {
+                    enabled: true,
+                    //rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'center',
+                    format: '{point.y:.0f}', // one decimal
+                    //y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            }
+
+        ]
+    });
 
 
-  });
+    $('#azzet-chart').highcharts({
+        chart: {
+            type: 'column'
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Trades by Asset Global'
+        },
+        xAxis: { 
+            categories: [ ]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Eficiencia'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.0f} </b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: 
+        [ 
+            {
+                name: 'WON',
+                color:'#5fa2dd',
+                data: [
+                ],
+                dataLabels: {
+                    enabled: true,
+                    //rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'center',
+                    format: '{point.y:.0f}', // one decimal
+                    //y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            {
+                name: 'TIE',
+                color:'#E6EBE0',
+                data: [
+                ],
+                dataLabels: {
+                    enabled: true,
+                    //rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'center',
+                    format: '{point.y:.0f}', // one decimal
+                    //y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            {
+                name: 'LOST',
+                color: '#F45B69',
+                data: [
+                ],
+                dataLabels: {
+                    enabled: true,
+                    //rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'center',
+                    format: '{point.y:.0f}', // one decimal
+                    //y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '10px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            }
+        ]       
+    });
+
+
+
+    $('#ls_accounts').selectpicker('selectAll'); 
+
+    update_charts();
+});
 
 </script>
 
@@ -545,84 +614,79 @@
     }
 
 </style>
-<meta charset=utf-8 />
-<title>Statistics</title>
-</head>
-<body>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <i class="fa fa-bar-chart-o fa-fw"></i>Filters
-        </div>
-        <!-- /.panel-heading -->
-        <div class="panel-body">
-            <div class="filter_date">
-                <span>Start: <input type="text" id="dt_begin_date"></span>
-                <span>End:   <input type="text" id="dt_end_date"></span>
-                <%= collection_select(:account, :broker, BrokerAccount.all, :id, :name,{},{:class=> "s" ,:multiple => true, :id => "multiple"})%>
-                
-                <a href="javascript:filter();" class="btn btn-default bton" id="filter">Filter</a>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="filter_date">
+                    <form class="form-inline">
+                      <div class="form-group">
+                        <label for="dt_begin_date">Start date</label>
+                        <input type="text" class="form-control" id="dt_begin_date">
+                      </div>
+                      <div class="form-group">
+                        <label for="dt_end_date">End date</label>
+                        <input type="text" class="form-control" id="dt_end_date">
+                      </div>
+                      <div class="form-group">
+                        <label for="ls_accounts">Accounts</label>
+                        <%= collection_select(:account, :broker, BrokerAccount.where(user_id: current_user.id), :id, :name,{},{:class=> "s" ,:multiple => true, :id => "ls_accounts"})%>
+                      </div>
+                      <a href="javascript:update_charts();" class="btn btn-default bton" id="filter">Filter</a>
+                    </form>
+                </div>
             </div>
         </div>
-        <!-- /.panel-body -->
-    </div> 
-
-    <%= high_chart("some_id", @chart) %>
-    
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <i class="fa fa-bar-chart-o fa-fw"></i>Trades
-        </div>
-        <!-- /.panel-heading -->
-        <div class="panel-body">
-
-            <%= @filter_begin_date %><br>
-            <%= @filter_end_date %>
-
-        <!--div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Trades</th>                  
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                    <% trades_chart_series(Trade.won.where(:User_id => current_user.id), 3.weeks.ago, 1.day.ago).each do |trade| %>
-
-                     <td><%= trade %></td>                  
-                    <% end %>
-                </tr>
-                <tr>
-                    <% trades_chart_series(Trade.tie.where(:User_id => current_user.id), 3.weeks.ago, 1.day.ago).each do |trade| %>
-
-                     <td><%= trade %></td>                  
-                    <% end %>
-                </tr>
-                <tr>
-                    <% trades_chart_series(Trade.lost.where(:User_id => current_user.id), 3.weeks.ago, 1.day.ago).each do |trade| %>
-
-                     <td><%= trade %></td>                  
-                    <% end %>
-                </tr>
-              </tbody>
-            </table>
-        </div-->
-
-        <div class="graficas">
-            <div>
-                <div id="grafica1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            </div>
-            <div>
-                <div id="grafica2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            </div>
-            <div>
-                <div id="grafica4" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            </div>
-            <div>
-                <div id="grafica5" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div id="trades-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div id="balance-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- /.panel-body -->
-    </div> 
-<!--</body>
-</html-->
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                    <div id="strategy-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                    </div>
+                    <div class="col-lg-4">
+                        
+                    </div>   
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div id="azzet-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                    </div>
+                    <div class="col-lg-4">
+                        
+                    </div>      
+                </div>           
+            </div>
+        </div>
+    </div>
+</div>
+
