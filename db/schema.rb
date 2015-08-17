@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150814003510) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "account_balances", force: :cascade do |t|
     t.string   "Amount"
     t.string   "Type"
@@ -25,9 +28,9 @@ ActiveRecord::Schema.define(version: 20150814003510) do
     t.integer  "user_id"
   end
 
-  add_index "account_balances", ["broker_account_id"], name: "index_account_balances_on_broker_account_id"
-  add_index "account_balances", ["broker_id"], name: "index_account_balances_on_broker_id"
-  add_index "account_balances", ["user_id"], name: "index_account_balances_on_user_id"
+  add_index "account_balances", ["broker_account_id"], name: "index_account_balances_on_broker_account_id", using: :btree
+  add_index "account_balances", ["broker_id"], name: "index_account_balances_on_broker_id", using: :btree
+  add_index "account_balances", ["user_id"], name: "index_account_balances_on_user_id", using: :btree
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",              default: "", null: false
@@ -60,8 +63,8 @@ ActiveRecord::Schema.define(version: 20150814003510) do
     t.string   "DemoAccount"
   end
 
-  add_index "broker_accounts", ["broker_id"], name: "index_broker_accounts_on_broker_id"
-  add_index "broker_accounts", ["user_id"], name: "index_broker_accounts_on_user_id"
+  add_index "broker_accounts", ["broker_id"], name: "index_broker_accounts_on_broker_id", using: :btree
+  add_index "broker_accounts", ["user_id"], name: "index_broker_accounts_on_user_id", using: :btree
 
   create_table "brokers", force: :cascade do |t|
     t.string   "Name"
@@ -92,7 +95,7 @@ ActiveRecord::Schema.define(version: 20150814003510) do
     t.datetime "updated_at",               null: false
   end
 
-  add_index "settings", ["user_id"], name: "index_settings_on_user_id"
+  add_index "settings", ["user_id"], name: "index_settings_on_user_id", using: :btree
 
   create_table "strategies", force: :cascade do |t|
     t.string   "Name"
@@ -102,7 +105,7 @@ ActiveRecord::Schema.define(version: 20150814003510) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "strategies", ["User_id"], name: "index_strategies_on_User_id"
+  add_index "strategies", ["User_id"], name: "index_strategies_on_User_id", using: :btree
 
   create_table "trades", force: :cascade do |t|
     t.integer  "User_id"
@@ -123,10 +126,10 @@ ActiveRecord::Schema.define(version: 20150814003510) do
     t.string   "Position"
   end
 
-  add_index "trades", ["Azzet_id"], name: "index_trades_on_Azzet_id"
-  add_index "trades", ["BrokerAccount_id"], name: "index_trades_on_BrokerAccount_id"
-  add_index "trades", ["Strategy_id"], name: "index_trades_on_Strategy_id"
-  add_index "trades", ["User_id"], name: "index_trades_on_User_id"
+  add_index "trades", ["Azzet_id"], name: "index_trades_on_Azzet_id", using: :btree
+  add_index "trades", ["BrokerAccount_id"], name: "index_trades_on_BrokerAccount_id", using: :btree
+  add_index "trades", ["Strategy_id"], name: "index_trades_on_Strategy_id", using: :btree
+  add_index "trades", ["User_id"], name: "index_trades_on_User_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -147,7 +150,7 @@ ActiveRecord::Schema.define(version: 20150814003510) do
     t.string   "avatar"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end
