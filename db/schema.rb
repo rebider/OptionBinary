@@ -111,8 +111,8 @@ ActiveRecord::Schema.define(version: 20150814003510) do
     t.string   "Amount"
     t.string   "OnProfit"
     t.string   "OnLoss"
-    t.string   "Payout"
-    t.string   "Result"
+    t.string   "payout"
+    t.string   "result"
     t.string   "UseMartingale"
     t.string   "UseCompoundInterest"
     t.datetime "created_at",          null: false
