@@ -28,7 +28,7 @@ class Trade < ActiveRecord::Base
   def self.profit_grouped_by_date(start)
   	trades = where(created_at: start.beginning_of_day..Time.zone.now)
   	trades = trades.group("date(created_at)")
-  	trades = trades.select("created_at, sum(payout) as profit")
+  	trades = trades.select("created_at, sum(Payout) as profit")
   	trades.group_by { |o| o.created_at.to_date }
   end
 
@@ -40,8 +40,8 @@ class Trade < ActiveRecord::Base
 
   def self.total_trades_by_azzet(azzetId, userId)
     trades = where(azzet_id: azzetId).where(user_id: userId)
-    trades = trades.group("result")
-    trades = trades.select("result, count(id) as total_trades")
+    trades = trades.group("Result")
+    trades = trades.select("Result, count(id) as total_trades")
   end
 
 
