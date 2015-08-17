@@ -11,7 +11,7 @@ class Trade < ActiveRecord::Base
   attr_accessible :User_id, :BrokerAccount_id, :Strategy_id, :Azzet_id, :Option, :Amount, :OnProfit, :OnLoss, :Payout, :Result, :UseMartingale, :UseCompoundInterest
 
   def self.open_trades(userId)
-    trades = where(result: '').where(user_id: userId)
+    trades = where(:Result => '').where(user_id: userId)
   end
 
   def self.user_trades(userId)
