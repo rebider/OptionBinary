@@ -1,5 +1,6 @@
 module DashboardHelper
 	def trades_chart_data(start = 3.weeks.ago)
+
 		won_by_day  = Trade.won.where(:User_id => current_user.id).trades_grouped_by_date(start)
 		tie_by_day  = Trade.tie.where(:User_id => current_user.id).trades_grouped_by_date(start)
 		lost_by_day = Trade.lost.where(:User_id => current_user.id).trades_grouped_by_date(start)
@@ -19,10 +20,10 @@ module DashboardHelper
 	end
 
 	def today_trades_chart_data
+
 		won_by_day = Trade.won.where(:User_id => current_user.id).trades_grouped_by_date(Time.zone.today)
 		tie_by_day = Trade.tie.where(:User_id => current_user.id).trades_grouped_by_date(Time.zone.today)
 		lost_by_day = Trade.lost.where(:User_id => current_user.id).trades_grouped_by_date(Time.zone.today)
-
 
 
 		[ { :label => 'WON', :value => won_by_day[Time.zone.today].try(:first).try(:total_trades) || 0 },
