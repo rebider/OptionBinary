@@ -57,7 +57,7 @@ gem 'devise-i18n'
 
 gem 'lazy_high_charts'
 
-gem 'pg'
+gem 'taps'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
