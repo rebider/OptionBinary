@@ -25,6 +25,7 @@ class Trade < ActiveRecord::Base
     trades = trades.group("created_at")
   	trades = trades.select("created_at, count(\"#{:Result}\") as total_trades, SUM(\"#{:Payout}\"::float) as profit")
   	trades.group_by { |o| o.created_at.to_date }
+
   end
 
   def self.profit_grouped_by_date(start)
