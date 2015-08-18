@@ -154,7 +154,6 @@ function get_strategy_success_rate(strategyId) {
 
       won = tie = lost = 0;
 
-<<<<<<< HEAD
       $.each(data, function (i, item) {
         if (item.Result === 'WON') {
           won = item.total_trades;
@@ -171,31 +170,7 @@ function get_strategy_success_rate(strategyId) {
       success_rate = Math.round(((won + tie) / total_trades) * 100);
       
       $("#lbl_strategy_rate").text(success_rate + " %");
-=======
-      if(data.length > 0)
-      {
-        $.each(data, function (i, item) {
-          if (item.Result === 'WON') {
-            won = item.total_trades;
-          }
-          else if (item.Result === 'TIE') {
-            tie = item.total_trades;
-          }
-          else if (item.Result === 'LOST') {
-            lost = item.total_trades;
-          }
-        });
 
-        total_trades = won + tie + lost;
-        success_rate = Math.round(((won + tie) / total_trades) * 100);
-
-        $("#lbl_strategy_rate").text(success_rate + " %");
-      }
-      else
-      {
-        $("#lbl_strategy_rate").text("N/A");
-      }
->>>>>>> 9a4ccc915abb663308f920dadf9e90cbd9ee474c
     }
   });
 }

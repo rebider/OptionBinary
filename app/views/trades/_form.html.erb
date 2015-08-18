@@ -24,7 +24,7 @@
                   <div class="form-group">
                       <%= f.label :BrokerAccount_id, class:'col-sm-3' %>
                       <div class="col-sm-9">
-                        <%= f.collection_select :BrokerAccount_id, @brokerAccount, :id, :name,{prompt: "Select an account"} , {class: "form-control selectpicker", :name => "trade[BrokerAccount_id]", :data => { :"live-search"=> "true"}} %>
+                        <%= f.collection_select :BrokerAccount_id, @brokerAccount, :id, :Name,{prompt: "Select an account"} , {class: "form-control selectpicker", :name => "trade[BrokerAccount_id]", :data => { :"live-search"=> "true"}} %>
                       </div>
                   </div>
 

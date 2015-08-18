@@ -4,7 +4,7 @@ class Strategy < ActiveRecord::Base
 
   def self.user_strategies(userId)
 
-  	strategies = where(user_id: userId).order(:Name)
+  	strategies = where(:User_id => userId).order(:Name)
 
   end
 

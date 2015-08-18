@@ -2,6 +2,7 @@ class BrokerAccount < ActiveRecord::Base
   belongs_to :user
   belongs_to :broker
   has_many   :account_balances
+
   attr_accessible :name, :user_id, :broker_id,:DemoAccount
 
   #def name_with_broker
@@ -12,7 +13,7 @@ class BrokerAccount < ActiveRecord::Base
 
   def self.user_brokerAccounts(userId)
 
-  	brokerAccount = where(user_id: userId).order(:Name)
+  	brokerAccount = where(user_id: userId).order(:name)
 
   end
 
