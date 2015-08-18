@@ -3,8 +3,8 @@ module StatisticsHelper
 
   def trades_chart_series(trades, start_time = 1.months.ago, end_time = Time.zone.today)
     trades_by_day = trades.where(created_at: start_time.beginning_of_day..end_time.end_of_day)
-                    .group("date(created_at)")
-                    .select("created_at, count(result) as total_trades")
+                    .group("created_at")
+                    .select("created_at, count(\"#{:Result}\") as total_trades")
 
 
     (start_time.to_date..end_time.to_date).map do |date| 
@@ -15,8 +15,8 @@ module StatisticsHelper
 
   def profit_chart_series(trades, start_time = 1.months.ago, end_time = Time.zone.today)
     trades_by_day = trades.where(created_at: start_time.beginning_of_day..end_time.end_of_day)
-                    .group("date(created_at)")
-                    .select("created_at, sum(payout) as profit")
+                    .group("created_at")
+                    .select("created_at, sum(payout::integer) as profit")
 
 
     (start_time.to_date..end_time.to_date).map do |date| 
@@ -27,8 +27,8 @@ module StatisticsHelper
 
   def trades_by_result(trades, start_time = 1.months.ago, end_time = Time.zone.today)
     trades_result = trades.where(created_at: start_time.beginning_of_day..end_time.end_of_day)
-                    .group("result")
-                    .select("result, count(result) as total_trades")                    
+                    .group("\"Result\"")
+                    .select("\"Result\", count(\"#{:Result}\") as total_trades")                    
 
     [ 
       { :name => 'Won', :y => trades_result[2].try(:total_trades) || 0, :color => '#5fa2dd' },
@@ -39,8 +39,8 @@ module StatisticsHelper
 
   def trades_by_strategy(trades, start_time = 1.months.ago, end_time = Time.zone.today)
     trades_strategy = trades.where(created_at: start_time.beginning_of_day..end_time.end_of_day)
-                    .group("strategy_id")
-                    .select("strategy_id, count(id) as total_trades")        
+                    .group("\"Strategy_id\"")
+                    .select("\"Strategy_id\", count(id) as total_trades")        
 
     (Trade.all_closed.where(:User_id => current_user.id).group(:Strategy_id).pluck(:Strategy_id)).map do |s|
       trade = trades_strategy.detect { |trade| trade.Strategy_id == s }
@@ -51,8 +51,8 @@ module StatisticsHelper
 
   def trades_by_azzet(trades, start_time = 1.months.ago, end_time = Time.zone.today)
     trades_azzets = trades.where(created_at: start_time.beginning_of_day..end_time.end_of_day)
-                    .group("azzet_id")
-                    .select("azzet_id, count(id) as total_trades")        
+                    .group("\"Azzet_id\"")
+                    .select("\"Azzet_id\", count(id) as total_trades")        
 
     (Trade.all_closed.where(:User_id => current_user.id).group(:Azzet_id).pluck(:Azzet_id)).map do |s|
       trade = trades_azzets.detect { |trade| trade.Azzet_id == s }
