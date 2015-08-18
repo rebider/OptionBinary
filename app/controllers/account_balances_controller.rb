@@ -2,6 +2,8 @@ class AccountBalancesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_account_balance, only: [:show, :edit, :update, :destroy]
 
+  respond_to :html
+
   # GET /account_balances
   # GET /account_balances.json
   def index
@@ -26,13 +28,14 @@ class AccountBalancesController < ApplicationController
   # POST /account_balances
   # POST /account_balances.json
   def create
+
     @account_balance    = AccountBalance.new(
       :broker_account_id => params[:broker_account_id], 
       :Amount  => params[:Amount], 
       :Type    => params[:Type],
       :TradeID => params[:TradeID],
       :Balance => params[:Amount],
-      :user_id => params[:user_id]
+      :user_id => current_user.id
       )
 
     respond_to do |format|
@@ -44,6 +47,7 @@ class AccountBalancesController < ApplicationController
         format.json { render json: @account_balance.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   # PATCH/PUT /account_balances/1

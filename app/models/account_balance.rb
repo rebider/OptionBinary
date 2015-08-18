@@ -1,7 +1,7 @@
 class AccountBalance < ActiveRecord::Base
   has_many :brokers
   belongs_to :broker_account
-  attr_accessible :broker_account_id, :Amount, :Type, :TradeID, :Balance
+  attr_accessible :broker_account_id, :Amount, :Type, :TradeID, :Balance, :user_id
 
  def self.trades_grouped_by_date_filter_balance(start, date_end)
     trades = where(created_at: start.to_date..date_end.to_date)
