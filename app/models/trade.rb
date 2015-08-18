@@ -36,15 +36,15 @@ class Trade < ActiveRecord::Base
   end
 
   def self.total_trades_by_strategy(strategyId, userId)
-    trades = where(strategy_id: strategyId).where(user_id: userId)
-    trades = trades.group("result")
-    trades = trades.select("result, count(id) as total_trades")
+    trades = where(:Strategy_id => strategyId).where(:User_id => userId)
+    trades = trades.group("Result")
+    trades = trades.select("\"Result\", count(id) as total_trades")
   end
 
   def self.total_trades_by_azzet(azzetId, userId)
-    trades = where(azzet_id: azzetId).where(user_id: userId)
-    trades = trades.group("result")
-    trades = trades.select("result, count(id) as total_trades")
+    trades = where(:Azzet_id => azzetId).where(:User_id => userId)
+    trades = trades.group("Result")
+    trades = trades.select("\"Result\", count(id) as total_trades")
   end
 
 

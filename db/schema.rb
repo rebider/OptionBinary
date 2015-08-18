@@ -11,13 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814003510) do
+ActiveRecord::Schema.define(version: 20150818134603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "account_balances", force: :cascade do |t|
-    t.string   "Amount"
     t.string   "Type"
     t.string   "TradeID"
     t.datetime "created_at",        null: false
@@ -26,6 +25,7 @@ ActiveRecord::Schema.define(version: 20150814003510) do
     t.integer  "broker_id"
     t.integer  "broker_account_id"
     t.integer  "user_id"
+    t.float    "Amount"
   end
 
   add_index "account_balances", ["broker_account_id"], name: "index_account_balances_on_broker_account_id", using: :btree
@@ -111,10 +111,10 @@ ActiveRecord::Schema.define(version: 20150814003510) do
     t.integer  "User_id"
     t.integer  "Strategy_id"
     t.string   "Option"
-    t.float    "Amount"
+    t.string   "Amount"
     t.string   "OnProfit"
     t.string   "OnLoss"
-    t.float    "Payout"
+    t.string   "Payout"
     t.string   "Result"
     t.string   "UseMartingale"
     t.string   "UseCompoundInterest"

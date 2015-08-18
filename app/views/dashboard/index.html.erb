@@ -35,13 +35,13 @@
         <!-- /.modal-dialog -->
     </div>
 
-    <div class="col-lg-6">
+    <div class="col-lg-6 col-sm-8">
         <div class="row">
-            <div class="col-sm-6 col-lg-6">
+            <div class="col-lg-6">
                 <div class="panel panel-mint panel-colorful">
                     <div class="pad-all media" style="text-align: center;">
                         <div class="row">
-                            <div class="col-sm-5 col-lg-5">
+                            <div class="col-lg-5">
                                 <div class="media-left">
                                     <span class="icon-wrap icon-wrap-xs">
                                         <i class="glyphicon glyphicon-send fa-2x"></i>
@@ -54,44 +54,48 @@
                                     <small class="text-uppercase"><%= I18n.t('dashboard_success_rate_today') %></small>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-lg-7">
+                            <div class="col-lg-7">
                                 <div id="today-performance-chart" style="height:120px"></div>
                             </div>
                         </div>                        
                     </div>
                 </div>
             </div>
-            <div class="col-sm-3 col-lg-3">
-                <div class="panel panel-purple panel-colorful">
-                    <div class="pad-all media" style="text-align: center;">
-                        <div class="media-left">
-                            <span class="icon-wrap icon-wrap-xs">
-                                <i class="glyphicon glyphicon-usd fa-2x"></i>
-                            </span>
+            <div class="col-lg-6 col-sm-8">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6">
+                        <div class="panel panel-purple panel-colorful">
+                            <div class="pad-all media" style="text-align: center;">
+                                <div class="media-left">
+                                    <span class="icon-wrap icon-wrap-xs">
+                                        <i class="glyphicon glyphicon-usd fa-2x"></i>
+                                    </span>
+                                </div>
+                                <div class="media-body">
+                                    <p class="h3 text-thin media-heading">
+                                        <span id="lbl-today-profit-real"></span>
+                                    </p>
+                                    <span id="lbl-today-profit-demo"></span>
+                                    <small class="text-uppercase"><%= I18n.t('dashboard_profit_today') %></small>
+                                </div>                
+                            </div>
                         </div>
-                        <div class="media-body">
-                            <p class="h3 text-thin media-heading">
-                                <span id="lbl-today-profit-real"></span>
-                            </p>
-                            <span id="lbl-today-profit-demo"></span>
-                            <small class="text-uppercase"><%= I18n.t('dashboard_profit_today') %></small>
-                        </div>                
                     </div>
-                </div>
-            </div>
-            <div class="col-sm-3 col-lg-3">
-                <div class="panel panel-purple panel-colorful">
-                    <div class="pad-all media" style="text-align: center;">
-                        <div class="media-left">
-                            <span class="icon-wrap icon-wrap-xs">
-                                <i class="glyphicon glyphicon-briefcase fa-2x"></i>
-                            </span>
-                        </div>
-                        <div class="media-body">
-                            <p class="h3 text-thin media-heading">
-                                <span id="lbl-balance"><!--<%= @total_balance %>--></span>
-                            </p>
-                            <small class="text-uppercase"><%= I18n.t('dashboard_account_balance') %></small>
+                    <div class="col-lg-6 col-sm-6">
+                        <div class="panel panel-purple panel-colorful">
+                            <div class="pad-all media" style="text-align: center;">
+                                <div class="media-left">
+                                    <span class="icon-wrap icon-wrap-xs">
+                                        <i class="glyphicon glyphicon-briefcase fa-2x"></i>
+                                    </span>
+                                </div>
+                                <div class="media-body">
+                                    <p class="h3 text-thin media-heading">
+                                        <span id="lbl-balance"><!--<%= @total_balance %>--></span>
+                                    </p>
+                                    <small class="text-uppercase"><%= I18n.t('dashboard_account_balance') %></small>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -14,11 +14,11 @@ default: &default
 #  database: db/development.sqlite3
 development:
   adapter: postgresql
-  encoding: unicode
-  database: BO
+  #encoding: unicode
+  database: obmonitor
   pool: 5
-  username: test
-  password: test   ### password you have specified within psql
+  username: postgres
+  password: password   ### password you have specified within psql
   host: localhost
   port: 5432
 

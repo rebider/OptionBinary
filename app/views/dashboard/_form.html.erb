@@ -134,14 +134,21 @@ function get_balance (accountId) {
     url: "/broker_accounts/" + accountId + "/current_balance",
     success: function(data){
 
-      account_balance = (data[0].current_balance).toFixed(2);
-      $("#lbl_account_balance").text("$ " + account_balance);
+      if(data[0].current_balance != null)
+      {
+        account_balance = (data[0].current_balance).toFixed(2);
+        $("#lbl_account_balance").text("$ " + account_balance);
 
 
-      //Calcular la cantidad a invertir sugerida
-      amount_suggested = Math.round((maximum_percent_per_trade * account_balance) / 100);
-      $("#trade_Amount").val(amount_suggested);
-      $("#lbl_percent_suggested").text(maximum_percent_per_trade + " %");
+        //Calcular la cantidad a invertir sugerida
+        amount_suggested = Math.round((maximum_percent_per_trade * account_balance) / 100);
+        $("#trade_Amount").val(amount_suggested);
+        $("#lbl_percent_suggested").text(maximum_percent_per_trade + " %");
+      }
+      else
+      {
+        $("#lbl_account_balance").text("Debe ingresar el saldo de la cuenta");
+      }
     }
   });
 }
@@ -152,25 +159,31 @@ function get_strategy_success_rate(strategyId) {
     url: "/strategies/" + strategyId + "/total_trades",
     success: function(data){
 
-      won = tie = lost = 0;
+      if(data.length > 0)
+      {
+        won = tie = lost = 0;
 
-      $.each(data, function (i, item) {
-        if (item.Result === 'WON') {
-          won = item.total_trades;
-        }
-        else if (item.Result === 'TIE') {
-          tie = item.total_trades;
-        }
-        else if (item.Result === 'LOST') {
-          lost = item.total_trades;
-        }
-      });
+        $.each(data, function (i, item) {
+          if (item.Result === 'WON') {
+            won = item.total_trades;
+          }
+          else if (item.Result === 'TIE') {
+            tie = item.total_trades;
+          }
+          else if (item.Result === 'LOST') {
+            lost = item.total_trades;
+          }
+        });
 
-      total_trades = won + tie + lost;
-      success_rate = Math.round(((won + tie) / total_trades) * 100);
-      
-      $("#lbl_strategy_rate").text(success_rate + " %");
-
+        total_trades = won + tie + lost;
+        success_rate = Math.round(((won + tie) / total_trades) * 100);
+        
+        $("#lbl_strategy_rate").text(success_rate + " %");
+      }
+      else
+      {
+        $("#lbl_strategy_rate").text("N/A"); 
+      }
     }
   });
 }
