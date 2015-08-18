@@ -1,9 +1,9 @@
 class Trade < ActiveRecord::Base
 
-  scope :won, -> { where(result: 'WON') }
-  scope :tie, -> { where(result: 'TIE') }
-  scope :lost, -> { where(result: 'LOST') }
-  scope :all_closed, -> { where.not(result: '') }
+  scope :won, -> { where(:Result => 'WON') }
+  scope :tie, -> { where(:Result => 'TIE') }
+  scope :lost, -> { where(:Result => 'LOST') }
+  scope :all_closed, -> { where.not(:Result => '') }
 
   belongs_to :User
   belongs_to :Strategy
@@ -23,7 +23,7 @@ class Trade < ActiveRecord::Base
   def self.trades_grouped_by_date(start)
   	trades = where(created_at: start.beginning_of_day..Time.zone.now)
   	trades = trades.group("date(created_at)")
-  	trades = trades.select("date(created_at), count('#{:Result}') as total_trades, SUM(\"Payout\"::integer) as profit")
+  	trades = trades.select("date(created_at), count(\"#{:Result}\") as total_trades, SUM(\"#{:Payout}\"::float) as profit")
   	trades.group_by { |o| o.created_at.to_date }
   end
 
