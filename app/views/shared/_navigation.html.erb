@@ -16,11 +16,11 @@
         <div class="navbar-content clearfix">
             <ul class="nav navbar-top-links pull-left"></ul>
             <ul class="nav navbar-top-links pull-right">
-                <li>
+                <li id="idioma">
                     <% if I18n.locale == I18n.default_locale %>
-                        <%= link_to image_tag("united-kingdom.png", :alt => "English", :class => "lang-flag") + "Ingles", :locale=>'en' %>
+                        <%= link_to image_tag("united-kingdom.png", :alt => "English", :class => "lang-flag") + "Ingles", :locale=>'en', :id => "ingles" %>
                     <% else %>                        
-                        <%= link_to image_tag("spain.png", :alt => "Spain", :class => "lang-flag") + "Español", :locale=>'es' %>
+                        <%= link_to image_tag("spain.png", :alt => "Spain", :class => "lang-flag") + "Español", :locale=>'es' , :id => "español"%>
                     <% end %>
                 </li>
                 <% if user_signed_in? %>
