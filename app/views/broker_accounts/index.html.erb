@@ -16,6 +16,8 @@
                         <tr>
                           <th><%= I18n.t('account_table_name') %></th>
                           <th><%= I18n.t('account_table_broker') %></th>
+                          <th><%= I18n.t('account_table_balance') %></th>
+                          <th><%= I18n.t('account_table_type') %></th>
                           <th colspan="3"></th>
                         </tr>
                       </thead>
@@ -25,6 +27,14 @@
                           <tr>
                             <td><%= broker_account.name %></td>
                             <td><%= broker_account.broker.Name %></td>
+                            <td><%= broker_account.Balance %></td>
+                            <td>
+                              <% if broker_account.DemoAccount == '1' %>
+                                <span class="label label-default">Demo</span>
+                              <% else %>
+                                <span class="label label-success">Real</span>
+                              <% end %>
+                            </td>
                             <td><%= link_to I18n.t('account_button_show'), broker_account %></td>
                             <td><%= link_to I18n.t('account_button_edit'), edit_broker_account_path(broker_account) %></td>
                             <td><%= link_to I18n.t('account_button_destroy'), broker_account, method: :delete, data: { confirm: 'Are you sure?' } %></td>

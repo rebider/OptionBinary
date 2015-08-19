@@ -11,7 +11,7 @@
     <div class="form-group">
         <%= f.label I18n.t('dashboard_broker_account'), class:'col-sm-3' %>
         <div class="col-sm-5">
-          <%= f.collection_select(:BrokerAccount_id, @brokerAccount, :id, :name ,{prompt: I18n.t('dashboard_select_account')},  {class: "form-control", :name => "trade[BrokerAccount_id]", :onchange => 'get_balance(this.value)' } ) %>
+          <%= f.collection_select(:BrokerAccount_id, @brokerAccount, :id, :name ,{prompt: I18n.t('dashboard_select_account')},  {class: "form-control", :name => "trade[BrokerAccount_id]", :onchange => 'get_balance(this.value)', :data => {:validation => "required"} } ) %>
         </div>
         <div class="col-sm-4">
           <%= I18n.t('dashboard_account_balance') %>: <span id="lbl_account_balance"></span>
@@ -22,7 +22,7 @@
         <%= f.label I18n.t('dashboard_strategy'), class:'col-sm-3' %>
         <div class="col-sm-5">
 
-          <%= f.collection_select(:Strategy_id, @strategy, :id, :Name , {prompt: I18n.t('dashboard_select_strategy')}, {class: "form-control", :name => "trade[Strategy_id]", :onchange => 'get_strategy_success_rate(this.value)'}) %>
+          <%= f.collection_select(:Strategy_id, @strategy, :id, :Name , {prompt: I18n.t('dashboard_select_strategy')}, {class: "form-control", :name => "trade[Strategy_id]", :onchange => 'get_strategy_success_rate(this.value)', :data => {:validation => "required"}}) %>
         </div>  
 
         <div class="col-sm-4">
@@ -33,7 +33,7 @@
     <div class="form-group">
         <%= f.label I18n.t('dashboard_azzet'), class:'col-sm-3' %>
         <div class="col-sm-5">
-           <%= f.collection_select(:Azzet_id, @azzets, :id, :Name , {prompt: I18n.t('dashboard_select_azzet')}, {class: "form-control", :name => "trade[Azzet_id]", :onchange => 'get_azzet_success_rate(this.value)'}) %>
+           <%= f.collection_select(:Azzet_id, @azzets, :id, :Name , {prompt: I18n.t('dashboard_select_azzet')}, {class: "form-control", :name => "trade[Azzet_id]", :onchange => 'get_azzet_success_rate(this.value)', :data => {:validation => "required"}}) %>
         </div>
         <div class="col-sm-4">
           <%= I18n.t('dashboard_effective') %>: <span id="lbl_azzet_rate"></span>
@@ -59,7 +59,7 @@
         <div class="col-sm-5">
           <div class="input-group">
             <span class="input-group-addon">$</span>
-            <%= f.number_field :Amount, class:'form-control', :onchange => 'calcule_percent()' %>
+            <%= f.number_field :Amount, class:'form-control', :onchange => 'calcule_percent()', :data => {:validation => "required"} %>
           </div>       
         </div>
         <div class="col-sm-4">
@@ -72,7 +72,7 @@
         <div class="col-sm-5">
           <div class="input-group">
             <span class="input-group-addon">%</span>
-            <%= f.text_field :OnProfit, class:'form-control', type:'text', :onchange => 'calcule_onprofit()' %>
+            <%= f.text_field :OnProfit, class:'form-control', type:'text', :onchange => 'calcule_onprofit()', :data => {:validation => "required"} %>
           </div>
         </div>
         <div class="col-sm-4">
@@ -85,7 +85,7 @@
         <div class="col-sm-5">
           <div class="input-group">
             <span class="input-group-addon">%</span>
-            <%= f.text_field :OnLoss, class:'form-control', type:'text', :onchange => 'calcule_onlost()' %>
+            <%= f.text_field :OnLoss, class:'form-control', type:'text', :onchange => 'calcule_onlost()', :data => {:validation => "required"} %>
           </div>
         </div>
         <div class="col-sm-4">
@@ -127,114 +127,113 @@
     }
   });
 
+  $.validate();
 
-function get_balance (accountId) {
-  $.ajax({
-    type: "GET",
-    url: "/broker_accounts/" + accountId + "/current_balance",
-    success: function(data){
+  function get_balance (accountId) {
+    $.ajax({
+      type: "GET",
+      url: "/broker_accounts/" + accountId + "/current_balance",
+      success: function(data){
 
-      if(data[0].current_balance != null)
-      {
-        account_balance = (data[0].current_balance).toFixed(2);
-        $("#lbl_account_balance").text("$ " + account_balance);
+        if(data != null)
+        {
+          account_balance = (data).toFixed(2);
+          $("#lbl_account_balance").text("$ " + account_balance);
 
 
-        //Calcular la cantidad a invertir sugerida
-        amount_suggested = Math.round((maximum_percent_per_trade * account_balance) / 100);
-        $("#trade_Amount").val(amount_suggested);
-        $("#lbl_percent_suggested").text(maximum_percent_per_trade + " %");
+          //Calcular la cantidad a invertir sugerida
+          amount_suggested = Math.round((maximum_percent_per_trade * account_balance) / 100);
+          $("#trade_Amount").val(amount_suggested);
+          $("#lbl_percent_suggested").text(maximum_percent_per_trade + " %");
+        }
+        else
+        {
+          $("#lbl_account_balance").text("Debe ingresar el saldo de la cuenta");
+        }
       }
-      else
-      {
-        $("#lbl_account_balance").text("Debe ingresar el saldo de la cuenta");
+    });
+  }
+
+  function get_strategy_success_rate(strategyId) {
+    $.ajax({
+      type: "GET",
+      url: "/strategies/" + strategyId + "/total_trades",
+      success: function(data){
+
+        if(data.length > 0)
+        {
+          won = tie = lost = 0;
+
+          $.each(data, function (i, item) {
+            if (item.Result === 'WON') {
+              won = item.total_trades;
+            }
+            else if (item.Result === 'TIE') {
+              tie = item.total_trades;
+            }
+            else if (item.Result === 'LOST') {
+              lost = item.total_trades;
+            }
+          });
+
+          total_trades = won + tie + lost;
+          success_rate = Math.round(((won + tie) / total_trades) * 100);
+          
+          $("#lbl_strategy_rate").text(success_rate + " %");
+        }
+        else
+        {
+          $("#lbl_strategy_rate").text("N/A"); 
+        }
       }
-    }
-  });
-}
+    });
+  }
 
-function get_strategy_success_rate(strategyId) {
-  $.ajax({
-    type: "GET",
-    url: "/strategies/" + strategyId + "/total_trades",
-    success: function(data){
+  function get_azzet_success_rate(azzetId) {
+    $.ajax({
+      type: "GET",
+      url: "/azzets/" + azzetId + "/total_trades",
+      success: function(data){
 
-      if(data.length > 0)
-      {
-        won = tie = lost = 0;
+        if(data.length > 0)
+        {
+          won = data[2] != null ? data[2].total_trades : 0;
+          tie = data[1] != null ? data[1].total_trades : 0;
+          lost = data[0] != null ? data[0].total_trades : 0;
+          total_trades = won + tie + lost;
+          success_rate = Math.round(((won + tie) / total_trades) * 100);
 
-        $.each(data, function (i, item) {
-          if (item.Result === 'WON') {
-            won = item.total_trades;
-          }
-          else if (item.Result === 'TIE') {
-            tie = item.total_trades;
-          }
-          else if (item.Result === 'LOST') {
-            lost = item.total_trades;
-          }
-        });
-
-        total_trades = won + tie + lost;
-        success_rate = Math.round(((won + tie) / total_trades) * 100);
-        
-        $("#lbl_strategy_rate").text(success_rate + " %");
+          $("#lbl_azzet_rate").text(success_rate + " %");
+        }
+        else
+        {
+          $("#lbl_azzet_rate").text("N/A"); 
+        }
       }
-      else
-      {
-        $("#lbl_strategy_rate").text("N/A"); 
-      }
-    }
-  });
-}
+    });
+  }
 
-function get_azzet_success_rate(azzetId) {
-  $.ajax({
-    type: "GET",
-    url: "/azzets/" + azzetId + "/total_trades",
-    success: function(data){
+  function calcule_percent(){
+      amount = $("#trade_Amount").val();
+      percent = Math.round((amount / account_balance) * 100);
+      
+      $("#lbl_percent_suggested").text(percent + " %");
+  }
 
-      if(data.length > 0)
-      {
-        won = data[2] != null ? data[2].total_trades : 0;
-        tie = data[1] != null ? data[1].total_trades : 0;
-        lost = data[0] != null ? data[0].total_trades : 0;
-        total_trades = won + tie + lost;
-        success_rate = Math.round(((won + tie) / total_trades) * 100);
+  function calcule_onprofit(){
+      amount = $("#trade_Amount").val();
+      onprofit = $("#trade_OnProfit").val();
+      profit = ((amount * onprofit) / 100).toFixed(2);
+         
+      $("#lbl_onprofit_payout").text("$ " + profit);
+  }
 
-        $("#lbl_azzet_rate").text(success_rate + " %");
-      }
-      else
-      {
-        $("#lbl_azzet_rate").text("N/A"); 
-      }
-    }
-  });
-}
+  function calcule_onlost(){
+      amount = $("#trade_Amount").val();
+      onprofit = $("#trade_OnLoss").val();
+      profit = ((amount * onprofit) / 100).toFixed(2);
 
-function calcule_percent(){
-    amount = $("#trade_Amount").val();
-    percent = Math.round((amount / account_balance) * 100);
-    
-    $("#lbl_percent_suggested").text(percent + " %");
-}
-
-function calcule_onprofit(){
-    amount = $("#trade_Amount").val();
-    onprofit = $("#trade_OnProfit").val();
-    payout = ((amount * onprofit) / 100).toFixed(2);
-    
-    $("#lbl_onprofit_payout").text("$ " + payout);
-}
-
-function calcule_onlost(){
-    amount = $("#trade_Amount").val();
-    onprofit = $("#trade_OnLoss").val();
-    payout = ((amount * onprofit) / 100).toFixed(2);
-    
-    $("#lbl_onlost_payout").text("$ " + payout);
-}
+      $("#lbl_onlost_payout").text("$ " + profit);
+  }
 
 </script>
-
-

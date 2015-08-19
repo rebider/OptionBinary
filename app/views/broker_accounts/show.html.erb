@@ -1,18 +1,27 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
+  <strong><%= I18n.t('account_table_name') %>:</strong>
   <%= @broker_account.name %>
 </p>
 
 <p>
-  <strong>User:</strong>
-  <%= @broker_account.user %>
+  <strong><%= I18n.t('account_table_broker') %>:</strong>
+  <%= @broker_account.broker.Name %>
 </p>
 
 <p>
-  <strong>Broker:</strong>
-  <%= @broker_account.broker %>
+  <strong><%= I18n.t('account_table_balance') %>:</strong>
+  <%= @broker_account.Balance %>
+</p>
+
+<p>
+  <strong><%= I18n.t('account_table_type') %>:</strong>
+	  <% if @broker_account.DemoAccount == '1' %>
+	    <span class="label label-default">Demo</span>
+	  <% else %>
+	    <span class="label label-success">Real</span>
+	  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_broker_account_path(@broker_account) %> |

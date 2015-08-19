@@ -1,44 +1,35 @@
-<%= form_for(@strategy) do |f| %>
-  <div class="panel panel-default">
-      <div class="panel-heading">
-          <%= I18n.t('strategies_title_new') %>
+
+<%= form_for(@strategy, :html => {:class => 'form-horizontal', :role => 'form'} ) do |f| %>
+  
+  <% if @strategy.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@strategy.errors.count, "error") %> prohibited this strategy from being saved:</h2>
+
+      <ul>
+      <% @strategy.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :User_id, :value => current_user.id %>
+
+  <div class="form-group">
+      <%= f.label I18n.t('strategies_table_name'), class:'col-sm-3' %>
+      <div class="col-sm-9">
+        <%= f.text_field :Name, class:'form-control', :data => {:validation => "required"} %>
       </div>
-      <div class="panel-body">
-        <div class="row">
-          <div class="col-lg-12">
-            <form class="form-horizontal" role="form">
-              <% if @strategy.errors.any? %>
-                <div id="error_explanation">
-                  <h2><%= pluralize(@strategy.errors.count, "error") %> prohibited this strategy from being saved:</h2>
-
-                  <ul>
-                  <% @strategy.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                  <% end %>
-                  </ul>
-                </div>
-              <% end %>
-
-              <%= f.hidden_field :User_id, :value => current_user.id %>
-
-              <div class="form-group">
-                  <%= f.label I18n.t('strategies_table_name'), class:'col-sm-3' %>
-                  <div class="col-sm-9">
-                    <%= f.text_field :Name, class:'form-control' %>
-                  </div>
-              </div>
-
-              <%= f.hidden_field :Type, :value => "Private" %>
-
-              <div>
-                <%= f.submit I18n.t('strategies_button_save') , :class=> "btn btn-default" %>
-              </div>
-            </form>
-          </div>
-        </div>
-      <!-- /.row (nested) -->
-      </div>
-        <!-- /.panel-body -->
   </div>
-    <!-- /.panel -->
+
+  <%= f.hidden_field :Type, :value => "Private" %>
+
+  <div>
+    <%= f.submit I18n.t('strategies_button_save') , :class=> "btn btn-default" %>
+  </div>
+
 <% end %>
+
+<script>
+  $.validate();
+</script>

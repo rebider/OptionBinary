@@ -4,7 +4,7 @@
 <%= content_tag :div, "", id: "one_month_data", data: {trades: trades_chart_data(1.month.ago) } %>
 
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-6 col-md-8">
         <div class="panel">
             <div class="panel-heading">
                 <div class="panel-control"></div>
@@ -35,7 +35,7 @@
         <!-- /.modal-dialog -->
     </div>
 
-    <div class="col-lg-6 col-sm-8">
+    <div class="col-lg-6 col-md-4">
         <div class="row">
             <div class="col-lg-6">
                 <div class="panel panel-mint panel-colorful">
@@ -61,9 +61,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-sm-8">
+            <div class="col-lg-6">
                 <div class="row">
-                    <div class="col-lg-6 col-sm-6">
+                    <div class="col-lg-6">
                         <div class="panel panel-purple panel-colorful">
                             <div class="pad-all media" style="text-align: center;">
                                 <div class="media-left">
@@ -81,7 +81,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-sm-6">
+                    <div class="col-lg-6">
                         <div class="panel panel-purple panel-colorful">
                             <div class="pad-all media" style="text-align: center;">
                                 <div class="media-left">
@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="media-body">
                                     <p class="h3 text-thin media-heading">
-                                        <span id="lbl-balance"><!--<%= @total_balance %>--></span>
+                                        <span id="lbl-balance"><!--<%= @total_balance %>-->34,676</span>
                                     </p>
                                     <small class="text-uppercase"><%= I18n.t('dashboard_account_balance') %></small>
                                 </div>
@@ -101,14 +101,17 @@
                 </div>
             </div>
         </div>
-        <div class="panel">
-            <div class="panel-heading">
-                <div class="panel-control"></div>
-                <h3 class="panel-title"><%= I18n.t('dashboard_last_30_day_performance') %></h3>
-            </div>
-            <div class="panel-body">
-                <div id="month-performance-chart" style="height: 212px; position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div>
-            </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="panel-control"></div>
+            <h3 class="panel-title"><%= I18n.t('dashboard_last_30_day_performance') %></h3>
+        </div>
+        <div class="panel-body">
+            <div id="month-performance-chart" style="height: 212px; position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div>
         </div>
     </div>
 </div>

@@ -24,11 +24,37 @@ class BrokerAccountsController < ApplicationController
   def create
     @broker_account = BrokerAccount.new(broker_account_params)
     @broker_account.save
+
+    AccountBalance.create(
+      :broker_account_id => @broker_account.id,
+      :Amount  => Float(@broker_account.Balance),
+      :Balance => Float(@broker_account.Balance), 
+      :TradeID => '', 
+      :Type => "Manual",
+      :user_id => current_user.id)
+
+
     respond_with(@broker_account)
   end
 
   def update
+
+    @old_balance = @broker_account.Balance
     @broker_account.update(broker_account_params)
+
+    if(@old_balance != @broker_account.Balance)
+    
+      AccountBalance.create(
+        :broker_account_id => @broker_account.id,
+        :Amount  => Float(@broker_account.Balance) - Float(@old_balance),
+        :Balance => Float(@broker_account.Balance), 
+        :TradeID => '', 
+        :Type => "Manual",
+        :user_id => current_user.id)
+    end
+
+
+
     respond_with(@broker_account)
   end
 
@@ -41,7 +67,7 @@ class BrokerAccountsController < ApplicationController
     
     respond_to do |format|
        format.json do 
-        render :json => AccountBalance.current_balance(params[:id])
+        render :json => @broker_account.Balance #AccountBalance.current_balance(params[:id])
       end
      end
   end
@@ -52,6 +78,6 @@ class BrokerAccountsController < ApplicationController
     end
 
     def broker_account_params
-      params.require(:broker_account).permit(:name, :user_id, :broker_id, :DemoAccount)
+      params.require(:broker_account).permit(:name, :user_id, :broker_id, :DemoAccount, :Balance)
     end
 end

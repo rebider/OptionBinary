@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150818134603) do
+ActiveRecord::Schema.define(version: 20150818221205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,14 +22,12 @@ ActiveRecord::Schema.define(version: 20150818134603) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.float    "Balance"
-    t.integer  "broker_id"
     t.integer  "broker_account_id"
     t.integer  "user_id"
     t.float    "Amount"
   end
 
   add_index "account_balances", ["broker_account_id"], name: "index_account_balances_on_broker_account_id", using: :btree
-  add_index "account_balances", ["broker_id"], name: "index_account_balances_on_broker_id", using: :btree
   add_index "account_balances", ["user_id"], name: "index_account_balances_on_user_id", using: :btree
 
   create_table "admins", force: :cascade do |t|
@@ -61,6 +59,7 @@ ActiveRecord::Schema.define(version: 20150818134603) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "DemoAccount"
+    t.float    "Balance"
   end
 
   add_index "broker_accounts", ["broker_id"], name: "index_broker_accounts_on_broker_id", using: :btree
@@ -120,7 +119,6 @@ ActiveRecord::Schema.define(version: 20150818134603) do
     t.string   "UseCompoundInterest"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
-    t.datetime "Created"
     t.integer  "Azzet_id"
     t.integer  "BrokerAccount_id"
     t.string   "Position"

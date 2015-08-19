@@ -3,8 +3,8 @@ module StatisticsHelper
 
   def trades_chart_series(trades, start_time = 1.months.ago, end_time = Time.zone.today)
     trades_by_day = trades.where(created_at: start_time.beginning_of_day..end_time.end_of_day)
-                    .group("created_at")
-                    .select("created_at, count(\"#{:Result}\") as total_trades")
+                    .group("date(created_at)")
+                    .select("date(created_at) as created_at, count(\"#{:Result}\") as total_trades")
 
 
     (start_time.to_date..end_time.to_date).map do |date| 
@@ -15,8 +15,8 @@ module StatisticsHelper
 
   def profit_chart_series(trades, start_time = 1.months.ago, end_time = Time.zone.today)
     trades_by_day = trades.where(created_at: start_time.beginning_of_day..end_time.end_of_day)
-                    .group("created_at")
-                    .select("created_at, sum(payout::integer) as profit")
+                    .group("date(created_at)")
+                    .select("date(created_at) as created_at, sum(payout::integer) as profit")
 
 
     (start_time.to_date..end_time.to_date).map do |date| 
@@ -31,9 +31,9 @@ module StatisticsHelper
                     .select("\"Result\", count(\"#{:Result}\") as total_trades")                    
 
     [ 
-      { :name => 'Won', :y => trades_result[2].try(:total_trades) || 0, :color => '#5fa2dd' },
+      { :name => 'Won', :y => trades_result[0].try(:total_trades) || 0, :color => '#5fa2dd' },
       { :name => 'Tie', :y => trades_result[1].try(:total_trades) || 0, :color => '#E6EBE0' },
-      { :name => 'Lost', :y => trades_result[0].try(:total_trades) || 0, :color => '#F45B69' }
+      { :name => 'Lost', :y => trades_result[2].try(:total_trades) || 0, :color => '#F45B69' }
     ]
   end
 
