@@ -29,7 +29,7 @@ class StrategiesController < ApplicationController
 
     respond_to do |format|
       if @strategy.save
-        format.html { redirect_to @strategy, notice: 'Strategy was successfully created.' }
+        format.html { redirect_to '/strategies' }
         format.json { render :show, status: :created, location: @strategy }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class StrategiesController < ApplicationController
   def update
     respond_to do |format|
       if @strategy.update(strategy_params)
-        format.html { redirect_to @strategy, notice: 'Strategy was successfully updated.' }
+        format.html { redirect_to '/strategies' }
         format.json { render :show, status: :ok, location: @strategy }
       else
         format.html { render :edit }

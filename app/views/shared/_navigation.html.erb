@@ -16,11 +16,16 @@
         <div class="navbar-content clearfix">
             <ul class="nav navbar-top-links pull-left"></ul>
             <ul class="nav navbar-top-links pull-right">
-                <li>
+                 <li class="tgl-menu-btn">
+                    <a class="mainnav-toggle" href="#">
+                        <i class="fa fa-navicon fa-lg"></i>
+                    </a>
+                </li>
+                <li id="idioma">
                     <% if I18n.locale == I18n.default_locale %>
                         <%= link_to image_tag("united-kingdom.png", :alt => "English", :class => "lang-flag") + "Ingles", :locale=>'en' %>
                     <% else %>                        
-                        <%= link_to image_tag("spain.png", :alt => "Spain", :class => "lang-flag") + "Español", :locale=>'es' %>
+                        <%= link_to image_tag("spain.png", :alt => "Spain", :class => "lang-flag") + "Español", :locale=>'es'%>
                     <% end %>
                 </li>
                 <% if user_signed_in? %>
@@ -45,9 +50,7 @@
                                 </li>
                             </ul>
                             <div class="pad-all text-right">
-                                <%= link_to destroy_user_session_path, method: :delete, :class => 'btn btn-primary' do %>
-                                    <i class="fa fa-sign-out fa-fw">Logout</i>
-                                <% end %>
+                                <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'btn btn-warning' %>
                             </div>
                         </div>
                     </li>

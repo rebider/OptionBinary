@@ -33,8 +33,15 @@ class BrokerAccountsController < ApplicationController
       :Type => "Manual",
       :user_id => current_user.id)
 
-
-    respond_with(@broker_account)
+    respond_to do |format|
+      if @broker_account.save
+        format.html { redirect_to '/broker_accounts'}
+        format.json { render :show, status: :created, location: @broker_account }
+      else
+        format.html { render :new }
+        format.json { render json: @broker_account.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def update

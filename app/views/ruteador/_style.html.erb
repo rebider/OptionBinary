@@ -18,7 +18,7 @@ body{
 #navbar-container{
 	background: transparent;
 	border-style: none!important;
-	box-shadow:none;!important;
+	box-shadow:none!important;
 }
 
 a{
@@ -76,5 +76,34 @@ img.lang-flag{
 	font-size: 20px;
 	color: white!important;
 	width: 800px;
+}
+@media (min-width: 300px) and (max-width: 500px) {
+	#content-container{padding-top:30px;}
+	.btn.btn-success{
+		top:5px;
+		right: 60px;
+	}
+	.btn.btn-primary{
+		top:5px;
+	}
+	#idioma{
+		display: none!important;
+	}
+	.navbar-content.clearfix{
+		height: 0px!important;
+	}
+	#navbar{
+		height: 0px!important;
+	}
+	.title{
+		font-size: 30px;
+		padding-bottom:20px; 
+	}
+	.subtitle{
+		font-size: 40px;
+	}
+	.description{
+		font-size: 11px;
+	}
 }
 </style>

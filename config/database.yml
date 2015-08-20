@@ -15,10 +15,10 @@ default: &default
 development:
   adapter: postgresql
   #encoding: unicode
-  database: obmonitor
+  database: BO
   pool: 5
-  username: postgres
-  password: password   ### password you have specified within psql
+  username: test
+  password: test   ### password you have specified within psql
   host: localhost
   port: 5432
 
