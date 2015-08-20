@@ -85,11 +85,12 @@
                             <small class="text-uppercase"><%= I18n.t('dashboard_profit_today') %></small>
                         </div>
                         <div class="media-body">
-                            <p class="h3 text-thin media-heading">
+                            <p class="h2 text-thin media-heading">
                                 <span id="lbl-today-profit-real"></span>
-                                <span class="text-sm mar-no">
-                                    (+5%)
-                                </span>
+                            </p>
+                            <br>
+                            <p class="h4 text-thin media-heading">
+                                <em>Demo <span id="lbl-today-profit-demo"></span></em>
                             </p>
                         </div>                
                     </div>
@@ -292,14 +293,15 @@
 
 
     update_dashboard();
+    var today_full_data = [];
 
     function update_dashboard()
     {
         get_today_data();
        //update_month_chart();
        //update_today_chart();
-       update_today_profit();
-       update_today_performance();
+       //update_today_profit();
+       //update_today_performance();
        update_trades_chart();
     }
 
@@ -328,38 +330,49 @@
             {"label" :"LOST", "value" : today_data.total_lost},
         ]*/
 
-        var url =  "/dashboard/today_data/1/";
+        var url =  "/dashboard/today_data/1";
 
         $.ajax({
             type: 'GET', 
             url: url, 
             dataType: 'script',
             success: function(data){
+                today_full_data = jQuery.parseJSON(data);
 
-                alert(data);
-                //data = jQuery.parseJSON(data);
-                
-                //$("#today_full_data").data("today", data);
+                update_today_profit();
+                update_today_performance();
+            },
+            error: function (request, status, error) {
+                today_full_data = jQuery.parseJSON(request.responseText);
+
+                update_today_profit();
+                update_today_performance();
             }
         });
     }
 
     function update_today_profit(){
 
-        today_data = $("#one_month_data").data("trades")[31];
+        //today_data = $("#one_month_data").data("trades")[31];
 
-        $("#lbl-today-profit-real").text(parseFloat(today_data.profit).toFixed(2));
+        $("#lbl-today-profit-real").text(parseFloat(today_full_data.profit[0].profit).toFixed(2));
+        
+        $("#lbl-today-profit-demo").text(parseFloat(today_full_data.profit[1].profit).toFixed(2));
+
+        //alert(today_full_data.profit[0].profit);
     }
 
     function update_today_performance(){
 
-        today_data = $("#one_month_data").data("trades")[31];
+        //today_data = $("#one_month_data").data("trades")[31];
 
-        today_trades = today_data.total_won + today_data.total_tie + today_data.total_lost;
-        today_success = today_data.total_won + today_data.total_tie;
+        //today_trades = today_data.total_won + today_data.total_tie + today_data.total_lost;
+        //today_success = today_data.total_won + today_data.total_tie;
+        //today_performance = Math.round((today_success / today_trades) * 100);
+
+        today_trades = today_full_data.total_won + today_full_data.total_tie + today_full_data.total_lost;
+        today_success = today_full_data.total_won + today_full_data.total_tie;
         today_performance = Math.round((today_success / today_trades) * 100);
-
-        //$("#lbl-today-performance").text(today_performance + " %");
 
         $('#today-percent-chart').easyPieChart({
             barColor : '#ffffff',
@@ -376,7 +389,7 @@
         chart.update(today_performance);
     }
 
-    function update_trades_chart()
+    /*function update_trades_chart()
     {
         var url =  "/dashboard/trades_data/1";
 
@@ -401,8 +414,6 @@
             xkey: 'date',
             ykeys: ['total_won', 'total_tie', 'total_lost'],
             labels: ['WON', 'TIE', 'LOST'],
-            //gridEnabled: false,
-            //gridLineColor: 'transparent',
             behaveLikeLine: true,
             lineColors: ['#045d97'],
             pointSize: 0,
@@ -413,7 +424,7 @@
             fillOpacity: 0.7,
             parseTime:false
         });
-    }
+    }*/
 
     function update_trades_chart()
     {
