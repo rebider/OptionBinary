@@ -1,6 +1,5 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 
-<%= content_tag :div, "", id: "one_month_data", data: {trades: trades_chart_data(1.month.ago) } %>
 <%= content_tag :div, "", id: "account_ids", data: {accounts: real_accounts } %>
 <div id="today_full_data" data-today=""></div>
 
@@ -39,10 +38,9 @@
                 <div class="panel">
                     <div class="panel-heading">
                         <div class="panel-control"></div>
-                        <h3 class="panel-title"><%= I18n.t('dashboard_last_30_day_performance') %></h3>
+                        <h3 class="panel-title"><%= I18n.t('dashboard_last_5_days_results') %></h3>
                     </div>
                     <div class="panel-body">
-                        <!--div id="month-performance-chart" style="height: 212px; position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div-->
                         <div id="trades-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
                     </div>
                 </div>
@@ -53,26 +51,6 @@
 
     <div class="col-lg-6 col-md-4">
         <div class="row">
-            <div class="col-sm-6 col-md-4 col-lg-6">
-                <div class="panel panel-info panel-colorful">
-                    <div class="panel-body text-center">
-                        <div class="media-left">
-                           <span class="icon-wrap icon-wrap-xs">
-                                <i class="glyphicon glyphicon-send fa-2x"></i>
-                            </span>
-                            <p class="h3 text-thin media-heading">
-                                <span id="lbl-today-performance"></span>
-                            </p>
-                            <small class="text-uppercase"><%= I18n.t('dashboard_success_rate_today') %></small>
-                        </div>
-                        <div class="media-body">
-                            <div id="today-percent-chart" data-percent="0" class="pie-title-center">
-                                <span class="pie-value"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-sm-6 col-md-4 col-lg-6">
                 <div class="panel panel-purple panel-colorful">
                     <div class="panel-body text-center">
@@ -96,33 +74,52 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class="col-sm-6 col-md-4 col-lg-6">
-                <div class="panel media pad-all">
-                    <div class="media-left">
-                       <span class="icon-wrap icon-wrap-sm icon-circle bg-info">
-                            <i class="fa fa-dollar fa-2x"></i>
-                        </span>
-                    </div>
-                    <div class="media-body">
-                        <p class="text-2x mar-no text-thin">565</p>
-                        <p class="text-muted mar-no"><%= I18n.t('dashboard_profit_today') %></p>
-                    </div>
-                </div>
-                <div class="panel media pad-all">
-                    <div class="media-left">
-                       <span class="icon-wrap icon-wrap-sm icon-circle bg-info">
-                            <i class="fa fa-dollar fa-2x"></i>
-                        </span>
-                    </div>
-                    <div class="media-body">
-                        <p class="text-2x mar-no text-thin">543</p>
-                        <p class="text-muted mar-no"><%= I18n.t('dashboard_profit_today') %> Demo</p>
+                <div class="panel panel-purple panel-colorful">
+                    <div class="panel-body text-center">
+                        <div class="media-left">
+                            <span class="icon-wrap icon-wrap-xs">
+                                <i class="glyphicon glyphicon-briefcase fa-2x"></i>
+                            </span>
+                            <p class="h3 text-thin media-heading">                                
+                            </p>
+                            <small class="text-uppercase"><%= I18n.t('dashboard_account_balance') %></small>
+                        </div>
+                        <div class="media-body">
+                            <p class="h2 text-thin media-heading">
+                                <span id="lbl-balance-real"></span>
+                            </p>
+                            <br>
+                            <p class="h4 text-thin media-heading">
+                                <em>Demo <span id="lbl-balance-demo"></span></em>
+                            </p>
+                        </div>                
                     </div>
                 </div>
             </div>
 
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-6">
+                <div class="panel panel-info panel-colorful">
+                    <div class="panel-body text-center">
+                        <div class="media-left">
+                           <span class="icon-wrap icon-wrap-xs">
+                                <i class="glyphicon glyphicon-send fa-2x"></i>
+                            </span>
+                            <p class="h3 text-thin media-heading">
+                                <span id="lbl-today-performance"></span>
+                            </p>
+                            <small class="text-uppercase"><%= I18n.t('dashboard_success_rate_today') %></small>
+                        </div>
+                        <div class="media-body">
+                            <div id="today-percent-chart" data-percent="0" class="pie-title-center">
+                                <span class="pie-value"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -298,38 +295,12 @@
     function update_dashboard()
     {
         get_today_data();
-       //update_month_chart();
-       //update_today_chart();
-       //update_today_profit();
-       //update_today_performance();
        update_trades_chart();
     }
 
-    /*function update_today_chart()
-    {
-        Morris.Donut({
-            element: 'today-performance-chart',
-            data: get_today_data(),
-            colors: [
-                '#c686be',
-                '#986291',
-                '#ab6fa3'
-            ],
-            resize:true
-        });
-    }*/
 
     function get_today_data()
     {
-
-        /*today_data = $("#one_month_data").data("trades")[31];
-
-        return [
-            {"label" :"WON", "value" : today_data.total_won},
-            {"label" :"TIE", "value" : today_data.total_tie},
-            {"label" :"LOST", "value" : today_data.total_lost},
-        ]*/
-
         var url =  "/dashboard/today_data/1";
 
         $.ajax({
@@ -341,34 +312,34 @@
 
                 update_today_profit();
                 update_today_performance();
+                update_balances();
             },
             error: function (request, status, error) {
                 today_full_data = jQuery.parseJSON(request.responseText);
 
                 update_today_profit();
                 update_today_performance();
+                update_balances();
             }
         });
     }
 
-    function update_today_profit(){
-
-        //today_data = $("#one_month_data").data("trades")[31];
-
+    function update_today_profit()
+    {
         $("#lbl-today-profit-real").text(parseFloat(today_full_data.profit[0].profit).toFixed(2));
         
         $("#lbl-today-profit-demo").text(parseFloat(today_full_data.profit[1].profit).toFixed(2));
-
-        //alert(today_full_data.profit[0].profit);
     }
 
-    function update_today_performance(){
+    function update_balances()
+    {
+        $("#lbl-balance-real").text(parseFloat(today_full_data.current_real_balance[0].balance).toFixed(2));
+        
+        $("#lbl-balance-demo").text(parseFloat(today_full_data.current_demo_balance[0].balance).toFixed(2));
+    }
 
-        //today_data = $("#one_month_data").data("trades")[31];
-
-        //today_trades = today_data.total_won + today_data.total_tie + today_data.total_lost;
-        //today_success = today_data.total_won + today_data.total_tie;
-        //today_performance = Math.round((today_success / today_trades) * 100);
+    function update_today_performance()
+    {
 
         today_trades = today_full_data.total_won + today_full_data.total_tie + today_full_data.total_lost;
         today_success = today_full_data.total_won + today_full_data.total_tie;
@@ -388,43 +359,6 @@
         var chart = window.chart = $('#today-percent-chart').data('easyPieChart');
         chart.update(today_performance);
     }
-
-    /*function update_trades_chart()
-    {
-        var url =  "/dashboard/trades_data/1";
-
-        $.ajax({
-            type: 'GET', 
-            url: url, 
-            dataType: 'script',
-            success: function(data){
-
-                data = jQuery.parseJSON(data);
-                
-                $("#one_month_data").data();
-            }
-        });
-    }
-
-    function update_month_chart()
-    {
-        Morris.Area({
-            element: 'month-performance-chart',
-            data: $('#one_month_data').data('trades'),
-            xkey: 'date',
-            ykeys: ['total_won', 'total_tie', 'total_lost'],
-            labels: ['WON', 'TIE', 'LOST'],
-            behaveLikeLine: true,
-            lineColors: ['#045d97'],
-            pointSize: 0,
-            pointStrokeColors : ['#045d97'],
-            lineWidth: 0,
-            resize:true,
-            hideHover: 'auto',
-            fillOpacity: 0.7,
-            parseTime:false
-        });
-    }*/
 
     function update_trades_chart()
     {

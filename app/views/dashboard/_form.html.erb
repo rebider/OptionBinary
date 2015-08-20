@@ -1,3 +1,4 @@
+
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   <h4 class="modal-title" id="myModalLabel"><%= I18n.t('dashboard_new_trade') %></h4>
@@ -11,7 +12,7 @@
     <div class="form-group">
         <%= f.label I18n.t('dashboard_broker_account'), class:'col-sm-3' %>
         <div class="col-sm-5">
-          <%= f.collection_select(:BrokerAccount_id, @brokerAccount, :id, :name ,{prompt: I18n.t('dashboard_select_account')},  {class: "form-control", :name => "trade[BrokerAccount_id]", :onchange => 'get_balance(this.value)', :data => {:validation => "required"} } ) %>
+          <%= f.collection_select(:BrokerAccount_id, @brokerAccount, :id, :name ,{prompt: I18n.t('dashboard_select_account')},  {class: "form-control selectpicker", :name => "trade[BrokerAccount_id]", :onchange => 'get_balance(this.value)', :data => {:validation => "required", "live-search" => "true"} } ) %>
         </div>
         <div class="col-sm-4">
           <%= I18n.t('dashboard_account_balance') %>: <span id="lbl_account_balance"></span>
@@ -22,7 +23,7 @@
         <%= f.label I18n.t('dashboard_strategy'), class:'col-sm-3' %>
         <div class="col-sm-5">
 
-          <%= f.collection_select(:Strategy_id, @strategy, :id, :Name , {prompt: I18n.t('dashboard_select_strategy')}, {class: "form-control", :name => "trade[Strategy_id]", :onchange => 'get_strategy_success_rate(this.value)', :data => {:validation => "required"}}) %>
+          <%= f.collection_select(:Strategy_id, @strategy, :id, :Name , {prompt: I18n.t('dashboard_select_strategy')}, {class: "form-control selectpicker", :name => "trade[Strategy_id]", :onchange => 'get_strategy_success_rate(this.value)', :data => {:validation => "required", "live-search" => "true"}}) %>
         </div>  
 
         <div class="col-sm-4">
@@ -33,7 +34,7 @@
     <div class="form-group">
         <%= f.label I18n.t('dashboard_azzet'), class:'col-sm-3' %>
         <div class="col-sm-5">
-           <%= f.collection_select(:Azzet_id, @azzets, :id, :Name , {prompt: I18n.t('dashboard_select_azzet')}, {class: "form-control", :name => "trade[Azzet_id]", :onchange => 'get_azzet_success_rate(this.value)', :data => {:validation => "required"}}) %>
+           <%= f.collection_select(:Azzet_id, @azzets, :id, :Name , {prompt: I18n.t('dashboard_select_azzet')}, {class: "form-control selectpicker", :name => "trade[Azzet_id]", :onchange => 'get_azzet_success_rate(this.value)', :data => {:validation => "required", "live-search" => "true"}}) %>
         </div>
         <div class="col-sm-4">
           <%= I18n.t('dashboard_effective') %>: <span id="lbl_azzet_rate"></span>
@@ -128,6 +129,8 @@
   });
 
   $.validate();
+
+  $('.selectpicker').selectpicker({});
 
   function get_balance (accountId) {
     $.ajax({

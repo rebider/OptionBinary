@@ -7,7 +7,7 @@ class AccountBalancesController < ApplicationController
   # GET /account_balances
   # GET /account_balances.json
   def index
-    @account_balances = AccountBalance.where(:user_id => current_user.id)
+    @account_balances = AccountBalance.user_balances(current_user.id)
     @broker = BrokerAccount.user_brokerAccounts(:user_id => current_user.id)
   end
 

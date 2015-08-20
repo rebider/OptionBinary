@@ -24,7 +24,7 @@ es:
   dashboard_success_rate_today:   "Tasa de exito de hoy"
   dashboard_profit_today:   "Utilidad de hoy"
   dashboard_account_balance:   "Balance"
-  dashboard_last_30_day_performance:   "Desempeno ultimos 30 dias"
+  dashboard_last_5_days_results:   "Resultados ultimos 5 dias"
   dashboard_trades_time:   "Hora (GMT)"
   dashboard_trades_strategy:   "Estrategia"
   dashboard_trades_azzet:   "Activo"

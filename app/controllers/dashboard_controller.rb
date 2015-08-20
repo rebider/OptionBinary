@@ -46,8 +46,13 @@ class DashboardController < ApplicationController
         :Amount  => Float(@trade.Payout),
         :Balance => @total, 
         :TradeID => @trade.id, 
-        :Type => "Automatic",
+        :Type => "Trade",
         :user_id => current_user.id)
+
+      @account = BrokerAccount.find(@trade.BrokerAccount_id)
+      @account.Balance = Float(@account.Balance) + Float(@trade.Payout)
+      @account.save
+
     elsif (params[:Result] == 'TIE') 
       @trade.Payout = 0#Float(@trade.Amount)
       @pago      = AccountBalance.where(:broker_account_id => @trade.BrokerAccount_id).pluck(:Balance).last
@@ -57,8 +62,13 @@ class DashboardController < ApplicationController
         :Amount  => Float(@trade.Payout),
         :Balance => @total, 
         :TradeID => @trade.id, 
-        :Type => "Automatic",
+        :Type => "Trade",
         :user_id => current_user.id)
+
+      @account = BrokerAccount.find(@trade.BrokerAccount_id)
+      @account.Balance = Float(@account.Balance) + Float(@trade.Payout)
+      @account.save
+
     else
       @trade.Payout = 0 - Float(@trade.Amount) + (Float(@trade.Amount) * Float(@trade.OnLoss)) / 100
       @pago      = AccountBalance.where(:broker_account_id => @trade.BrokerAccount_id).pluck(:Balance).last
@@ -68,8 +78,13 @@ class DashboardController < ApplicationController
         :Amount  => Float(@trade.Payout),
         :Balance => @total, 
         :TradeID => @trade.id, 
-        :Type => "Automatic",
+        :Type => "Trade",
         :user_id => current_user.id)
+
+      @account = BrokerAccount.find(@trade.BrokerAccount_id)
+      @account.Balance = Float(@account.Balance) + Float(@trade.Payout)
+      @account.save
+      
     end
     @trade.save
 

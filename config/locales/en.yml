@@ -24,7 +24,7 @@ en:
   dashboard_success_rate_today:   "Success Rate Today"
   dashboard_profit_today:   "Profit Today"
   dashboard_account_balance:   "Balance"
-  dashboard_last_30_day_performance:   "Last 30 days performance"
+  dashboard_last_5_days_results:   "Last 5 days results"
   dashboard_trades_time:   "Time (GMT)"
   dashboard_trades_strategy:   "Strategy"
   dashboard_trades_azzet:   "Asset"
