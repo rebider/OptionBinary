@@ -94,16 +94,36 @@
                             <li class="list-divider"></li>
                             <li class="list-header">Catalogos</li>
                             <li>
-                                <%= link_to I18n.t('link_strategies'), :controller => "strategies" %>
+                                <%= link_to :controller => "strategies" do %>
+                                <i class="fa fa-briefcase"></i>
+                                    <span class="menu-title">
+                                        <strong><%= I18n.t('link_strategies') %></strong>
+                                    </span>
+                                <% end %>
                             </li>
                             <li>
-                                <%= link_to I18n.t('link_account'), :controller => "broker_accounts" %>
+                                <%= link_to :controller => "broker_accounts" do %>
+                                <i class="fa fa-edit"></i>
+                                    <span class="menu-title">
+                                        <strong><%= I18n.t('link_account') %></strong>
+                                    </span>
+                                <% end %>
                             </li>
                             <li>
-                                <%= link_to I18n.t('link_account_balance'), :controller => "account_balances" %>
+                                <%= link_to :controller => "account_balances" do %>
+                                <i class="fa fa-table"></i>
+                                    <span class="menu-title">
+                                        <strong><%= I18n.t('link_account_balance') %></strong>
+                                    </span>
+                                <% end %>
                             </li>
                             <li>
-                                <%= link_to I18n.t('link_configuration'), :controller => "settings" %>
+                                <%= link_to :controller => "settings" do %>
+                                <i class="fa fa-plug"></i>
+                                    <span class="menu-title">
+                                        <strong><%= I18n.t('link_configuration') %></strong>
+                                    </span>
+                                <% end %>
                             </li>
                         </ul>
                     </div>

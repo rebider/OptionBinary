@@ -1,5 +1,5 @@
 class AzzetsController < ApplicationController
-  before_action :authenticate_admin!
+  before_action :authenticate_admin!,:except => [:total_trades]
   before_action :set_azzet, only: [:show, :edit, :update, :destroy, :total_trades]
 
   respond_to :html
