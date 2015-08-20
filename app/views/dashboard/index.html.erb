@@ -327,16 +327,33 @@
 
     function update_today_profit()
     {
-        $("#lbl-today-profit-real").text(parseFloat(today_full_data.profit[0].profit).toFixed(2));
-        
-        $("#lbl-today-profit-demo").text(parseFloat(today_full_data.profit[1].profit).toFixed(2));
+        $("#lbl-today-profit-real").text("0");
+        $("#lbl-today-profit-demo").text("0");
+
+        jQuery.each(today_full_data.profit, function(i, today) {
+
+           if(today.accounttype == "0")
+           {
+            $("#lbl-today-profit-real").text(parseFloat(today.profit).toFixed(2));
+           }
+           else
+           {
+            $("#lbl-today-profit-demo").text(parseFloat(today.profit).toFixed(2));
+           }
+        });
     }
 
     function update_balances()
     {
-        $("#lbl-balance-real").text(parseFloat(today_full_data.current_real_balance[0].balance).toFixed(2));
+        if(today_full_data.current_real_balance)
+        {
+            $("#lbl-balance-real").text(parseFloat(today_full_data.current_real_balance[0].balance).toFixed(2));
+        }
         
-        $("#lbl-balance-demo").text(parseFloat(today_full_data.current_demo_balance[0].balance).toFixed(2));
+        if(today_full_data.current_demo_balance)
+        {
+            $("#lbl-balance-demo").text(parseFloat(today_full_data.current_demo_balance[0].balance).toFixed(2));
+        }
     }
 
     function update_today_performance()

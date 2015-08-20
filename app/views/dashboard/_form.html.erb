@@ -73,7 +73,7 @@
         <div class="col-sm-5">
           <div class="input-group">
             <span class="input-group-addon">%</span>
-            <%= f.text_field :OnProfit, class:'form-control', type:'text', :onchange => 'calcule_onprofit()', :data => {:validation => "required"} %>
+            <%= f.text_field :OnProfit, class:'form-control', type:'text', :onchange => 'calcule_onprofit()', :data => {:validation => "number"} %>
           </div>
         </div>
         <div class="col-sm-4">
@@ -86,7 +86,7 @@
         <div class="col-sm-5">
           <div class="input-group">
             <span class="input-group-addon">%</span>
-            <%= f.text_field :OnLoss, class:'form-control', type:'text', :onchange => 'calcule_onlost()', :data => {:validation => "required"} %>
+            <%= f.text_field :OnLoss, class:'form-control', type:'text', :onchange => 'calcule_onlost()', :data => {:validation => "number"} %>
           </div>
         </div>
         <div class="col-sm-4">
@@ -132,6 +132,35 @@
 
   $('.selectpicker').selectpicker({});
 
+  inicialize_form();
+
+
+  function inicialize_form()
+  {
+    selected_account = getCookie("selected_account");
+    if(selected_account != "")
+    {
+      $("#trade_BrokerAccount_id").val(selected_account);
+      $("#trade_BrokerAccount_id").change();
+    }
+
+    selected_strategy = getCookie("selected_strategy");
+    if(selected_strategy != "")
+    {
+      $("#trade_Strategy_id").val(selected_strategy);
+      $("#trade_Strategy_id").change();
+    }
+
+    selected_azzet = getCookie("selected_azzet");
+    if(selected_azzet != "")
+    {
+      $("#trade_Azzet_id").val(selected_azzet);
+      $("#trade_Azzet_id").change();
+    }
+
+    $("#trade_OnLoss").val("0");    
+  }
+
   function get_balance (accountId) {
     $.ajax({
       type: "GET",
@@ -155,6 +184,9 @@
         }
       }
     });
+
+    //set cookie
+    setCookie("selected_account", accountId, 1);
   }
 
   function get_strategy_success_rate(strategyId) {
@@ -190,6 +222,9 @@
         }
       }
     });
+
+    //set cookie
+    setCookie("selected_strategy", strategyId, 1);
   }
 
   function get_azzet_success_rate(azzetId) {
@@ -214,6 +249,9 @@
         }
       }
     });
+
+    //set cookie
+    setCookie("selected_azzet", azzetId, 1);
   }
 
   function calcule_percent(){
@@ -239,4 +277,33 @@
       $("#lbl_onlost_payout").text("$ " + profit);
   }
 
+  function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      var expires = "expires="+d.toUTCString();
+      document.cookie = cname + "=" + cvalue + "; " + expires;
+  }
+
+  function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0; i<ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1);
+          if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+      }
+      return "";
+  }
+
+  function checkCookie() {
+      var user = getCookie("username");
+      if (user != "") {
+          alert("Welcome again " + user);
+      } else {
+          user = prompt("Please enter your name:", "");
+          if (user != "" && user != null) {
+              setCookie("username", user, 365);
+          }
+      }
+  }
 </script>
