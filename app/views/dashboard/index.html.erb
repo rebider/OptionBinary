@@ -1,120 +1,138 @@
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-<script src="http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/style.min.css"-->
+
+<!--link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"-->
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
 
 <%= content_tag :div, "", id: "one_month_data", data: {trades: trades_chart_data(1.month.ago) } %>
+<%= content_tag :div, "", id: "account_ids", data: {accounts: real_accounts } %>
+<div id="today_full_data" data-today=""></div>
 
 <div class="row">
     <div class="col-lg-6 col-md-8">
-        <div class="panel">
-            <div class="panel-heading">
-                <div class="panel-control"></div>
-                <h3 class="panel-title"><%= I18n.t('dashboard_open_trades') %></h3>
-            </div>
-            <div class="panel-body">
-                <div class="pad-btm form-inline">
-                    <div class="col-sm-6 table-toolbar-left">
-                        <%= link_to new_dashboard_path, remote: true,  :data => { :toggle => 'modal', :target => 'myModal' } do %>
-                          <button class="btn btn-purple btn-labeled fa fa-plus"><%= I18n.t('dashboard_button_trades') %></button>
-                        <% end %>                        
+        <div class="row">
+            <div class="col-lg-12 col-md-8">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-control">
+                            <%= link_to new_dashboard_path, remote: true,  :data => { :toggle => 'modal', :target => 'myModal' } do %>
+                                  <button class="btn btn-purple btn-labeled fa fa-plus"><%= I18n.t('dashboard_button_trades') %></button>
+                                <% end %> 
+                        </div>
+                        <h3 class="panel-title"><%= I18n.t('dashboard_open_trades') %></h3>
                     </div>
-                    <div class="col-sm-6 table-toolbar-right"></div>
+                    <div class="panel-body">
+                        <div id='trades'>
+                            <%= render 'trade' %>
+                        </div>
+                    </div>
                 </div>
-                <div id='trades'>
-                    <%= render 'trade' %>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">                         
+                            <div id="trade-form" ></div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-8">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div class="panel-control"></div>
+                        <h3 class="panel-title"><%= I18n.t('dashboard_last_30_day_performance') %></h3>
+                    </div>
+                    <div class="panel-body">
+                        <!--div id="month-performance-chart" style="height: 212px; position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div-->
+                        <div id="trades-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">                         
-                <div id="trade-form" ></div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
+
 
     <div class="col-lg-6 col-md-4">
         <div class="row">
-            <div class="col-lg-6">
-                <div class="panel panel-mint panel-colorful">
-                    <div class="pad-all media" style="text-align: center;">
-                        <div class="row">
-                            <div class="col-lg-5">
-                                <div class="media-left">
-                                    <span class="icon-wrap icon-wrap-xs">
-                                        <i class="glyphicon glyphicon-send fa-2x"></i>
-                                    </span>
-                                </div>
-                                <div class="media-body">
-                                    <p class="h3 text-thin media-heading">
-                                        <span id="lbl-today-performance"></span>
-                                    </p>
-                                    <small class="text-uppercase"><%= I18n.t('dashboard_success_rate_today') %></small>
-                                </div>
+            <div class="col-sm-6 col-md-4 col-lg-6">
+                <div class="panel panel-info panel-colorful">
+                    <div class="panel-body text-center">
+                        <div class="media-left">
+                           <span class="icon-wrap icon-wrap-xs">
+                                <i class="glyphicon glyphicon-send fa-2x"></i>
+                            </span>
+                            <p class="h3 text-thin media-heading">
+                                <span id="lbl-today-performance"></span>
+                            </p>
+                            <small class="text-uppercase"><%= I18n.t('dashboard_success_rate_today') %></small>
+                        </div>
+                        <div class="media-body">
+                            <div id="today-percent-chart" data-percent="0" class="pie-title-center">
+                                <span class="pie-value"></span>
                             </div>
-                            <div class="col-lg-7">
-                                <div id="today-performance-chart" style="height:120px"></div>
-                            </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="panel panel-purple panel-colorful">
-                            <div class="pad-all media" style="text-align: center;">
-                                <div class="media-left">
-                                    <span class="icon-wrap icon-wrap-xs">
-                                        <i class="glyphicon glyphicon-usd fa-2x"></i>
-                                    </span>
-                                </div>
-                                <div class="media-body">
-                                    <p class="h3 text-thin media-heading">
-                                        <span id="lbl-today-profit-real"></span>
-                                    </p>
-                                    <span id="lbl-today-profit-demo"></span>
-                                    <small class="text-uppercase"><%= I18n.t('dashboard_profit_today') %></small>
-                                </div>                
-                            </div>
+            <div class="col-sm-6 col-md-4 col-lg-6">
+                <div class="panel panel-purple panel-colorful">
+                    <div class="panel-body text-center">
+                        <div class="media-left">
+                            <span class="icon-wrap icon-wrap-xs">
+                                <i class="glyphicon glyphicon-usd fa-2x"></i>
+                            </span>
+                            <p class="h3 text-thin media-heading">                                
+                            </p>
+                            <small class="text-uppercase"><%= I18n.t('dashboard_profit_today') %></small>
                         </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="panel panel-purple panel-colorful">
-                            <div class="pad-all media" style="text-align: center;">
-                                <div class="media-left">
-                                    <span class="icon-wrap icon-wrap-xs">
-                                        <i class="glyphicon glyphicon-briefcase fa-2x"></i>
-                                    </span>
-                                </div>
-                                <div class="media-body">
-                                    <p class="h3 text-thin media-heading">
-                                        <span id="lbl-balance"><!--<%= @total_balance %>-->34,676</span>
-                                    </p>
-                                    <small class="text-uppercase"><%= I18n.t('dashboard_account_balance') %></small>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="media-body">
+                            <p class="h3 text-thin media-heading">
+                                <span id="lbl-today-profit-real"></span>
+                                <span class="text-sm mar-no">
+                                    (+5%)
+                                </span>
+                            </p>
+                        </div>                
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-6">
+                <div class="panel media pad-all">
+                    <div class="media-left">
+                       <span class="icon-wrap icon-wrap-sm icon-circle bg-info">
+                            <i class="fa fa-dollar fa-2x"></i>
+                        </span>
+                    </div>
+                    <div class="media-body">
+                        <p class="text-2x mar-no text-thin">565</p>
+                        <p class="text-muted mar-no"><%= I18n.t('dashboard_profit_today') %></p>
+                    </div>
+                </div>
+                <div class="panel media pad-all">
+                    <div class="media-left">
+                       <span class="icon-wrap icon-wrap-sm icon-circle bg-info">
+                            <i class="fa fa-dollar fa-2x"></i>
+                        </span>
+                    </div>
+                    <div class="media-body">
+                        <p class="text-2x mar-no text-thin">543</p>
+                        <p class="text-muted mar-no"><%= I18n.t('dashboard_profit_today') %> Demo</p>
+                    </div>
+                </div>
+            </div>
 
-    </div>
-</div>
-<div class="row">
-    <div class="panel">
-        <div class="panel-heading">
-            <div class="panel-control"></div>
-            <h3 class="panel-title"><%= I18n.t('dashboard_last_30_day_performance') %></h3>
-        </div>
-        <div class="panel-body">
-            <div id="month-performance-chart" style="height: 212px; position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div>
         </div>
     </div>
 </div>
+
+
 
 <!-- /.row -->
 <!--div class="row">
@@ -277,15 +295,22 @@
 </div-->
 
 <script type="text/javascript">
-   
-   update_month_chart();
-   update_today_chart();
-   update_today_profit();
-   update_today_performance();
-   //update_week_profit_chart()
 
-   function update_today_chart()
-   {
+
+    update_dashboard();
+
+    function update_dashboard()
+    {
+        get_today_data();
+       //update_month_chart();
+       //update_today_chart();
+       update_today_profit();
+       update_today_performance();
+       update_trades_chart();
+    }
+
+    /*function update_today_chart()
+    {
         Morris.Donut({
             element: 'today-performance-chart',
             data: get_today_data(),
@@ -296,18 +321,34 @@
             ],
             resize:true
         });
-   }
+    }*/
 
-   function get_today_data(){
+    function get_today_data()
+    {
 
-        today_data = $("#one_month_data").data("trades")[31];
+        /*today_data = $("#one_month_data").data("trades")[31];
 
         return [
             {"label" :"WON", "value" : today_data.total_won},
             {"label" :"TIE", "value" : today_data.total_tie},
             {"label" :"LOST", "value" : today_data.total_lost},
-        ]
-   }
+        ]*/
+
+        var url =  "/dashboard/today_data/1/";
+
+        $.ajax({
+            type: 'GET', 
+            url: url, 
+            dataType: 'script',
+            success: function(data){
+
+                alert(data);
+                //data = jQuery.parseJSON(data);
+                
+                //$("#today_full_data").data("today", data);
+            }
+        });
+    }
 
     function update_today_profit(){
 
@@ -324,11 +365,42 @@
         today_success = today_data.total_won + today_data.total_tie;
         today_performance = Math.round((today_success / today_trades) * 100);
 
-        $("#lbl-today-performance").text(today_performance + " %");
+        //$("#lbl-today-performance").text(today_performance + " %");
+
+        $('#today-percent-chart').easyPieChart({
+            barColor : '#ffffff',
+            scaleColor:'#8b5284',
+            trackColor : '#8b5284',
+            lineCap : 'round',
+            lineWidth :8,
+            onStep: function(from, to, percent) {
+                $(this.el).find('.pie-value').text(Math.round(percent) + '%');
+            }
+        });
+
+        var chart = window.chart = $('#today-percent-chart').data('easyPieChart');
+        chart.update(today_performance);
     }
 
-   function update_month_chart()
-   {
+    function update_trades_chart()
+    {
+        var url =  "/dashboard/trades_data/1";
+
+        $.ajax({
+            type: 'GET', 
+            url: url, 
+            dataType: 'script',
+            success: function(data){
+
+                data = jQuery.parseJSON(data);
+                
+                $("#one_month_data").data();
+            }
+        });
+    }
+
+    function update_month_chart()
+    {
         Morris.Area({
             element: 'month-performance-chart',
             data: $('#one_month_data').data('trades'),
@@ -349,173 +421,144 @@
         });
     }
 
-    /*function update_week_profit_chart()
+    function update_trades_chart()
     {
-        week_trades = $("#one_month_data").data("trades").slice( 26, 32 );
-        week_profits = [];
+        var account_ids = format_account_ids();
 
-        $.each(week_trades, function( index, value ) {
-           week_profits.push(value.profit);
-        });
+        var url =  "/statistics/trades_chart/1/?" + account_ids;
 
-        $("#week-profit-chart").sparkline(week_profits, {
-            type: 'line',
-            width: '110',
-            height: '50',
-            spotRadius: 2.5,
-            lineWidth:1.5,
-            lineColor:'#ffffff',
-            fillColor: false,
-            minSpotColor :false,
-            maxSpotColor : false,
-            highlightLineColor : '#ffffff',
-            highlightSpotColor: '#ffffff',
-            tooltipChartTitle: 'Earning',
-            tooltipPrefix :'$ ',
-            spotColor:'#ffffff',
-            valueSpots : {
-                '0:': '#ffffff'
+        $.ajax({
+            type: 'GET', 
+            url: url, 
+            dataType: 'script',
+            success: function(data){
+
+                data = jQuery.parseJSON(data);
+                var chart = $('#trades-chart').highcharts();
+
+                
+                chart.series[0].update({
+                    pointStart: data[0].pointStart,
+                    pointInterval: data[0].pointInterval,
+                    data: data[0].data
+                }, false);
+
+                chart.series[1].update({
+                    pointStart: data[1].pointStart,
+                    pointInterval: data[1].pointInterval,
+                    data: data[1].data
+                }, false);
+
+                chart.series[2].update({
+                    pointStart: data[2].pointStart,
+                    pointInterval: data[2].pointInterval,
+                    data: data[2].data
+                }, false);
+
+                chart.series[3].update({
+                    data: data[3].data
+                }, false);
+              
+                chart.redraw();
             }
         });
+    }
 
-    }*/
+    function format_account_ids()
+    {
+        var accounts = $("#account_ids").data("accounts");
+
+        var formated_id = "";
+
+        for (i = 0; i < accounts.length; i++) { 
+            formated_id += "account[]=" + accounts[i] + "&";
+        }
+
+        return formated_id;
+    }
 
 
-    /*$("#demo-sparkline-area").sparkline([57,69,70,68,73,76,75,79,73,76,77,73], {
-        type: 'line',
-        width: '110',
-        height: '50',
-        spotRadius: 2.5,
-        lineWidth:1.5,
-        lineColor:'rgba(255,255,255,.5)',
-        fillColor: 'rgba(0,0,0,0.2)',
-        spotColor: 'rgba(255,255,255,.5)',
-        minSpotColor: 'rgba(255,255,255,.5)',
-        maxSpotColor: 'rgba(255,255,255,.5)',
-        highlightLineColor : '#ffffff',
-        highlightSpotColor: '#ffffff',
-        tooltipChartTitle: 'Usage',
-        tooltipSuffix:' %'
-
+    $('#trades-chart').highcharts({
+        title: {
+            text: 'Trade diario'
+        },
+        credits: {
+            enabled: false
+        },
+        xAxis: {
+            type: "datetime",
+            tickmarkPlacement: 'on',
+            title: {
+                enabled: false
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Total trades'
+            },
+            labels: {
+                formatter: function () {
+                    return this.value;
+                }
+            }
+        },
+        tooltip: {
+            shared: true,
+            valueSuffix: ''
+        },
+        plotOptions: {
+            area: {
+                stacking: 'normal',
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 2,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
+            }
+        },
+        series:
+        [
+            {
+                type: 'area',
+                name: 'Won',
+                color:'#5fa2dd',
+                pointInterval: '',
+                pointStart: '',
+                data: []
+            },
+            {
+                type: 'area',
+                name: 'Tie',
+                color:'#E6EBE0',
+                pointInterval: '',
+                pointStart: '',
+                data: []
+            },
+            {
+                type: 'area',
+                name: 'Lost',
+                color: '#F45B69',
+                pointInterval: '',
+                pointStart: '',
+                data: []
+            },
+            {
+                type: 'pie',
+                name: 'Total trades',
+                data: [],
+                center: [100, 80],
+                size: 100,
+                showInLegend: false,
+                dataLabels: {
+                    enabled: false
+                }
+            }
+        ]
     });
 
-
-    // Visitor chart ( Sparkline chart )
-    // =================================================================
-    // Require Sparkline Chart
-    // -----------------------------------------------------------------
-    // http://omnipotent.net/jquery.sparkline/#s-about
-    // =================================================================
-    /*$("#demo-chart-visitors").sparkline([476,643,356,453,745,976,867,886,984,645,767,799], {
-        type: 'line',
-        width: '110',
-        height: '22',
-        spotRadius: 3,
-        lineWidth:1,
-        lineColor:'rgba(255,255,255,.9)',
-        fillColor: 'rgba(0,0,0,0.05)',
-        spotColor: 'rgba(255,255,255,.5)',
-        minSpotColor: 'rgba(255,255,255,.5)',
-        maxSpotColor: 'rgba(255,255,255,.5)',
-        highlightLineColor : '#ffffff',
-        highlightSpotColor: '#ffffff',
-        tooltipChartTitle: 'Visitors',
-        tooltipSuffix:' k',
-    });*/
-
-
-
-
-
-    // Bounce rate chart ( Sparkline chart )
-    // =================================================================
-    // Require Sparkline Chart
-    // -----------------------------------------------------------------
-    // http://omnipotent.net/jquery.sparkline/#s-about
-    // =================================================================
-    /*$("#demo-chart-bounce-rate").sparkline([23,24,22,27,35,40,39,29,27,33,29,37], {
-        type: 'line',
-        width: '110',
-        height: '22',
-        spotRadius: 3,
-        lineWidth:1,
-        lineColor:'rgba(255,255,255,.9)',
-        fillColor: 'rgba(0,0,0,0.05)',
-        spotColor: 'rgba(255,255,255,.5)',
-        minSpotColor: 'rgba(255,255,255,.5)',
-        maxSpotColor: 'rgba(255,255,255,.5)',
-        highlightLineColor : '#ffffff',
-        highlightSpotColor: '#ffffff',
-        tooltipChartTitle: 'Bounce rate',
-        tooltipSuffix:' %'
-
-    });*/
-
-    /*$(function () {
-
-            var day_data = [
-            {"elapsed": "2013 - 01", "value": 24, b:2},
-            {"elapsed": "2013 - 02", "value": 34, b:22},
-            {"elapsed": "2013 - 03", "value": 33, b:7},
-            {"elapsed": "2013 - 04", "value": 22, b:6},
-            {"elapsed": "2013 - 05", "value": 28, b:17},
-            {"elapsed": "2013 - 06", "value": 60, b:15},
-            {"elapsed": "2013 - 07", "value": 60, b:17},
-            {"elapsed": "2013 - 08", "value": 70, b:7},
-            {"elapsed": "2013 - 09", "value": 67, b:18},
-            {"elapsed": "2013 - 10", "value": 86, b: 18},
-            {"elapsed": "2013 - 11", "value": 86, b: 18},
-            {"elapsed": "2013 - 12", "value": 113, b: 29},
-            {"elapsed": "2014 - 01", "value": 130, b: 23},
-            {"elapsed": "2014 - 02", "value": 114, b:10},
-            {"elapsed": "2014 - 03", "value": 80, b:22},
-            {"elapsed": "2014 - 04", "value": 109, b:7},
-            {"elapsed": "2014 - 05", "value": 100, b:6},
-            {"elapsed": "2014 - 06", "value": 105, b:17},
-            {"elapsed": "2014 - 07", "value": 110, b:15},
-            {"elapsed": "2014 - 08", "value": 102, b:17},
-            {"elapsed": "2014 - 09", "value": 107, b:7},
-            {"elapsed": "2014 - 10", "value": 60, b:18},
-            {"elapsed": "2014 - 11", "value": 67, b: 18},
-            {"elapsed": "2014 - 12", "value": 76, b: 18},
-            {"elapsed": "2015 - 01", "value": 73, b: 29},
-            {"elapsed": "2015 - 02", "value": 94, b: 13},
-            {"elapsed": "2015 - 03", "value": 79, b: 24}
-        ];
-
-        var chart = Morris.Area({
-            element: 'morris-chart-network',
-            data: day_data,
-            axes:false,
-            xkey: 'elapsed',
-            ykeys: ['value', 'b'],
-            labels: ['Download Speed', 'Upload Speed'],
-            yLabelFormat :function (y) { return y.toString() + ' Mb/s'; },
-            gridEnabled: false,
-            gridLineColor: 'transparent',
-            lineColors: ['#8eb5e3','#1b72bc'],
-            lineWidth:0,
-            pointSize:0,
-            pointFillColors:['#3e80bd'],
-            pointStrokeColors:'#3e80bd',
-            fillOpacity:.7,
-            gridTextColor:'#999',
-            parseTime: false,
-            resize:true,
-            behaveLikeLine : true,
-            hideHover: 'auto'
-        });
-
-    });*/
-
-    /*$(".dropdown").hover(            
-            function() {
-                $('.dropdown-menu', this).not('.in .dropdown-menu').stop( true, true ).slideDown("fast");
-                $(this).toggleClass('open');        
-            },
-            function() {
-                $('.dropdown-menu', this).not('.in .dropdown-menu').stop( true, true ).slideUp("fast");
-                $(this).toggleClass('open');       
-            }
-        );*/
 </script>

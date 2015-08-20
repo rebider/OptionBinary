@@ -47,5 +47,12 @@ class Trade < ActiveRecord::Base
     trades = trades.select("\"Result\", count(id) as total_trades")
   end
 
+  def self.date_profit(start, userId)
+    
+    trades = Trade.joins(:BrokerAccount)
+    trades = trades.select("sum(trades.\"Payout\"::float) as profit, broker_accounts.\"DemoAccount\" as accountType")    
+    trades = trades.where(created_at: start.beginning_of_day..Time.zone.now).where(:User_id => userId)
+    trades = trades.group("broker_accounts.\"DemoAccount\"")
+  end
 
 end

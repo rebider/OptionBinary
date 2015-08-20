@@ -10,7 +10,7 @@ class AccountBalance < ActiveRecord::Base
     trades.group_by { |o| o.created_at.to_date }
   end
 
-  def self.current_balance(accountId)
+  def self.account_balance(accountId)
   	accountbalances = where(broker_account_id: accountId)
   	accountbalances = accountbalances.select("sum(\"#{:Amount}\"::float) as current_balance")
   end

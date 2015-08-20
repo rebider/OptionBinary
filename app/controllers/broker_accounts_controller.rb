@@ -67,7 +67,7 @@ class BrokerAccountsController < ApplicationController
     
     respond_to do |format|
        format.json do 
-        render :json => @broker_account.Balance #AccountBalance.current_balance(params[:id])
+        render :json => @broker_account.Balance
       end
      end
   end

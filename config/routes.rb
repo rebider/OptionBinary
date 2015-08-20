@@ -31,7 +31,9 @@ devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
 
   post 'dashboard/:id/update_result' => 'dashboard#update_result', as: :update_result
   post 'dashboard/create' => 'dashboard#create', as: :create_dashboard
-  delete 'dashboard/:id/destroy' => 'dashboard#destroy', as: :destroy_dashboard
+  delete 'dashboard/:id/destroy' => 'dashboard#destroy', as: :destroy_dashboard 
+  get 'dashboard/trades_data/:id' => 'dashboard#trades_data', as: :trades_data
+  get 'dashboard/today_data/:id' => 'dashboard#today_data'
 
   get 'broker_accounts/:id/current_balance' => 'broker_accounts#current_balance', as: :current_balance
 
@@ -40,19 +42,10 @@ devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
 
   get 'settings/user_settings' => 'settings#user_settings', as: :user_settings
 
-  #get 'statistics/trades_chart/:id/:begin_date/:end_date' => 'statistics#trades_chart'
-  #get 'statistics/trades_chart/:id/:begin_date' => 'statistics#trades_chart'
-  #get 'statistics/trades_chart/:id//:end_date' => 'statistics#trades_chart'
   get 'statistics/trades_chart/:id' => 'statistics#trades_chart'
 
-  #get 'statistics/strategies_chart/:id/:begin_date/:end_date' => 'statistics#strategies_chart'
-  #get 'statistics/strategies_chart/:id/:begin_date' => 'statistics#strategies_chart'
-  #get 'statistics/strategies_chart/:id//:end_date' => 'statistics#strategies_chart'
   get 'statistics/strategies_chart/:id' => 'statistics#strategies_chart'
 
-  #get 'statistics/azzets_chart/:id/:begin_date/:end_date' => 'statistics#azzets_chart'
-  #get 'statistics/azzets_chart/:id/:begin_date' => 'statistics#azzets_chart'
-  #get 'statistics/azzets_chart/:id//:end_date' => 'statistics#azzets_chart'
   get 'statistics/azzets_chart/:id' => 'statistics#azzets_chart'
 
   get 'statistics/index'

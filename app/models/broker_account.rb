@@ -15,4 +15,23 @@ class BrokerAccount < ActiveRecord::Base
   	brokerAccount = where(user_id: userId).order(:name)
   end
 
+  def self.real_balance(userId)
+    brokerAccount = where(user_id: userId).where("\"DemoAccount\" = '0'")
+    brokerAccount = brokerAccount.select("sum(\"Balance\") as balance")
+  end
+
+  def self.demo_balance(userId)
+    brokerAccount = where(user_id: userId).where("\"DemoAccount\" = '1'")
+    brokerAccount = brokerAccount.select("sum(\"Balance\") as balance")
+  end
+
+  def self.real_accounts(userId)
+    brokerAccount = where(user_id: userId).where("\"DemoAccount\" = '0'")
+    brokerAccount = brokerAccount.select("id")
+  end
+
+  def self.demo_accounts(userId)
+    brokerAccount = where(user_id: userId).where("\"DemoAccount\" = '1'")
+    brokerAccount = brokerAccount.select("id")
+  end
 end
