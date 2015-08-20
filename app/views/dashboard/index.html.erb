@@ -1,16 +1,4 @@
-<<<<<<< HEAD
-<!-- Latest compiled and minified CSS -->
-<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="/assets/style.min.css"-->
-
-<!--link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"-->
-
 <script src="https://code.highcharts.com/highcharts.js"></script>
-=======
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-<%= render "scrypt" %>
-
->>>>>>> caa438e976c2dece5ae4151528f0ea77a4462bc4
 
 <%= content_tag :div, "", id: "one_month_data", data: {trades: trades_chart_data(1.month.ago) } %>
 <%= content_tag :div, "", id: "account_ids", data: {accounts: real_accounts } %>
