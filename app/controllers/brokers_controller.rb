@@ -1,5 +1,5 @@
 class BrokersController < ApplicationController
-  before_action :authenticate_admin!
+  before_action :authenticate_admin!,:except => [:index]
   before_action :set_broker, only: [:show, :edit, :update, :destroy]
 
   # GET /brokers
