@@ -40,7 +40,7 @@ class AccountBalancesController < ApplicationController
 
     respond_to do |format|
       if @account_balance.save
-        format.html { redirect_to @account_balance, notice: 'Account balance was successfully created.' }
+        format.html { redirect_to '/account_balances'}
         format.json { render :show, status: :created, location: @account_balance }
       else
         format.html { render :new }
@@ -55,7 +55,7 @@ class AccountBalancesController < ApplicationController
   def update
     respond_to do |format|
       if @account_balance.update(account_balance_params)
-        format.html { redirect_to @account_balance, notice: 'Account balance was successfully updated.' }
+        format.html { redirect_to @account_balance}
         format.json { render :show, status: :ok, location: @account_balance }
       else
         format.html { render :edit }
