@@ -34,7 +34,7 @@
     <div class="form-group">
         <%= f.label I18n.t('dashboard_azzet'), class:'col-sm-3' %>
         <div class="col-sm-5">
-           <%= f.collection_select(:Azzet_id, @azzets, :id, :Name , {prompt: I18n.t('dashboard_select_azzet')}, {class: "form-control selectpicker", :name => "trade[Azzet_id]", :onchange => 'get_azzet_success_rate(this.value)', :data => {:validation => "required", "live-search" => "true"}}) %>
+           <%= f.collection_select(:Azzet_id, @azzets, :id, :Name , {title: I18n.t('dashboard_select_azzet')}, {class: "form-control selectpicker", :name => "trade[Azzet_id]", :onchange => 'get_azzet_success_rate(this.value)', :data => {:validation => "required", "live-search" => "true", :size => "10"}}) %>
         </div>
         <div class="col-sm-4">
           <%= I18n.t('dashboard_effective') %>: <span id="lbl_azzet_rate"></span>

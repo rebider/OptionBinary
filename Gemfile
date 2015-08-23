@@ -49,15 +49,17 @@ gem 'font-awesome-rails', '~> 4.4.0.0'
 
 gem 'jquery-datatables-rails', '~> 3.3.0'
 
-gem 'raphael-rails', '~> 2.1.2'
+#gem 'raphael-rails', '~> 2.1.2'
 
-gem 'morrisjs-rails', '~> 0.5.1'
+#gem 'morrisjs-rails', '~> 0.5.1'
 
 gem 'devise-i18n'
 
-gem 'lazy_high_charts'
+gem 'passenger', '~> 5.0.15'
 
-gem 'taps'
+#gem 'lazy_high_charts'
+
+#gem 'taps'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
