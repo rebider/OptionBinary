@@ -57,6 +57,8 @@ gem 'devise-i18n'
 
 gem 'passenger', '~> 5.0.15'
 
+gem 'capistrano-passenger', '~> 0.0.5'
+
 #gem 'lazy_high_charts'
 
 #gem 'taps'
