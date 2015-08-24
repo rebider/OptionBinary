@@ -34,9 +34,9 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: dfl17p0sjodlel
-  host: ec2-54-163-228-0.compute-1.amazonaws.com
+  database: obmonitor
+  host: localhost
   port: 5432
   pool: 5
-  username: gjusawlnufiqkj
-  password: S2Wl7UCfdI_4DdbPJ7oTASIzX9
+  username: postgresuser
+  password: 7Q8Bf6ONzhAw81A
