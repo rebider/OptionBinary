@@ -12,15 +12,15 @@
 #development:
 #  <<: *default
 #  database: db/development.sqlite3
-#development:
-#  adapter: postgresql
+development:
+  adapter: postgresql
   #encoding: unicode
-#  database: obmonitor
-#  pool: 5
-#  username: postgres
-#  password: password   ### password you have specified within psql
-#  host: localhost
-#  port: 5432
+  database: obmonitor
+  pool: 5
+  username: postgres
+  password: password   ### password you have specified within psql
+  host: localhost
+  port: 5432
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
