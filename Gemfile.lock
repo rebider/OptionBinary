@@ -218,7 +218,7 @@ DEPENDENCIES
   jquery-rails
   omniauth
   omniauth-facebook
-  pg
+  pg (~> 0.18.2)
   protected_attributes
   rails (= 4.2.3)
   rails_12factor
