@@ -34,9 +34,9 @@ development:
 production:
   adapter: postgresql
   encoding: unicode
-  database: bomonitor
+  database: optionbinary
   host: localhost
   port: 5432
   pool: 5
-  username: bomonitor
-  password: <%= ENV['BOMONITOR_DATABASE_PASSWORD'] %>
+  username: optionbinary
+  password: <%= ENV['OPTIONBINARY_DATABASE_PASSWORD'] %>
