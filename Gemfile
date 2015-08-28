@@ -54,6 +54,8 @@ gem 'jquery-datatables-rails', '~> 3.3.0'
 
 gem 'devise-i18n'
 
+#gem 'unicorn'
+
 #gem 'passenger', '~> 5.0.15'
 
 #gem 'capistrano-passenger', '~> 0.0.5'
