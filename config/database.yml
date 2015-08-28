@@ -38,5 +38,6 @@ production:
   host: localhost
   port: 5432
   pool: 5
-  username: optionbinary
-  password: <%= ENV['OPTIONBINARY_DATABASE_PASSWORD'] %>
+  username: postgres
+  password: hola123,
+  #password: <%= ENV['OPTIONBINARY_DATABASE_PASSWORD'] %>
