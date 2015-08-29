@@ -54,8 +54,6 @@ gem 'jquery-datatables-rails', '~> 3.3.0'
 
 gem 'devise-i18n'
 
-#gem 'unicorn'
-
 #gem 'passenger', '~> 5.0.15'
 
 #gem 'capistrano-passenger', '~> 0.0.5'
@@ -68,7 +66,11 @@ gem 'devise-i18n'
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
+<<<<<<< HEAD
  gem 'unicorn'
+=======
+gem 'unicorn'
+>>>>>>> 036b6a7f459d1520f8573836d0d6133d7b9575ab
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
