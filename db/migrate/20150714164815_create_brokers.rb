@@ -9,8 +9,8 @@ class CreateBrokers < ActiveRecord::Migration
       t.string :MinimumAmountTrade
       t.string :MaximunAmountTrade
       t.string :Expirations
-      t.bool :DemoAccount
-      t.bool :USAFriendly
+      t.boolean :DemoAccount
+      t.boolean :USAFriendly
 
       t.timestamps null: false
     end
