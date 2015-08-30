@@ -39,4 +39,5 @@ production:
   port: 5432
   pool: 5
   username: optionbinary
-  password: <%= ENV['OPTIONBINARY_DATABASE_PASSWORD'] %>
+  password: hola123,
+  #<%= ENV['OPTIONBINARY_DATABASE_PASSWORD'] %>
