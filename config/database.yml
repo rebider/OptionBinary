@@ -18,7 +18,7 @@ development:
   database: obmonitor
   pool: 5
   username: postgres
-  password: hola123,   ### password you have specified within psql
+  password: password   ### password you have specified within psql
   host: localhost
   port: 5432
 
