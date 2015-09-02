@@ -24,14 +24,17 @@
   <div class="form-group">
       <%= f.label I18n.t('account_table_broker'), class:'col-sm-3' %>
       <div class="col-sm-9">
-        <%= f.collection_select :broker_id, Broker.order(:Name), :id, :Name, { prompt: I18n.t('account_select_broker')} , {class: "form-control", :data => {:validation => "required" }}   %>
+        <%= f.collection_select :broker_id, Broker.order(:Name), :id, :Name, { prompt: I18n.t('account_select_broker')} , {class: "form-control selectpicker", :data => {:validation => "required", :"live-search"=> "true" }}   %>
       </div>
   </div>
 
   <div class="form-group">
       <%= f.label I18n.t('account_table_balance'), class:'col-sm-3' %>
       <div class="col-sm-9">
-        <%= f.text_field :Balance, class:'form-control', :data => {:validation => "number", "validation-allowing" => "float"} %>
+        <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <%= f.text_field :Balance, class:'form-control', :data => {:validation => "number", "validation-allowing" => "float"} %>
+        </div>          
       </div>
   </div>
 
