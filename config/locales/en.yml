@@ -26,6 +26,7 @@ en:
   dashboard_account_balance:   "Balance"
   dashboard_last_5_days_results:   "Last 5 days results"
   dashboard_trades_time:   "Time (GMT)"
+  dashboard_trades_position: "Position ID"
   dashboard_trades_strategy:   "Strategy"
   dashboard_trades_azzet:   "Asset"
   dashboard_trades_option:   "Option"

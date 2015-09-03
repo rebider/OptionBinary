@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th><%= I18n.t('dashboard_trades_time') %></th>
-                <th><%= I18n.t('dashboard_trades_strategy') %></th>
+                <th><%= I18n.t('dashboard_trades_position') %></th>
                 <th><%= I18n.t('dashboard_trades_azzet') %></th>
                 <th><%= I18n.t('dashboard_trades_option') %></th>
                 <th><%= I18n.t('dashboard_trades_amount') %></th>
@@ -17,7 +17,7 @@
                         <%= trade.created_at.strftime("%H:%M") %>
                     </td>
                     <td>
-                        <%= trade.Strategy.Name %>
+                        <%= trade.Position %>
                     </td>
                     <td>
                         <%= trade.Azzet.Name %>

@@ -10,7 +10,7 @@ class Trade < ActiveRecord::Base
   belongs_to :Azzet
   belongs_to :BrokerAccount
 
-  attr_accessible :User_id, :BrokerAccount_id, :Strategy_id, :Azzet_id, :Option, :Amount, :OnProfit, :OnLoss, :Payout, :Result, :UseMartingale, :UseCompoundInterest
+  attr_accessible :User_id, :BrokerAccount_id, :Strategy_id, :Azzet_id, :Option, :Amount, :OnProfit, :OnLoss, :Payout, :Result, :UseMartingale, :UseCompoundInterest, :Position
 
   def self.open_trades(userId)
     trades = where(:Result => '').where(:User_id => userId)
