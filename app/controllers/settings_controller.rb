@@ -49,7 +49,7 @@ class SettingsController < ApplicationController
   end
 
   def user_settings
-    render :json => @setting = Setting.where(:user_id => current_user.id)
+    render :json => @setting = Setting.user_settings(current_user.id)
   end
 
   private
@@ -58,7 +58,7 @@ class SettingsController < ApplicationController
         @setting = Setting.find(params[:id])
     end
     def set_setting_json  
-        render :json => @setting = Setting.where(:user_id => current_user.id)
+        render :json => @setting = Setting.user_settings(current_user.id)
     end
     def get_setting
       Setting.user_settings(current_user.id)

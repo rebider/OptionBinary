@@ -6,12 +6,13 @@ class Setting < ActiveRecord::Base
   def self.user_settings(userId)
   	settings = where(user_id: userId)
   	if settings.blank? or settings.nil?
-  		settings = Setting.create(
+  		setting = Setting.create(
   			:user_id => userId, 
   			:MaximumTradesPerDay => 10,  
   			:MaximumPercentPerTrade => 2.5, 
   			:MaximumPercentLossPerDay =>  10
   			)
+  		return setting
   	end
   	settings
   end
