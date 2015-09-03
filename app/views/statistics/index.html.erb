@@ -74,8 +74,34 @@
                     data: data[2].data
                 }, false);
 
+                //Sumamos los resultados para alimentar la grafica de totales
+                sumWon = 0;
+                $.each(data[0].data,function(){sumWon+=parseFloat(this) || 0;});
+                sumTie = 0;
+                $.each(data[0].data,function(){sumTie+=parseFloat(this) || 0;});
+                sumLost = 0;
+                $.each(data[0].data,function(){sumLost+=parseFloat(this) || 0;});
+
+                var pieChart = [
+                    {
+                        color : "#5fa2dd",
+                        name  : "Won",
+                        y     : sumWon
+                    },
+                    {
+                        "color" : "#E6EBE0",
+                        "name"  : "Tie",
+                        "y"     : sumTie
+                    },
+                    {
+                        "color" : "#F45B69",
+                        "name"  : "Lost",
+                        "y"     : sumLost
+                    }
+                ]
+
                 chart.series[3].update({
-                    data: data[3].data
+                    data: pieChart //data[3].data
                 }, false);
               
                 chart.redraw();
@@ -259,7 +285,7 @@
     });
 
     
-    $('#balance-chart').highcharts({
+   /* $('#balance-chart').highcharts({
         title: {
             text: 'Balance diario',
             x: -20 //center
@@ -290,7 +316,7 @@
             borderWidth: 0
         },
         series: []
-    });
+    });*/
 
 /*
     $('#grafica3').highcharts({
@@ -589,14 +615,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div id="trades-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div id="balance-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-                    </div>
-                </div>
+                <div id="trades-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
         </div>
     </div>
@@ -605,14 +624,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-8">
-                    <div id="strategy-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-                    </div>
-                    <div class="col-lg-4">
-                        
-                    </div>   
-                </div> 
+                <div id="strategy-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
         </div>
     </div>
@@ -622,14 +634,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div id="azzet-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-                    </div>
-                    <div class="col-lg-4">
-                        
-                    </div>      
-                </div>           
+                <div id="azzet-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>        
             </div>
         </div>
     </div>

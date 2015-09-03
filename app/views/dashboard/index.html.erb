@@ -411,8 +411,34 @@
                     data: data[2].data
                 }, false);
 
+                //Sumamos los resultados para alimentar la grafica de totales
+                sumWon = 0;
+                $.each(data[0].data,function(){sumWon+=parseFloat(this) || 0;});
+                sumTie = 0;
+                $.each(data[0].data,function(){sumTie+=parseFloat(this) || 0;});
+                sumLost = 0;
+                $.each(data[0].data,function(){sumLost+=parseFloat(this) || 0;});
+
+                var pieChart = [
+                    {
+                        color : "#5fa2dd",
+                        name  : "Won",
+                        y     : sumWon
+                    },
+                    {
+                        "color" : "#E6EBE0",
+                        "name"  : "Tie",
+                        "y"     : sumTie
+                    },
+                    {
+                        "color" : "#F45B69",
+                        "name"  : "Lost",
+                        "y"     : sumLost
+                    }
+                ]
+
                 chart.series[3].update({
-                    data: data[3].data
+                    data: pieChart //data[3].data
                 }, false);
               
                 chart.redraw();

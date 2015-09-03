@@ -5,7 +5,7 @@ en:
   link_dasboard:        "Dashboard"
   link_statistics:      "Statistics"
   link_strategies:      "Strategies"
-  link_account:         "Account"
+  link_account:         "Accounts"
   link_account_balance: "Account Balance"
   link_configuration:   "Configuration"
   link_profile: 		"Edit profile"
