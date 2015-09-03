@@ -69,7 +69,7 @@
                             </p>
                             <br>
                             <p class="h4 text-thin media-heading">
-                                <em>Demo <span id="lbl-today-profit-demo"></span></em>
+                                <em><span id="lbl-today-profit-demo"></span></em>
                             </p>
                         </div>                
                     </div>
@@ -92,7 +92,7 @@
                             </p>
                             <br>
                             <p class="h4 text-thin media-heading">
-                                <em>Demo <span id="lbl-balance-demo"></span></em>
+                                <em><span id="lbl-balance-demo"></span></em>
                             </p>
                         </div>                
                     </div>
@@ -328,7 +328,6 @@
     function update_today_profit()
     {
         $("#lbl-today-profit-real").text("0");
-        $("#lbl-today-profit-demo").text("0");
 
         jQuery.each(today_full_data.profit, function(i, today) {
 
@@ -338,21 +337,21 @@
            }
            else
            {
-            $("#lbl-today-profit-demo").text(parseFloat(today.profit).toFixed(2));
+            $("#lbl-today-profit-demo").text("Demo " + parseFloat(today.profit).toFixed(2));
            }
         });
     }
 
     function update_balances()
     {
-        if(today_full_data.current_real_balance)
+        if(today_full_data.current_real_balance && today_full_data.current_real_balance[0].balance != null)
         {
             $("#lbl-balance-real").text(parseFloat(today_full_data.current_real_balance[0].balance).toFixed(2));
         }
         
-        if(today_full_data.current_demo_balance)
+        if(today_full_data.current_demo_balance && today_full_data.current_demo_balance[0].balance != null)
         {
-            $("#lbl-balance-demo").text(parseFloat(today_full_data.current_demo_balance[0].balance).toFixed(2));
+            $("#lbl-balance-demo").text("Demo " + parseFloat(today_full_data.current_demo_balance[0].balance).toFixed(2));
         }
     }
 
