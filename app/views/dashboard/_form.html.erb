@@ -10,40 +10,40 @@
     <%= f.hidden_field :User_id, :value => current_user.id %>
 
     <div class="form-group">
-        <%= f.label I18n.t('dashboard_broker_account'), class:'col-sm-3' %>
-        <div class="col-sm-5">
+        <%= f.label I18n.t('dashboard_broker_account'), class:'col-xs-3 col-sm-3 col-md-3' %>
+        <div class="col-xs-5 col-sm-5 col-md-5">
           <%= f.collection_select(:BrokerAccount_id, @brokerAccount, :id, :name ,{prompt: I18n.t('dashboard_select_account')},  {class: "form-control selectpicker", :name => "trade[BrokerAccount_id]", :onchange => 'get_balance(this.value)', :data => {:validation => "required", "live-search" => "true"} } ) %>
         </div>
-        <div class="col-sm-4">
+        <div class="col-xs-4 col-sm-4 col-md-4">
           <%= I18n.t('dashboard_account_balance') %>: <span id="lbl_account_balance"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <%= f.label I18n.t('dashboard_strategy'), class:'col-sm-3' %>
-        <div class="col-sm-5">
+        <%= f.label I18n.t('dashboard_strategy'), class:'col-xs-3 col-sm-3 col-md-3' %>
+        <div class="col-xs-5 col-sm-5 col-md-5">
 
           <%= f.collection_select(:Strategy_id, @strategy, :id, :Name , {prompt: I18n.t('dashboard_select_strategy')}, {class: "form-control selectpicker", :name => "trade[Strategy_id]", :onchange => 'get_strategy_success_rate(this.value)', :data => {:validation => "required", "live-search" => "true"}}) %>
         </div>  
 
-        <div class="col-sm-4">
+        <div class="col-xs-4 col-sm-4 col-md-4">
           <%= I18n.t('dashboard_effective') %>: <span id="lbl_strategy_rate"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <%= f.label I18n.t('dashboard_azzet'), class:'col-sm-3' %>
-        <div class="col-sm-5">
+        <%= f.label I18n.t('dashboard_azzet'), class:'col-xs-3 col-sm-3 col-md-3' %>
+        <div class="col-xs-5 col-sm-5 col-md-5">
            <%= f.collection_select(:Azzet_id, @azzets, :id, :Name , {title: I18n.t('dashboard_select_azzet')}, {class: "form-control selectpicker", :name => "trade[Azzet_id]", :onchange => 'get_azzet_success_rate(this.value)', :data => {:validation => "required", "live-search" => "true", :size => "10"}}) %>
         </div>
-        <div class="col-sm-4">
+        <div class="col-xs-4 col-sm-4 col-md-4">
           <%= I18n.t('dashboard_effective') %>: <span id="lbl_azzet_rate"></span>
         </div>
     </div>
 
     <div class="form-group">
-      <%= f.label I18n.t('dashboard_option'), class:'col-sm-3' %>
-      <div class="col-sm-9">
+      <%= f.label I18n.t('dashboard_option'), class:'col-xs-3 col-sm-3 col-md-3' %>
+      <div class="col-xs-9 col-sm-9 col-md-9">
           <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-success">
               <%= radio_button_tag('trade[Option]', 'CALL', :checked => 'checked') %> CALL
@@ -56,50 +56,50 @@
     </div>
 
     <div class="form-group ">
-        <%= f.label I18n.t('dashboard_amount'), class:'col-sm-3' %>
-        <div class="col-sm-5">
+        <%= f.label I18n.t('dashboard_amount'), class:'col-xs-3 col-sm-3 col-md-3' %>
+        <div class="col-xs-5 col-sm-5 col-md-5">
           <div class="input-group">
             <span class="input-group-addon">$</span>
             <%= f.number_field :Amount, class:'form-control', :onchange => 'calcule_percent()', :data => {:validation => "required"} %>
           </div>       
         </div>
-        <div class="col-sm-4">
+        <div class="col-xs-4 col-sm-4 col-md-4">
           <span id="lbl_percent_suggested"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <%= f.label I18n.t('dashboard_onprofit'), class:'col-sm-3' %>
-        <div class="col-sm-5">
+        <%= f.label I18n.t('dashboard_onprofit'), class:'col-xs-3 col-sm-3 col-md-3' %>
+        <div class="col-xs-5 col-sm-5 col-md-5">
           <div class="input-group">
             <span class="input-group-addon">%</span>
             <%= f.text_field :OnProfit, class:'form-control', type:'text', :onchange => 'calcule_onprofit()', :data => {:validation => "number"} %>
           </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-xs-4 col-sm-4 col-md-4">
           <span id="lbl_onprofit_payout"></span>
         </div>        
     </div>
 
     <div class="form-group">
-        <%= f.label I18n.t('dashboard_onloss'), class:'col-sm-3' %>
-        <div class="col-sm-5">
+        <%= f.label I18n.t('dashboard_onloss'), class:'col-xs-3 col-sm-3 col-md-3' %>
+        <div class="col-xs-5 col-sm-5 col-md-5">
           <div class="input-group">
             <span class="input-group-addon">%</span>
             <%= f.text_field :OnLoss, class:'form-control', type:'text', :onchange => 'calcule_onlost()', :data => {:validation => "number"} %>
           </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-xs-4 col-sm-4 col-md-4">
           <span id="lbl_onlost_payout"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <%= f.label I18n.t('dashboard_position'), class:'col-sm-3' %>
-        <div class="col-sm-5">
+        <%= f.label I18n.t('dashboard_position'), class:'col-xs-3 col-sm-3 col-md-3' %>
+        <div class="col-xs-5 col-sm-5 col-md-5">
             <%= f.text_field :Position, class:'form-control', type:'text' %>
         </div>
-        <div class="col-sm-4">
+        <div class="col-xs-4 col-sm-4 col-md-4">
         </div>
     </div>
 
@@ -162,6 +162,10 @@
   }
 
   function get_balance (accountId) {
+
+    //set cookie
+    setCookie("selected_account", accountId, 1);
+
     $.ajax({
       type: "GET",
       url: "/broker_accounts/" + accountId + "/current_balance",
@@ -184,12 +188,13 @@
         }
       }
     });
-
-    //set cookie
-    setCookie("selected_account", accountId, 1);
   }
 
   function get_strategy_success_rate(strategyId) {
+
+    //set cookie
+    setCookie("selected_strategy", strategyId, 1);
+
     $.ajax({
       type: "GET",
       url: "/strategies/" + strategyId + "/total_trades",
@@ -222,12 +227,13 @@
         }
       }
     });
-
-    //set cookie
-    setCookie("selected_strategy", strategyId, 1);
   }
 
   function get_azzet_success_rate(azzetId) {
+    
+    //set cookie
+    setCookie("selected_azzet", azzetId, 1);
+
     $.ajax({
       type: "GET",
       url: "/azzets/" + azzetId + "/total_trades",
@@ -249,9 +255,6 @@
         }
       }
     });
-
-    //set cookie
-    setCookie("selected_azzet", azzetId, 1);
   }
 
   function calcule_percent(){

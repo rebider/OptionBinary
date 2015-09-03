@@ -415,9 +415,9 @@
                 sumWon = 0;
                 $.each(data[0].data,function(){sumWon+=parseFloat(this) || 0;});
                 sumTie = 0;
-                $.each(data[0].data,function(){sumTie+=parseFloat(this) || 0;});
+                $.each(data[1].data,function(){sumTie+=parseFloat(this) || 0;});
                 sumLost = 0;
-                $.each(data[0].data,function(){sumLost+=parseFloat(this) || 0;});
+                $.each(data[2].data,function(){sumLost+=parseFloat(this) || 0;});
 
                 var pieChart = [
                     {
