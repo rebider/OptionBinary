@@ -10,6 +10,12 @@ en:
   link_configuration:   "Configuration"
   link_profile: 		"Edit profile"
   link_logout: 			"Logout"
+  text_navigation: "Navigation"
+  text_catalogs: "Catalogs"
+  text_welcome: "Welcome"
+  text_profile: "Profile"
+  text_help: "Help"
+  text_logout: "Logout"
 
 #
   dashboard_open_trades: "Open trades"

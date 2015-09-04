@@ -58,3 +58,16 @@ es:
       not_saved:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
+  activerecord:
+    errors:
+      models:
+        user: 
+          attributes:
+            email:
+              blank: "Este campo es requerido"
+            password:
+              blank: "Este campo es requerido"
+              too_short: "Debe tener por lo menos 8 caracteres"
+            current_password:
+              blank: "Este campo es requerido"
+              invalid: "El password actual es incorrecto"

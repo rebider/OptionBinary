@@ -14,7 +14,6 @@
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                      <thead>
                         <tr>
-                          <th><%= I18n.t('configuration_table_user') %></th>
                           <th><%= I18n.t('configuration_table_Maximumtradesperday') %></th>
                           <th><%= I18n.t('configuration_table_Maximumpercentpertrade') %></th>
                           <th><%= I18n.t('configuration_table_Maximumpercentlossperday') %></th>
@@ -25,7 +24,6 @@
                       <tbody>
                         <% @settings.each do |setting| %>
                           <tr>
-                            <td><%= setting.user.id %></td>
                             <td><%= setting.MaximumTradesPerDay %></td>
                             <td><%= setting.MaximumPercentPerTrade %></td>
                             <td><%= setting.MaximumPercentLossPerDay %></td>

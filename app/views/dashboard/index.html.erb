@@ -344,6 +344,8 @@
 
     function update_balances()
     {
+        $("#lbl-balance-real").text("0");
+
         if(today_full_data.current_real_balance && today_full_data.current_real_balance[0].balance != null)
         {
             $("#lbl-balance-real").text(parseFloat(today_full_data.current_real_balance[0].balance).toFixed(2));
@@ -361,6 +363,8 @@
         today_trades = today_full_data.total_won + today_full_data.total_tie + today_full_data.total_lost;
         today_success = today_full_data.total_won + today_full_data.total_tie;
         today_performance = Math.round((today_success / today_trades) * 100);
+        if(isNaN(today_performance))
+            today_performance = 0;
 
         $('#today-percent-chart').easyPieChart({
             barColor : '#ffffff',
@@ -369,7 +373,7 @@
             lineCap : 'round',
             lineWidth :8,
             onStep: function(from, to, percent) {
-                $(this.el).find('.pie-value').text(Math.round(percent) + '%');
+                $(this.el).find('.pie-value').html(Math.round(percent) + '%');
             }
         });
 

@@ -34,20 +34,20 @@
                     <li id="dropdown-user" class="dropdown">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle text-right">
                             <span class="pull-right">
-                                <%= image_tag("icon-profile.png", :alt => "Profile Pictur", :class => "img-circle img-user media-object") %>
+                                <%= image_tag("icon-profile.png", :alt => "Profile Picture", :class => "img-circle img-user media-object") %>
                             </span>
-                            <div class="username hidden-xs">Bienvenido</div>
+                            <div class="username hidden-xs"><%= I18n.t('text_welcome') %></div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-md dropdown-menu-right with-arrow panel-default">
                             <ul class="head-list">
                                 <li>
                                     <%= link_to edit_user_registration_path do %>
-                                        <i class="fa fa-user fa-fw fa-lg">Profile</i>
+                                        <i class="fa fa-user fa-fw fa-lg"><%= I18n.t('text_profile') %></i>
                                     <% end %>
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <i class="fa fa-question-circle fa-fw fa-lg">Help</i>
+                                        <i class="fa fa-question-circle fa-fw fa-lg"><%= I18n.t('text_help') %></i>
                                     </a>
                                 </li>
                             </ul>
@@ -75,9 +75,9 @@
                 <div class="nano has-scrollbar">
                     <div class="nano-content" tabindex="0" style="right: -17px;">
                         <ul id="mainnav-menu" class="list-group">
-                            <li class="list-header">Navigation</li>
+                            <li class="list-header"><%= I18n.t('text_navigation') %></li>
                             <li>
-                                <%= link_to :controller => "dashboard" do %>
+                                <%= link_to :controller => "/dashboard" do %>
                                     <i class="fa fa-dashboard"></i>
                                     <span class="menu-title">
                                         <strong><%= I18n.t('link_dasboard') %></strong>
@@ -85,7 +85,7 @@
                                 <% end %>
                             </li>
                             <li>
-                                <%= link_to :controller => "statistics" do %>
+                                <%= link_to :controller => "/statistics" do %>
                                     <i class="fa fa-line-chart"></i>
                                     <span class="menu-title">
                                         <strong><%= I18n.t('link_statistics') %></strong>
@@ -93,9 +93,9 @@
                                 <% end %>
                             </li>
                             <li class="list-divider"></li>
-                            <li class="list-header">Catalogos</li>
+                            <li class="list-header"><%= I18n.t('text_catalogs') %></li>
                             <li>
-                                <%= link_to :controller => "strategies" do %>
+                                <%= link_to :controller => "/strategies" do %>
                                 <i class="fa fa-briefcase"></i>
                                     <span class="menu-title">
                                         <strong><%= I18n.t('link_strategies') %></strong>
@@ -103,7 +103,7 @@
                                 <% end %>
                             </li>
                             <li>
-                                <%= link_to :controller => "broker_accounts" do %>
+                                <%= link_to :controller => "/broker_accounts" do %>
                                 <i class="fa fa-edit"></i>
                                     <span class="menu-title">
                                         <strong><%= I18n.t('link_account') %></strong>
@@ -111,7 +111,7 @@
                                 <% end %>
                             </li>
                             <li>
-                                <%= link_to :controller => "account_balances" do %>
+                                <%= link_to :controller => "/account_balances" do %>
                                 <i class="fa fa-table"></i>
                                     <span class="menu-title">
                                         <strong><%= I18n.t('link_account_balance') %></strong>
@@ -119,7 +119,7 @@
                                 <% end %>
                             </li>
                             <li>
-                                <%= link_to :controller => "settings" do %>
+                                <%= link_to :controller => "/settings" do %>
                                 <i class="fa fa-plug"></i>
                                     <span class="menu-title">
                                         <strong><%= I18n.t('link_configuration') %></strong>
