@@ -42,7 +42,7 @@ module StatisticsHelper
                     .group("\"Strategy_id\"")
                     .select("\"Strategy_id\", count(id) as total_trades")        
 
-    (Trade.all_closed.where(:User_id => current_user.id).group(:Strategy_id).pluck(:Strategy_id)).map do |s|
+    (Trade.all_closed.where(:User_id => current_user.id).group(:Strategy_id).order(:Strategy_id).pluck(:Strategy_id)).map do |s|
       trade = trades_strategy.detect { |trade| trade.Strategy_id == s }
       trade && trade.total_trades || 0
     end
