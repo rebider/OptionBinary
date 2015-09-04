@@ -58,23 +58,26 @@ class StatisticsController < ApplicationController
     
     set_filters
 
+    trades_data = Trade.all_closed.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]).where(:created_at => @filter_begin_date.beginning_of_day..@filter_end_date.end_of_day)
+    categories_data = Strategy.where(:id => trades_data.group(:Strategy_id).pluck(:Strategy_id))
+
     @series = 
       [
         {
-           # :name => "Won" ,
-          :data => trades_by_strategy(Trade.won.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date)
+           #"Won" 
+          :data => trades_by_strategy(trades_data.won, categories_data, @filter_begin_date, @filter_end_date)
         },
         {
-            #:name => "Tie" ,
-          :data => trades_by_strategy(Trade.tie.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date)
+            #"Tie" 
+          :data => trades_by_strategy(trades_data.tie, categories_data, @filter_begin_date, @filter_end_date)
         },
         {
-            #:name => "Lost" ,
-          :data => trades_by_strategy(Trade.lost.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date)
+            #"Lost" 
+          :data => trades_by_strategy(trades_data.lost, categories_data, @filter_begin_date, @filter_end_date)
         },
         {
           #Categories
-          :data => Strategy.where(:id => Trade.all_closed.where(:User_id => current_user.id).where(:Strategy_id => params[:strategy]).group(:Strategy_id).pluck(:Strategy_id)).pluck(:Name)
+          :data => categories_data.pluck(:Name)
         }
       ]
 
