@@ -25,19 +25,19 @@ class StatisticsController < ApplicationController
            # :name => "Won" ,
             :pointStart => @filter_begin_date.to_time.to_i * 1000,
             :pointInterval => 1.day.to_i * 1000,          
-            :data => trades_chart_series(Trade.won.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]), @filter_begin_date, @filter_end_date) 
+            :data => trades_chart_series(Trade.won.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date) 
         },
         {
             #:name => "Tie" ,
             :pointStart => @filter_begin_date.to_time.to_i * 1000,
             :pointInterval => 1.day.to_i * 1000,  
-            :data => trades_chart_series(Trade.tie.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]), @filter_begin_date, @filter_end_date) 
+            :data => trades_chart_series(Trade.tie.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date) 
         },
         {
             #:name => "Lost" ,
             :pointStart => @filter_begin_date.to_time.to_i * 1000,
             :pointInterval => 1.day.to_i * 1000,  
-            :data => trades_chart_series(Trade.lost.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]), @filter_begin_date, @filter_end_date) 
+            :data => trades_chart_series(Trade.lost.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date) 
         }
         #,
         #{
@@ -62,19 +62,19 @@ class StatisticsController < ApplicationController
       [
         {
            # :name => "Won" ,
-          :data => trades_by_strategy(Trade.won.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]), @filter_begin_date, @filter_end_date)
+          :data => trades_by_strategy(Trade.won.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date)
         },
         {
             #:name => "Tie" ,
-          :data => trades_by_strategy(Trade.tie.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]), @filter_begin_date, @filter_end_date)
+          :data => trades_by_strategy(Trade.tie.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date)
         },
         {
             #:name => "Lost" ,
-          :data => trades_by_strategy(Trade.lost.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]), @filter_begin_date, @filter_end_date)
+          :data => trades_by_strategy(Trade.lost.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date)
         },
         {
           #Categories
-          :data => Strategy.where(:id => Trade.all_closed.where(:User_id => current_user.id).group(:Strategy_id).pluck(:Strategy_id)).pluck(:Name)
+          :data => Strategy.where(:id => Trade.all_closed.where(:User_id => current_user.id).where(:Strategy_id => params[:strategy]).group(:Strategy_id).pluck(:Strategy_id)).pluck(:Name)
         }
       ]
 
@@ -93,19 +93,19 @@ class StatisticsController < ApplicationController
       [
         {
            # :name => "Won" ,
-          :data => trades_by_azzet(Trade.won.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]), @filter_begin_date, @filter_end_date)
+          :data => trades_by_azzet(Trade.won.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date)
         },
         {
             #:name => "Tie" ,
-          :data => trades_by_azzet(Trade.tie.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]), @filter_begin_date, @filter_end_date)
+          :data => trades_by_azzet(Trade.tie.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date)
         },
         {
             #:name => "Lost" ,
-          :data => trades_by_azzet(Trade.lost.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]), @filter_begin_date, @filter_end_date)
+          :data => trades_by_azzet(Trade.lost.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date)
         },
         {
           #Categories
-          :data => Azzet.where(:id => Trade.all_closed.where(:User_id => current_user.id).group(:Azzet_id).pluck(:Azzet_id)).pluck(:Name)
+          :data => Azzet.where(:id => Trade.all_closed.where(:User_id => current_user.id).where(:Strategy_id => params[:strategy]).group(:Azzet_id).pluck(:Azzet_id)).pluck(:Name)
         }
       ]
 
