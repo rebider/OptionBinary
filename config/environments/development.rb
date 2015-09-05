@@ -40,4 +40,14 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   DateTime::DATE_FORMATS[:short]="short %Y-%m-%d %H:%M:%S"
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :authentication => :plain,
+    :address => "smtp.mailgun.org",
+    :port => 587,
+    :domain => "sandboxdc6af2b2422d42d399d98b173dab9f91.mailgun.org",
+    :user_name => "postmaster@sandboxdc6af2b2422d42d399d98b173dab9f91.mailgun.org",
+    :password => "7242178fbcbeb355bcdd6f67fc466bf4"
+  }
 end

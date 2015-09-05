@@ -28,7 +28,9 @@ class FeedbacksController < ApplicationController
 
     respond_to do |format|
       if @feedback.save
-        format.html { redirect_to @feedback, notice: 'Feedback was successfully created.' }
+        ModelMailer.new_record_notification(@feedback).deliver
+
+        format.html { redirect_to :controller => "/dashboard", notice: 'feedback' }
         format.json { render :show, status: :created, location: @feedback }
       else
         format.html { render :new }
@@ -62,6 +64,7 @@ class FeedbacksController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_feedback
       @feedback = Feedback.find(params[:id])
