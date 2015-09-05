@@ -15,7 +15,7 @@ class SettingsController < ApplicationController
   def show
     respond_with(@setting)
   end
-
+=begin
   def new
     @setting = Setting.new
     respond_with(@setting)
@@ -37,7 +37,7 @@ class SettingsController < ApplicationController
       end
     end
   end
-
+=end
   def update
     @setting.update(setting_params)
     respond_with(@setting)

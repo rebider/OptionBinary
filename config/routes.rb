@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :feedbacks
 devise_for :admins
 devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
  scope "(:locale)", locale: /es|en/ do
@@ -12,6 +13,7 @@ devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
   resources :settings
   resources :dashboard
   resources :statistics
+  resources :feedbacks
   #get 'ruteador/index'
 
   

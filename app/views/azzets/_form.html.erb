@@ -1,26 +1,32 @@
-<%= form_for(@azzet) do |f| %>
-  <% if @azzet.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@azzet.errors.count, "error") %> prohibited this azzet from being saved:</h2>
+<%= form_for(@azzet, :html => {:class => 'form-horizontal', :role => 'form'}) do |f| %>
 
-      <ul>
-      <% @azzet.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <div class="panel-body">
+
+    <% if @azzet.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@azzet.errors.count, "error") %> prohibited this azzet from being saved:</h2>
+
+        <ul>
+        <% @azzet.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :Type %><br>
+      <%= f.hidden_field :Type %>
+      <%= select_tag(:Type, options_for_select([["Currencies", "Currencies"], ["Commodities", "Commodities"], ["Indices", "Indices"], ["Stock", "Stock"]], selected: :option), :name => "azzet[Type]", class:'form-control')%>
     </div>
-  <% end %>
+    <div class="field">
+      <%= f.label :Name %><br>
+      <%= f.text_field :Name, :class=> "form-control" %>
+    </div>
 
-  <div class="field">
-    <%= f.label :Type %><br>
-    <%= f.hidden_field :Type %>
-    <%= select_tag(:Type, options_for_select([["Currencies", "Currencies"], ["Commodities", "Commodities"], ["Indices", "Indices"], ["Stock", "Stock"]], selected: :option), :name => "azzet[Type]", class:'form-control')%>
   </div>
-  <div class="field">
-    <%= f.label :Name %><br>
-    <%= f.text_field :Name, :class=> "form-control" %>
-  </div>
-  <div>
-    <%= f.submit "Save", :class=> "btn btn-default" %>
+  <div class="panel-footer text-right">
+      <%= link_to 'Back', azzets_path, :class=> "btn btn-default" %>
+      <%= f.submit "Save", :class=> "btn btn-info" %>
   </div>
 <% end %>

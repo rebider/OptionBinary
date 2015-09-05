@@ -108,4 +108,13 @@ en:
   configuration_button_destroy: 	 "Delete"
   configuration_button_save:    	 "Save"
 
-
+  #feedback
+  feedback_title_new: "New Feedback"
+  feedback_title_edit: "Edit Feedback"
+  feedback_form_title: "Title"
+  feedback_form_description: "Description"
+  feedback_form_message_h1: "Your opinion is very important!"
+  feedback_form_message_h2: "All your comments will hands taked."
+  feedback_form_thankyou: "Thank you for feedback"
+  feedback_form_send: "Send my feedback :)"
+  feedback_form_cancel: "Maybe later :("

@@ -1,31 +1,34 @@
-
 <%= form_for(@strategy, :html => {:class => 'form-horizontal', :role => 'form'} ) do |f| %>
-  
-  <% if @strategy.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@strategy.errors.count, "error") %> prohibited this strategy from being saved:</h2>
 
-      <ul>
-      <% @strategy.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <div class="panel-body">
 
-  <%= f.hidden_field :User_id, :value => current_user.id %>
+    <% if @strategy.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@strategy.errors.count, "error") %> prohibited this strategy from being saved:</h2>
 
-  <div class="form-group">
-      <%= f.label I18n.t('strategies_table_name'), class:'col-sm-3' %>
-      <div class="col-sm-9">
-        <%= f.text_field :Name, class:'form-control', :data => {:validation => "required"} %>
+        <ul>
+        <% @strategy.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
       </div>
+    <% end %>
+
+    <%= f.hidden_field :User_id, :value => current_user.id %>
+
+    <div class="form-group">
+        <%= f.label I18n.t('strategies_table_name'), class:'col-sm-3' %>
+        <div class="col-sm-9">
+          <%= f.text_field :Name, class:'form-control', :data => {:validation => "required"} %>
+        </div>
+    </div>
+
+    <%= f.hidden_field :Type, :value => "Private" %>
   </div>
 
-  <%= f.hidden_field :Type, :value => "Private" %>
-
-  <div>
-    <%= f.submit I18n.t('strategies_button_save') , :class=> "btn btn-default" %>
+  <div class="panel-footer text-right">
+      <%= link_to 'Back', strategies_path, :class=> "btn btn-default" %>
+      <%= f.submit I18n.t('strategies_button_save'), :class=> "btn btn-info" %>
   </div>
 
 <% end %>

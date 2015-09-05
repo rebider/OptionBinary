@@ -328,6 +328,7 @@
     function update_today_profit()
     {
         $("#lbl-today-profit-real").text("0");
+        $("#lbl-today-profit-demo").text("Demo 0");
 
         jQuery.each(today_full_data.profit, function(i, today) {
 
@@ -345,6 +346,7 @@
     function update_balances()
     {
         $("#lbl-balance-real").text("0");
+        $("#lbl-balance-demo").text("Demo 0");
 
         if(today_full_data.current_real_balance && today_full_data.current_real_balance[0].balance != null)
         {

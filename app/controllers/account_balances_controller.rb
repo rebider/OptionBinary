@@ -1,6 +1,7 @@
 class AccountBalancesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_account_balance, only: [:show, :edit, :update, :destroy]
+  #before_action :set_account_balance, only: [:show, :edit, :update, :destroy]
+  before_action :set_account_balance, only: [:show]
 
   respond_to :html
 
@@ -15,7 +16,7 @@ class AccountBalancesController < ApplicationController
   # GET /account_balances/1.json
   def show
   end
-
+=begin
   # GET /account_balances/new
   def new
     @account_balance = AccountBalance.new
@@ -73,7 +74,7 @@ class AccountBalancesController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+=end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_account_balance

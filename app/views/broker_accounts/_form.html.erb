@@ -1,54 +1,58 @@
 <%= form_for(@broker_account, :html => {:class => 'form-horizontal', :role => 'form'} ) do |f| %>
 
-  <% if @broker_account.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@broker_account.errors.count, "error") %> prohibited this broker_account from being saved:</h2>
+  <div class="panel-body">
 
-      <ul>
-      <% @broker_account.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <% if @broker_account.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@broker_account.errors.count, "error") %> prohibited this broker_account from being saved:</h2>
+
+        <ul>
+        <% @broker_account.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= f.hidden_field :user_id, :value => current_user.id, :name => "broker_account[user_id]" %>
+
+    <div class="form-group">
+        <%= f.label I18n.t('account_table_name'), class:'col-sm-3' %>
+        <div class="col-sm-9">
+          <%= f.text_field :name, class:'form-control', :data => {:validation => "required"} %>
+        </div>
     </div>
-  <% end %>
+     
+    <div class="form-group">
+        <%= f.label I18n.t('account_table_broker'), class:'col-sm-3' %>
+        <div class="col-sm-9">
+          <%= f.collection_select :broker_id, Broker.order(:Name), :id, :Name, { prompt: I18n.t('account_select_broker')} , {class: "form-control selectpicker", :data => {:validation => "required", :"live-search"=> "true" }}   %>
+        </div>
+    </div>
 
-  <%= f.hidden_field :user_id, :value => current_user.id, :name => "broker_account[user_id]" %>
+    <div class="form-group">
+        <%= f.label I18n.t('account_table_balance'), class:'col-sm-3' %>
+        <div class="col-sm-9">
+          <div class="input-group">
+              <span class="input-group-addon">$</span>
+              <%= f.text_field :Balance, class:'form-control', :data => {:validation => "number", "validation-allowing" => "float"} %>
+          </div>          
+        </div>
+    </div>
 
-  <div class="form-group">
-      <%= f.label I18n.t('account_table_name'), class:'col-sm-3' %>
-      <div class="col-sm-9">
-        <%= f.text_field :name, class:'form-control', :data => {:validation => "required"} %>
-      </div>
-  </div>
-   
-  <div class="form-group">
-      <%= f.label I18n.t('account_table_broker'), class:'col-sm-3' %>
-      <div class="col-sm-9">
-        <%= f.collection_select :broker_id, Broker.order(:Name), :id, :Name, { prompt: I18n.t('account_select_broker')} , {class: "form-control selectpicker", :data => {:validation => "required", :"live-search"=> "true" }}   %>
-      </div>
-  </div>
-
-  <div class="form-group">
-      <%= f.label I18n.t('account_table_balance'), class:'col-sm-3' %>
-      <div class="col-sm-9">
-        <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <%= f.text_field :Balance, class:'form-control', :data => {:validation => "number", "validation-allowing" => "float"} %>
-        </div>          
-      </div>
-  </div>
-
-  <div class="form-group">
-    <div class="col-sm-offset-3 col-sm-9">
-      <div class="checkbox">
-        <label>
-          <%= f.check_box :DemoAccount %> <%=f.label I18n.t('account_table_demoaccount') %>
-        </label>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <div class="checkbox">
+          <label>
+            <%= f.check_box :DemoAccount %> <%=f.label I18n.t('account_table_demoaccount') %>
+          </label>
+        </div>
       </div>
     </div>
   </div>
-  <div>
-    <%= f.submit I18n.t('account_button_save') ,:class => "btn btn-default" %>
+  <div class="panel-footer text-right">
+    <%= link_to I18n.t('account_button_back'), broker_accounts_path, :class=> "btn btn-default" %>
+    <%= f.submit I18n.t('account_button_save'), :class=> "btn btn-info" %>
   </div>
 
 <% end %>

@@ -1,55 +1,60 @@
 <%= form_for(@setting, :html => {:class => 'form-horizontal', :role => 'form'} ) do |f| %>
 
-  <% if @setting.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@setting.errors.count, "error") %> prohibited this setting from being saved:</h2>
+  <div class="panel-body">
 
-      <ul>
-      <% @setting.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <% if @setting.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@setting.errors.count, "error") %> prohibited this setting from being saved:</h2>
+
+        <ul>
+        <% @setting.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= f.hidden_field :user_id, :value => current_user.id %>
+
+    <div class="form-group">
+        <%= f.label I18n.t('configuration_table_Maximumtradesperday'), class:'col-sm-3' %>
+        <div class="col-sm-9">
+          <div class="input-group">
+            <span class="input-group-addon">#</span>
+            <%= f.text_field :MaximumTradesPerDay, class:'form-control', type:'text' %>
+          </div>
+          <p class="help-block">Lorem ipsum dolor sit amet</p>
+        </div>
     </div>
-  <% end %>
 
-  <%= f.hidden_field :user_id, :value => current_user.id %>
-
-  <div class="form-group">
-      <%= f.label I18n.t('configuration_table_Maximumtradesperday'), class:'col-sm-3' %>
-      <div class="col-sm-9">
-        <div class="input-group">
-          <span class="input-group-addon">#</span>
-          <%= f.text_field :MaximumTradesPerDay, class:'form-control', type:'text' %>
+    <div class="form-group">
+        <%= f.label I18n.t('configuration_table_Maximumpercentpertrade'), class:'col-sm-3' %>
+        <div class="col-sm-9">
+          <div class="input-group">
+            <span class="input-group-addon">%</span>
+            <%= f.text_field :MaximumPercentPerTrade, class:'form-control', type:'text' %>
+          </div>
+          <p class="help-block">Lorem ipsum dolor sit amet</p>
         </div>
-        <p class="help-block">Lorem ipsum dolor sit amet</p>
-      </div>
-  </div>
+    </div>
 
-  <div class="form-group">
-      <%= f.label I18n.t('configuration_table_Maximumpercentpertrade'), class:'col-sm-3' %>
-      <div class="col-sm-9">
-        <div class="input-group">
-          <span class="input-group-addon">%</span>
-          <%= f.text_field :MaximumPercentPerTrade, class:'form-control', type:'text' %>
+    <div class="form-group">
+        <%= f.label I18n.t('configuration_table_Maximumpercentlossperday'), class:'col-sm-3' %>
+        <div class="col-sm-9">
+          <div class="input-group">
+            <span class="input-group-addon">%</span>
+            <%= f.text_field :MaximumPercentLossPerDay, class:'form-control', type:'text' %>
+          </div>
+          <p class="help-block">Lorem ipsum dolor sit amet</p>
         </div>
-        <p class="help-block">Lorem ipsum dolor sit amet</p>
-      </div>
+    </div>
+  </div>
+  
+  <div class="panel-footer text-right">
+      <%= link_to 'Back', settings_path, :class=> "btn btn-default" %>
+      <%= f.submit I18n.t('configuration_button_save'), :class=> "btn btn-info" %>
   </div>
 
-  <div class="form-group">
-      <%= f.label I18n.t('configuration_table_Maximumpercentlossperday'), class:'col-sm-3' %>
-      <div class="col-sm-9">
-        <div class="input-group">
-          <span class="input-group-addon">%</span>
-          <%= f.text_field :MaximumPercentLossPerDay, class:'form-control', type:'text' %>
-        </div>
-        <p class="help-block">Lorem ipsum dolor sit amet</p>
-      </div>
-  </div>
-
-  <div >
-    <%= f.submit I18n.t('configuration_button_save'), :class=> "btn btn-default" %>
-  </div>
 
     <!-- /.panel -->
 <% end %>
