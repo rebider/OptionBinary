@@ -16,7 +16,7 @@ module StatisticsHelper
   def profit_chart_series(trades, start_time = 1.months.ago, end_time = Time.zone.today)
     trades_by_day = trades.where(created_at: start_time.beginning_of_day..end_time.end_of_day)
                     .group("date(created_at)")
-                    .select("date(created_at) as created_at, sum(payout::integer) as profit")
+                    .select("date(created_at) as created_at, sum(\"Payout\"::float) as profit")
 
 
     (start_time.to_date..end_time.to_date).map do |date| 

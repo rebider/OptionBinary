@@ -86,6 +86,12 @@
                     data: data[2].data
                 }, false);
 
+                chart.series[4].update({
+                    pointStart: data[3].pointStart,
+                    pointInterval: data[3].pointInterval,
+                    data: data[3].data
+                }, false);
+
                 //Sumamos los resultados para alimentar la grafica de totales
                 sumWon = 0;
                 $.each(data[0].data,function(){sumWon+=parseFloat(this) || 0;});
@@ -96,7 +102,7 @@
 
                 var pieChart = [
                     {
-                        color : "#5fa2dd",
+                        color : "#4ebcda",
                         name  : "Won",
                         y     : sumWon
                     },
@@ -106,7 +112,7 @@
                         "y"     : sumTie
                     },
                     {
-                        "color" : "#F45B69",
+                        "color" : "#F1948A",
                         "name"  : "Lost",
                         "y"     : sumLost
                     }
@@ -222,7 +228,8 @@
                 enabled: false
             }
         },
-        yAxis: {
+        yAxis: [
+        {
             title: {
                 text: 'Total trades'
             },
@@ -230,15 +237,28 @@
                 formatter: function () {
                     return this.value;
                 }
-            }
+            },
+
         },
+        {
+            title: {
+                text: 'Profit'
+            },
+            labels: {
+                formatter: function () {
+                    return "$ " + this.value;
+                }
+            },
+            opposite: true
+        }
+        ],
         tooltip: {
             shared: true,
             valueSuffix: ''
         },
         plotOptions: {
             area: {
-                stacking: 'normal',
+                //stacking: 'normal',
                 marker: {
                     enabled: false,
                     symbol: 'circle',
@@ -256,7 +276,7 @@
             {
                 type: 'area',
                 name: 'Won',
-                color:'#5fa2dd',
+                color:'#4ebcda',
                 pointInterval: '',
                 pointStart: '',
                 data: []
@@ -272,7 +292,7 @@
             {
                 type: 'area',
                 name: 'Lost',
-                color: '#F45B69',
+                color: '#F1948A',
                 pointInterval: '',
                 pointStart: '',
                 data: []
@@ -286,6 +306,21 @@
                 showInLegend: false,
                 dataLabels: {
                     enabled: false
+                }
+            },
+            {
+                type: 'spline',
+                yAxis: 1,
+                name: 'Profit',
+                color:'#F7DC6F',
+                data: [],
+                marker: {
+                    lineWidth: 2,
+                    lineColor: '#F7DC6F',
+                    fillColor: 'white'
+                },
+                tooltip: {
+                    valuePrefix: '$ '
                 }
             }
         ]
@@ -330,7 +365,7 @@
         [
             {
                 name: 'WON',
-                color:'#5fa2dd',
+                color:'#4ebcda',
                 data: [
                     
                 ],
@@ -368,7 +403,7 @@
             },
             {
                 name: 'LOST',
-                color: '#F45B69',
+                color: '#F1948A',
                 data: [
                     
                 ],

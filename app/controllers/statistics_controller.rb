@@ -48,12 +48,13 @@ class StatisticsController < ApplicationController
             :pointInterval => 1.day.to_i * 1000,  
             #:data => trades_chart_series(Trade.lost.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date) 
             :data => trades_chart_series(trades_data.lost, @filter_begin_date, @filter_end_date)
-        }
-        #,
-        #{
+        },
+        {
             #:name => "Profit" ,
-        #    :data => trades_by_result(Trade.all_closed.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]), @filter_begin_date, @filter_end_date) 
-        #}
+            :pointStart => @filter_begin_date.to_time.to_i * 1000,
+            :pointInterval => 1.day.to_i * 1000, 
+            :data => profit_chart_series(trades_data, @filter_begin_date, @filter_end_date) 
+        }
       ]
 
 
