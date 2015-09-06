@@ -43,8 +43,10 @@
                                         <span class="label label-success">WON</span>
                                     <% elsif trade.Result == 'TIE' %>
                                         <span class="label label-warning">TIE</span>
+                                    <% elsif trade.Result == 'LOST' %>
+                                        <span class="label label-danger">LOST</span>    
                                     <% else %>
-                                        <span class="label label-danger">LOST</span>
+                                        <span class="label label-default">OPEN</span>
                                     <% end %>
                                 </td>
                               </tr>

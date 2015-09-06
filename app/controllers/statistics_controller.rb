@@ -19,25 +19,35 @@ class StatisticsController < ApplicationController
     
     set_filters
 
+    trades_data = ""
+    if params[:strategy].nil?
+      trades_data = Trade.all_closed.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:created_at => @filter_begin_date.beginning_of_day..@filter_end_date.end_of_day)
+    else
+      trades_data = Trade.all_closed.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]).where(:created_at => @filter_begin_date.beginning_of_day..@filter_end_date.end_of_day)
+    end
+
     @series = 
       [
         {
            # :name => "Won" ,
             :pointStart => @filter_begin_date.to_time.to_i * 1000,
             :pointInterval => 1.day.to_i * 1000,          
-            :data => trades_chart_series(Trade.won.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date) 
+            #:data => trades_chart_series(Trade.won.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date) 
+            :data => trades_chart_series(trades_data.won, @filter_begin_date, @filter_end_date)
         },
         {
             #:name => "Tie" ,
             :pointStart => @filter_begin_date.to_time.to_i * 1000,
             :pointInterval => 1.day.to_i * 1000,  
-            :data => trades_chart_series(Trade.tie.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date) 
+            #:data => trades_chart_series(Trade.tie.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date) 
+            :data => trades_chart_series(trades_data.tie, @filter_begin_date, @filter_end_date)
         },
         {
             #:name => "Lost" ,
             :pointStart => @filter_begin_date.to_time.to_i * 1000,
             :pointInterval => 1.day.to_i * 1000,  
-            :data => trades_chart_series(Trade.lost.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date) 
+            #:data => trades_chart_series(Trade.lost.where(:User_id => current_user.id).where(:BrokerAccount_id => params[:account]).where(:Strategy_id => params[:strategy]), @filter_begin_date, @filter_end_date) 
+            :data => trades_chart_series(trades_data.lost, @filter_begin_date, @filter_end_date)
         }
         #,
         #{
