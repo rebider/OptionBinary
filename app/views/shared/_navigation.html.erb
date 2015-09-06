@@ -34,9 +34,15 @@
                     <li id="dropdown-user" class="dropdown">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle text-right">
                             <span class="pull-right">
-                                <%= image_tag("icon-profile.png", :alt => "Profile Picture", :class => "img-circle img-user media-object") %>
+                                <% if current_user.avatar? %>
+                                    <%= image_tag(current_user.avatar, :alt => "Profile Picture", :class => "img-circle img-user media-object") %>
+                                <% else %>
+                                    <%= image_tag("icon-profile.png", :alt => "Profile Picture", :class => "img-circle img-user media-object") %>
+                                <% end %>
                             </span>
-                            <div class="username hidden-xs"><%= I18n.t('text_welcome') %></div>
+                            <div class="username hidden-xs"><%= I18n.t('text_welcome') %>
+                                <%= current_user.name %>
+                            </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-md dropdown-menu-right with-arrow panel-default">
                             <ul class="head-list">
@@ -45,11 +51,11 @@
                                         <i class="fa fa-user fa-fw fa-lg"><%= I18n.t('text_profile') %></i>
                                     <% end %>
                                 </li>
-                                <li>
+                                <!--li>
                                     <a href="#">
-                                        <i class="fa fa-question-circle fa-fw fa-lg"><%= I18n.t('text_help') %></i>
+                                        <i class="fa fa-question-circle fa-fw fa-lg"></i>
                                     </a>
-                                </li>
+                                </li-->
                             </ul>
                             <div class="pad-all text-right">
                                 <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'btn btn-warning' %>
@@ -92,11 +98,19 @@
                                     </span>
                                 <% end %>
                             </li>
+                            <li>
+                                <%= link_to :controller => "/trades" do %>
+                                    <i class="fa fa-bars"></i>
+                                    <span class="menu-title">
+                                        <strong><%= I18n.t('link_trades') %></strong>
+                                    </span>
+                                <% end %>
+                            </li>
                             <li class="list-divider"></li>
                             <li class="list-header"><%= I18n.t('text_catalogs') %></li>
                             <li>
                                 <%= link_to :controller => "/strategies" do %>
-                                <i class="fa fa-briefcase"></i>
+                                    <i class="fa fa-trophy"></i>
                                     <span class="menu-title">
                                         <strong><%= I18n.t('link_strategies') %></strong>
                                     </span>
@@ -104,7 +118,7 @@
                             </li>
                             <li>
                                 <%= link_to :controller => "/broker_accounts" do %>
-                                <i class="fa fa-edit"></i>
+                                    <i class="fa fa-edit"></i>
                                     <span class="menu-title">
                                         <strong><%= I18n.t('link_account') %></strong>
                                     </span>
@@ -112,7 +126,7 @@
                             </li>
                             <li>
                                 <%= link_to :controller => "/account_balances" do %>
-                                <i class="fa fa-table"></i>
+                                    <i class="fa fa-table"></i>
                                     <span class="menu-title">
                                         <strong><%= I18n.t('link_account_balance') %></strong>
                                     </span>
@@ -120,7 +134,7 @@
                             </li>
                             <li>
                                 <%= link_to :controller => "/settings" do %>
-                                <i class="fa fa-plug"></i>
+                                    <i class="fa fa-wrench"></i>
                                     <span class="menu-title">
                                         <strong><%= I18n.t('link_configuration') %></strong>
                                     </span>

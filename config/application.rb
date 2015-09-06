@@ -26,5 +26,6 @@ module OptionBinary
     config.assets.enabled = true
 
     config.assets.version = '1.0'
+
   end
 end

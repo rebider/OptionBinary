@@ -1,65 +1,83 @@
-<%= render "style" %>
-  <div id="login-overlay" class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="modal-title" id="myModalLabel">Sign up</h4>
-          </div>
-          <div class="modal-body">
-              <div class="row">
-                  <div class="col-xs-6" id="signin">
-                      <div class="well">
+<div class="cls-content-lg panel">
+  <div class="panel-body">
+    <p class="pad-btm">Create an account</p>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name) ) do |f| %>
+        <%= devise_error_messages! %>
+          <div class="row">
 
-                        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), :html => {:class => 'form-horizontal', :role => 'form'} ) do |f| %>
-                        <%= devise_error_messages! %>
-                          <fieldset>
-                            <!-- Name input-->
-                            <div class="form-group">
-                              <label class="col-md-3 control-label" for="name">Email</label>
-                              <div class="col-md-9">
-                                 <%= f.email_field :email, autofocus: true,:placeholder =>"Enter your email",:class=>"form-control"  %>
-                              </div>
-                            </div>
-                    
-                            <!-- Email input-->
-                            <div class="form-group">
-                              <label class="col-md-3 control-label" for="email">Password</label>
-                              <div class="col-md-9">
-                                <% if @validatable %>
-                                  <em>(<%= @minimum_password_length %> characters minimum)</em>
-                                <% end %><br />
-                                  <%= f.password_field :password, autocomplete: "off", :placeholder => "Password",:class=>"form-control" %>
-                              </div>
-                            </div>
-                    
-                            <!-- Message body -->
-                            <div class="form-group">
-                              <label class="col-md-3 control-label" for="message">Password Confirmation</label>
-                              <div class="col-md-9">
-                                 <%= f.password_field :password_confirmation, autocomplete: "off",:class=>"form-control" %>
-                              </div>
-                            </div>
-                    
-                            <!-- Form actions -->
-                            <div class="form-group" id="contenedor">
-                              <div class= "left">
-                                <%- if controller_name != 'sessions' %>
-                                  <%= link_to "Log in", new_session_path(resource_name),:class=>"btn btn-info" %><br />
-                                <% end -%>
-                              </div>
-                              <div class ="right">
-                                <%= f.submit "Sign up", :class => "btn btn-primary" %>
-                              </div>
-                            </div>
-                          </fieldset>
-                      </div>
+            <div class="col-sm-6">
+              <!-- Name input-->
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-male"></i>
                   </div>
-                <!-- /.row (nested) -->
+                  <%= f.text_field :name, autofocus: true, :placeholder =>"Name", :class=>"form-control", :data => {:validation => "required"}  %>
+                </div>
               </div>
-              <!-- /.panel-body -->
+
+              <!-- Email input-->
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-envelope"></i>
+                  </div>
+                  <%= f.email_field :email, autofocus: true,:placeholder =>"E-mail", :class=>"form-control", :data => {:validation => "required"}  %>
+                </div>
+              </div>
+
+            </div>
+    
+            <div class="col-sm-6">
+              <!-- Password input-->
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-asterisk"></i>
+                  </div>
+                  <%= f.password_field :password, autocomplete: "off", :placeholder => "Password", :class=>"form-control", :data => {:validation => "required"} %>
+                </div>
+              </div>
+
+              <!-- Password confirmation input-->
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-asterisk"></i>
+                  </div>
+                  <%= f.password_field :password_confirmation, autocomplete: "off", :placeholder => "Password confirmation", :class=>"form-control", :data => {:validation => "required"} %>
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
+
+          <div class="row">
+            <div class="col-xs-12 text-right">
+              <%= f.submit "Sign up", :class => "btn btn-success text-uppercase" %>
+            </div>
+          </div>
+
+          <div class="mar-btm">
+            <em>- or -</em>
+          </div>
+
+          <%- if devise_mapping.omniauthable? %>
+            <%- resource_class.omniauth_providers.each do |provider| %>
+              <%= link_to omniauth_authorize_path(resource_name, provider), {:class => "btn btn-primary btn-lg btn-block"} do %>
+                 <i class="fa fa-facebook fa-fw"></i>
+                 Sign Up with Facebook
+              <% end %>
+              <br />
+            <% end -%>
+          <% end -%> 
+      <% end %>
   </div>
-    <!-- /.panel -->
-<% end %>
+</div>
+<div class="pad-ver">
+    Already have an account ? 
+    <%= link_to "Log in", new_session_path(resource_name), :class=>"btn-link mar-rgt" %>
+</div>
 
-
+<script type="text/javascript">
+    $.validate();
+</script>

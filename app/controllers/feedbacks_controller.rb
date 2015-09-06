@@ -28,7 +28,7 @@ class FeedbacksController < ApplicationController
 
     respond_to do |format|
       if @feedback.save
-        ModelMailer.new_record_notification(@feedback).deliver
+        #ModelMailer.new_record_notification(@feedback).deliver
 
         format.html { redirect_to :controller => "/dashboard", notice: 'feedback' }
         format.json { render :show, status: :created, location: @feedback }

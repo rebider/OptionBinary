@@ -1,8 +1,6 @@
-
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="https://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.js"></script>
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="/assets/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 
 <script type="text/javascript">
@@ -485,38 +483,21 @@
     });*/
 
 
-    $( "#dt_begin_date" ).datepicker();
-    $( "#dt_begin_date" ).css("width", "120px");
-    $( "#dt_end_date" ).datepicker();
-    $( "#dt_end_date" ).css("width", "120px");
-    $( "#dt_begin_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-    $( "#dt_end_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
 
     $('#ls_accounts').selectpicker('selectAll'); 
     $('#ls_strategies').selectpicker('selectAll'); 
+
+    $('.input-daterange').datepicker({
+        todayHighlight: true,
+        format: 'dd/mm/yyyy'
+    });
+
 
     update_charts();
 });
 
 </script>
 
-<style type="text/css">
-    .bton{
-      background-color:#F67E7D;
-      color: white;
-      width: 10%;
-      height: 10%;
-      border-radius: 2px;
-      border-style: none;
-
-    }
-  .bton:hover{
-      background-color:#F67E7D;
-      color: white;
-      opacity:  0.75;
-    }
-
-</style>
 
 <div class="row">
     <div class="col-lg-12">
@@ -524,23 +505,27 @@
             <div class="panel-body">
                 <div class="filter_date">
                     <form class="form-inline">
-                      <div class="form-group">
-                        <label for="dt_begin_date">Start date</label>
-                        <input type="text" class="form-control" id="dt_begin_date">
-                      </div>
-                      <div class="form-group">
-                        <label for="dt_end_date">End date</label>
-                        <input type="text" class="form-control" id="dt_end_date">
-                      </div>
-                      <div class="form-group">
-                        <label for="ls_accounts">Accounts</label>
-                        <%= collection_select(:account, :broker, BrokerAccount.where(user_id: current_user.id), :id, :name,{},{:class=> "s" ,:multiple => true, :id => "ls_accounts"})%>
-                      </div>
-                      <div class="form-group">
-                        <label for="ls_strategies">Strategies</label>
-                        <%= collection_select(:id, :Name, Strategy.where(User_id: current_user.id), :id, :Name,{},{:class=> "s" ,:multiple => true, :id => "ls_strategies"})%>
-                      </div>
-                      <a href="javascript:update_charts();" class="btn btn-default bton" id="filter">Filter</a>
+                        <div class="form-group">
+                            <div class="input-daterange" id="datepicker">
+                                    <label for="dt_begin_date">from</label>
+                                    <input type="text" class="input-sm form-control btn btn-default" name="start" id="dt_begin_date">
+
+                                    <label for="dt_end_date">to</label>
+                                    <input type="text" class="input-sm form-control btn btn-default" name="end" id="dt_end_date">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ls_strategies">Accounts</label>
+                            <%= collection_select(:account, :broker, BrokerAccount.where(user_id: current_user.id), :id, :name,{},{:class=> "s" ,:multiple => true, :id => "ls_accounts"})%>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ls_strategies">Strategies</label>
+                            <%= collection_select(:id, :Name, Strategy.where(User_id: current_user.id), :id, :Name,{},{:class=> "s" ,:multiple => true, :id => "ls_strategies"})%>
+                        </div>
+
+                        <a href="javascript:update_charts();" class="btn btn-primary" id="filter">Filter</a>
                     </form>
                 </div>
             </div>
