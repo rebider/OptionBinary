@@ -39,6 +39,16 @@ class DashboardController < ApplicationController
 
     if(params[:Result] == 'WON')
       @trade.Payout = ((Float(@trade.Amount) * Float(@trade.OnProfit)) / 100)
+    elsif (params[:Result] == 'TIE') 
+      @trade.Payout = 0
+    else
+      @trade.Payout = 0 - Float(@trade.Amount) + (Float(@trade.Amount) * Float(@trade.OnLoss)) / 100
+    end
+    
+    @trade.save
+=begin
+    if(params[:Result] == 'WON')
+      @trade.Payout = ((Float(@trade.Amount) * Float(@trade.OnProfit)) / 100)
       @pago      = AccountBalance.where(:broker_account_id => @trade.BrokerAccount_id).pluck(:Balance).last
       @total     = (Float(@pago) + Float(@trade.Payout))
       @actualiza = AccountBalance.create(
@@ -86,7 +96,9 @@ class DashboardController < ApplicationController
       @account.save
       
     end
-    @trade.save
+=end
+
+
 
   end
 

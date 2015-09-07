@@ -25,6 +25,7 @@ class BrokerAccountsController < ApplicationController
     @broker_account = BrokerAccount.new(broker_account_params)
     @broker_account.save
 
+=begin
     AccountBalance.create(
       :broker_account_id => @broker_account.id,
       :Amount  => Float(@broker_account.Balance),
@@ -32,6 +33,7 @@ class BrokerAccountsController < ApplicationController
       :TradeID => '', 
       :Type => "Manual",
       :user_id => current_user.id)
+=end
 
     respond_to do |format|
       if @broker_account.save
@@ -46,9 +48,10 @@ class BrokerAccountsController < ApplicationController
 
   def update
 
-    @old_balance = @broker_account.Balance
+   # @old_balance = @broker_account.Balance
     @broker_account.update(broker_account_params)
 
+=begin
     if(@old_balance != @broker_account.Balance)
     
       AccountBalance.create(
@@ -59,7 +62,7 @@ class BrokerAccountsController < ApplicationController
         :Type => "Manual",
         :user_id => current_user.id)
     end
-
+=end
 
 
     respond_with(@broker_account)
