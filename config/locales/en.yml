@@ -1,7 +1,7 @@
 
 en:
   page_principal:       "Welcome"
-  page_description:     "We simplify the gestions of your capital in binary options"
+  page_description:     "Monitors the performance of your operations in binary options in a simple and effective way"
   link_dasboard:        "Dashboard"
   link_statistics:      "Statistics"
   link_strategies:      "Strategies"
@@ -124,3 +124,7 @@ en:
   feedback_form_thankyou: "Thank you for your feedback"
   feedback_form_send: "Send my feedback :)"
   feedback_form_cancel: "Maybe later"
+
+  #sessions
+  sessions_registrations_already_account:  "Already have an account ?"
+  sessions_registrations_sigup_fb:  "Sign Up with Facebook"

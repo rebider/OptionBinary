@@ -1,6 +1,6 @@
 es:
   page_principal:       "Bienvenido"
-  page_description:     "Simplificamos la gestion de tu capital en opciones binarias"
+  page_description:     "Monitorea el desempeño de tus operaciones en opciones binarias de una forma sencilla y eficaz"
 
   link_dasboard:        "Tablero"
   link_statistics:      "Estadisticas"
@@ -125,3 +125,7 @@ es:
   feedback_form_thankyou: "Gracias por tu feedback"
   feedback_form_send: "Enviar mi feedback :)"
   feedback_form_cancel: "Quizás después"
+
+  #sessions
+  sessions_registrations_already_account:  "Ya tengo mi cuenta"
+  sessions_registrations_sigup_fb:  "Ingresar con Facebook"
