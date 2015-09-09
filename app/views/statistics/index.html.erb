@@ -552,12 +552,12 @@
 
                         <div class="form-group">
                             <label for="ls_strategies">Accounts</label>
-                            <%= collection_select(:account, :broker, BrokerAccount.where(user_id: current_user.id), :id, :name,{},{:class=> "s" ,:multiple => true, :id => "ls_accounts"})%>
+                            <%= collection_select(:account, :broker, BrokerAccount.where(user_id: current_user.id), :id, :name,{},{:class=> "s" ,:multiple => true, :id => "ls_accounts", :data => {"actions-box" => "true"}})%>
                         </div>
 
                         <div class="form-group">
                             <label for="ls_strategies">Strategies</label>
-                            <%= collection_select(:id, :Name, Strategy.where(User_id: current_user.id), :id, :Name,{},{:class=> "s" ,:multiple => true, :id => "ls_strategies"})%>
+                            <%= collection_select(:id, :Name, Strategy.where(User_id: current_user.id), :id, :Name,{},{:class=> "s" ,:multiple => true, :id => "ls_strategies", :data => {"actions-box" => "true"}})%>
                         </div>
 
                         <a href="javascript:update_charts();" class="btn btn-primary" id="filter">Filter</a>

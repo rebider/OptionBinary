@@ -114,7 +114,7 @@ class DashboardController < ApplicationController
   private
 
     def all_trades
-      @trades = Trade.open_trades(current_user.id)
+      @trades = Trade.open_trades(current_user.id).order(:id)
     end
 
     def set_trades
