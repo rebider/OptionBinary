@@ -275,7 +275,7 @@
       onprofit = $("#trade_OnProfit").val();
       profit = ((amount * onprofit) / 100).toFixed(2);
          
-      $("#lbl_onprofit_payout").text("$ " + profit);
+      $("#lbl_onprofit_payout").text("$" + (parseFloat(amount) + parseFloat(profit)) + " ($" + profit +")");
   }
 
   function calcule_onlost(){
@@ -284,6 +284,7 @@
       profit = ((amount * onprofit) / 100).toFixed(2);
 
       $("#lbl_onlost_payout").text("$ " + profit);
+      $("#lbl_onlost_payout").text("$" + profit + " ($" + (parseFloat(profit) - parseFloat(amount)) +")");
   }
 
   function setCookie(cname, cvalue, exdays) {
