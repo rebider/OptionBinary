@@ -1,23 +1,18 @@
 <style type="text/css">
-    #panel-market{
-
-    }
     #panel-market .panel-body{
         padding: 5px!important;
-    }
-    #alpari_informer_trading_sessions_ai5890{
-        width: auto!important;
-        height: auto!important;
-    }
-    .informer .js-informer{
-        border: none!important;
-    }
-    .informer__header{
-        display: none!important;
     }
 </style>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="/assets/jquery.easypiechart.min.js"></script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.4&appId=1623053381268026";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 
 <%= content_tag :div, "", id: "account_ids", data: {accounts: real_accounts } %>
@@ -87,7 +82,7 @@
                                 <span id="lbl-today-profit-real"></span>
                                 (<span id="lbl-today-profit-real-percent"></span>%)
                             </p>
-                            <br>
+                            <hr>
                             <p class="h4 text-thin media-heading">
                                 <em>
                                     Demo <span id="lbl-today-profit-demo"></span>
@@ -113,7 +108,7 @@
                             <p class="h2 text-thin media-heading">
                                 <span id="lbl-balance-real"></span>
                             </p>
-                            <br>
+                            <hr>
                             <p class="h4 text-thin media-heading">
                                 <em>
                                     Demo <span id="lbl-balance-demo"></span>
@@ -166,10 +161,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 col-md-12 col-lg-6">
-
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="fb-comments" data-href="https://www.facebook.com/mybinaryoptionstats" data-width="100%" data-numposts="5"></div>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-6 col-md-12 col-lg-6"></div>
         </div>
     </div>
 </div>
