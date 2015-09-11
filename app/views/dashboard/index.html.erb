@@ -1,5 +1,24 @@
+<style type="text/css">
+    #panel-market{
+
+    }
+    #panel-market .panel-body{
+        padding: 5px!important;
+    }
+    #alpari_informer_trading_sessions_ai5890{
+        width: auto!important;
+        height: auto!important;
+    }
+    .informer .js-informer{
+        border: none!important;
+    }
+    .informer__header{
+        display: none!important;
+    }
+</style>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="/assets/jquery.easypiechart.min.js"></script>
+
 
 <%= content_tag :div, "", id: "account_ids", data: {accounts: real_accounts } %>
 <div id="today_full_data" data-today=""></div>
@@ -139,12 +158,16 @@
                 </div>
             </div>
             <div class="col-sm-6 col-md-12 col-lg-6">
-                
+                <div class="panel panel-info" id="panel-market">
+                    <div class="panel-body">
+                        <%= render 'forex_market_hours' %>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 col-md-12 col-lg-6">
-                <%= render 'forex_market_hours' %>
+
             </div>
             <div class="col-sm-6 col-md-12 col-lg-6"></div>
         </div>
