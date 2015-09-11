@@ -53,7 +53,7 @@
     <div class="col-lg-6 col-md-4">
         <div class="row">
             <div class="col-sm-6 col-md-12 col-lg-6">
-                <div class="panel panel-purple panel-colorful">
+                <div class="panel panel-colorful" id="panel-today-profit">
                     <div class="panel-body text-center">
                         <div class="media-left">
                             <span class="icon-wrap icon-wrap-xs">
@@ -66,10 +66,14 @@
                         <div class="media-body">
                             <p class="h2 text-thin media-heading">
                                 <span id="lbl-today-profit-real"></span>
+                                (<span id="lbl-today-profit-real-percent"></span>%)
                             </p>
                             <br>
                             <p class="h4 text-thin media-heading">
-                                <em><span id="lbl-today-profit-demo"></span></em>
+                                <em>
+                                    Demo <span id="lbl-today-profit-demo"></span>
+                                    (<span id="lbl-today-profit-demo-percent"></span>%)
+                                </em>
                             </p>
                         </div>                
                     </div>
@@ -92,7 +96,9 @@
                             </p>
                             <br>
                             <p class="h4 text-thin media-heading">
-                                <em><span id="lbl-balance-demo"></span></em>
+                                <em>
+                                    Demo <span id="lbl-balance-demo"></span>
+                                </em>
                             </p>
                         </div>                
                     </div>
@@ -102,7 +108,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6 col-md-12 col-lg-6">
-                <div class="panel panel-info panel-colorful">
+                <div class="panel panel-bordered-primary">
                     <div class="panel-body text-center">
                         <div class="media-left">
                            <span class="icon-wrap icon-wrap-xs">
@@ -116,36 +122,32 @@
                         <div class="media-body">
                             <div id="today-percent-chart" data-percent="0" class="pie-title-center">
                                 <span class="pie-value"></span>
-                            </div>
+                            </div>                            
+                            <hr>
+                            <span class="text-semibold">
+                                <i class="fa fa-hand-o-up"></i>
+                                <span id="today-total-won"></span>
+                                &nbsp;&nbsp;
+                                <i class="fa fa-exchange"></i>
+                                <span id="today-total-tie"></span>
+                                &nbsp;&nbsp;
+                                <i class="fa fa-hand-o-down"></i> 
+                                <span id="today-total-lost"></span>
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--div class="col-sm-6 col-md-12 col-lg-6">
-                <div class="panel panel-info panel-colorful">
-                    <div class="panel-body text-center">
-                    </div>
-                </div>
-            </div-->
-        </div>
-        <!--div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <div class="panel panel-info panel-colorful">
-                    <div class="panel-body text-center">
-                        <div id="fb-root"></div>
-                        <script>(function(d, s, id) {
-                          var js, fjs = d.getElementsByTagName(s)[0];
-                          if (d.getElementById(id)) return;
-                          js = d.createElement(s); js.id = id;
-                          js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.4&appId=1623053381268026";
-                          fjs.parentNode.insertBefore(js, fjs);
-                        }(document, 'script', 'facebook-jssdk'));</script>
-
-                        <div class="fb-comments" data-href="http://developers.facebook.com/docs/plugins/comments/" data-numposts="5"></div>
-                    </div>
-                </div>
+            <div class="col-sm-6 col-md-12 col-lg-6">
+                
             </div>
-        </div-->
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-12 col-lg-6">
+                <%= render 'forex_market_hours' %>
+            </div>
+            <div class="col-sm-6 col-md-12 col-lg-6"></div>
+        </div>
     </div>
 </div>
 
@@ -316,6 +318,15 @@
 
     update_dashboard();
     var today_full_data = [];
+    var today_profit_real;
+    var today_profit_demo;
+    var today_profit_percent_real;
+    var today_profit_percent_demo;
+    var balance_real;
+    var balance_demo;
+    var today_total_won;
+    var today_total_lost;
+    var today_total_tie;
 
     if(getParameterByName("notice")=="feedback")
     {
@@ -349,60 +360,87 @@
             error: function (request, status, error) {
                 today_full_data = jQuery.parseJSON(request.responseText);
 
+                update_balances();
                 update_today_profit();
                 update_today_performance();
-                update_balances();
             }
         });
     }
 
     function update_today_profit()
     {
-        $("#lbl-today-profit-real").text("0");
-        $("#lbl-today-profit-demo").text("Demo 0");
+        today_profit_real = 0;
+        today_profit_demo = 0;
+        today_profit_percent_real = 0;
+        today_profit_percent_demo = 0;
 
-        jQuery.each(today_full_data.profit, function(i, today) {
-
-           if(today.accounttype == "0")
+        jQuery.each(today_full_data.profit, function(i, balance) 
+        {
+           if(balance.accounttype == "0")
            {
-            $("#lbl-today-profit-real").text(parseFloat(today.profit).toFixed(2));
+            today_profit_real = parseFloat(balance.profit).toFixed(2);
+            
+            //Calcular el crecimiento de la cuenta
+            today_profit_percent_real = ((today_profit_real / (balance_real - today_profit_real)) * 100).toFixed(0);
+
+            $("#lbl-today-profit-real").text(today_profit_real);
+            $("#lbl-today-profit-real-percent").text(today_profit_percent_real);
            }
            else
            {
-            $("#lbl-today-profit-demo").text("Demo " + parseFloat(today.profit).toFixed(2));
+            today_profit_demo = parseFloat(balance.profit).toFixed(2);
+
+            //Calcular el crecimiento de la cuenta
+            today_profit_percent_demo = ((today_profit_demo / (balance_demo - today_profit_demo)) * 100).toFixed(0);
+
+            $("#lbl-today-profit-demo").text(today_profit_demo);
+            $("#lbl-today-profit-demo-percent").text(today_profit_percent_demo);
            }
         });
+
+        if(today_profit_real>=0)
+        {
+            $("#panel-today-profit").removeClass("panel-danger").addClass("panel-info");     
+        }
+        else{
+            $("#panel-today-profit").removeClass("panel-info").addClass("panel-danger");
+        }
     }
 
     function update_balances()
     {
-        $("#lbl-balance-real").text("0");
-        $("#lbl-balance-demo").text("Demo 0");
+        balance_real = 0;
+        balance_demo = 0;
 
         if(today_full_data.current_real_balance && today_full_data.current_real_balance[0].balance != null)
         {
-            $("#lbl-balance-real").text(parseFloat(today_full_data.current_real_balance[0].balance).toFixed(2));
+            balance_real = parseFloat(today_full_data.current_real_balance[0].balance).toFixed(2);
+            $("#lbl-balance-real").text(balance_real);
         }
         
         if(today_full_data.current_demo_balance && today_full_data.current_demo_balance[0].balance != null)
         {
-            $("#lbl-balance-demo").text("Demo " + parseFloat(today_full_data.current_demo_balance[0].balance).toFixed(2));
+            balance_demo = parseFloat(today_full_data.current_demo_balance[0].balance).toFixed(2);
+            $("#lbl-balance-demo").text(balance_demo);
         }
     }
 
     function update_today_performance()
     {
+        today_total_won = today_full_data.total_won;
+        today_total_tie = today_full_data.total_tie;
+        today_total_lost = today_full_data.total_lost;
 
-        today_trades = today_full_data.total_won + today_full_data.total_tie + today_full_data.total_lost;
-        today_success = today_full_data.total_won + today_full_data.total_tie;
+        today_trades = today_total_won + today_total_tie + today_total_lost;
+        today_success = today_total_won + today_total_tie;
         today_performance = Math.round((today_success / today_trades) * 100);
         if(isNaN(today_performance))
             today_performance = 0;
 
         $('#today-percent-chart').easyPieChart({
-            barColor : '#ffffff',
-            scaleColor:'#8b5284',
-            trackColor : '#8b5284',
+            barColor : '#4ebcda',
+            scaleColor:'#ffffff',
+            trackColor : '#F2F2F2',
             lineCap : 'round',
             lineWidth :8,
             onStep: function(from, to, percent) {
@@ -412,6 +450,11 @@
 
         var chart = window.chart = $('#today-percent-chart').data('easyPieChart');
         chart.update(today_performance);
+
+        $('#today-total-won').text(today_total_won);
+        $('#today-total-tie').text(today_total_tie);
+        $('#today-total-lost').text(today_total_lost);
+        
     }
 
     function update_trades_chart()
