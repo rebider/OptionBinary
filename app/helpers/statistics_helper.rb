@@ -37,16 +37,26 @@ module StatisticsHelper
     ]
   end
 
-  def trades_by_strategy(trades, categories, start_time = 1.months.ago, end_time = Time.zone.today)
+  def trades_by_strategy(trades, strategies, start_time = 1.months.ago, end_time = Time.zone.today)
     trades_strategy = trades.where(created_at: start_time.beginning_of_day..end_time.end_of_day)
                     .group("\"Strategy_id\"")
                     .select("\"Strategy_id\", count(id) as total_trades")        
 
-    (categories.order(:id).pluck(:id)).map do |s|
+    (strategies.order(:id).pluck(:id)).map do |s|
       trade = trades_strategy.detect { |trade| trade.Strategy_id == s }
       trade && trade.total_trades || 0
     end
+  end
 
+  def profit_by_strategy(trades, strategies, start_time = 1.months.ago, end_time = Time.zone.today)
+    trades_strategy = trades.where(created_at: start_time.beginning_of_day..end_time.end_of_day)
+                    .group("\"Strategy_id\"")
+                    .select("\"Strategy_id\", sum(\"Payout\"::float) as profit")        
+
+    (strategies.order(:id).pluck(:id)).map do |s|
+      trade = trades_strategy.detect { |trade| trade.Strategy_id == s }
+      trade && trade.profit || 0
+    end
   end
 
   def trades_by_azzet(trades, start_time = 1.months.ago, end_time = Time.zone.today)

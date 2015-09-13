@@ -1,6 +1,6 @@
 es:
   page_principal:       "Bienvenido"
-  page_description:     "Monitorea el desempeño de tus operaciones en opciones binarias de una forma sencilla y eficaz"
+  page_description:     "Monitorea el desempeño de tus operaciones en opciones binarias de una forma sencilla, eficaz y completamente GRATIS"
 
   link_dasboard:        "Tablero"
   link_statistics:      "Estadisticas"
@@ -40,6 +40,7 @@ es:
   dashboard_trades_amount:   "Cantidad"
   dashboard_trades_actions:   "Acciones"
   dashboard_alert_delete:   "¿Confirma que desea eliminar el movimiento?"
+  dashboard_chk_include_demo: "Incluir cuentas demo"
   #form
   dashboard_new_trade:       "Nuevo movimiento"
   dashboard_broker_account:  "Cuenta de broker"
@@ -52,9 +53,16 @@ es:
   dashboard_amount:			 "Cantidad"
   dashboard_onprofit:		 "Beneficio"
   dashboard_onloss:		     "Perdida"
-  dashboard_position:        "ID de la posicion"
+  dashboard_position:        "ID"
   dashboard_button_close:    "Cerrar"
   dashboard_button_create:   "Crear"
+  #Charts
+  chart_results_title:      "Resultados diarios"
+  chart_total_trades:       "Trades"
+  chart_profit:             "Profit"
+  chart_strategy_title:   "Resultados por estrategia"
+  chart_performance:        "Resultados"
+  chart_balance_title:      "Balance"
   #trades
   trades_title:              "Trades"
   trades_created:           "Creado"

@@ -87,6 +87,9 @@ class StatisticsController < ApplicationController
           :data => trades_by_strategy(trades_data.lost, categories_data, @filter_begin_date, @filter_end_date)
         },
         {
+          :data => profit_by_strategy(trades_data, categories_data, @filter_begin_date, @filter_end_date)
+        },
+        {
           #Categories
           :data => categories_data.pluck(:Name)
         }

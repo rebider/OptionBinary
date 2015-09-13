@@ -49,10 +49,10 @@ module DashboardHelper
 	end
 
   def real_accounts
-    #BrokerAccount.real_accounts(current_user.id).pluck(:id)
-    BrokerAccount.user_brokerAccounts(current_user.id).pluck(:id)
-    
+    BrokerAccount.real_accounts(current_user.id).pluck(:id)
   end
-
+  def demo_accounts
+    BrokerAccount.demo_accounts(current_user.id).pluck(:id)
+  end
 
 end

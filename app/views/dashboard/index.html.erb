@@ -16,6 +16,7 @@
 
 
 <%= content_tag :div, "", id: "account_ids", data: {accounts: real_accounts } %>
+<%= content_tag :div, "", id: "demo_account_ids", data: {accounts: demo_accounts } %>
 <div id="today_full_data" data-today=""></div>
 <p id="notice"><%= notice %></p>
 <div class="row">
@@ -51,8 +52,13 @@
         <div class="row">
             <div class="col-lg-12 col-md-12">
                 <div class="panel">
-                    <div class="panel-heading">
-                        <div class="panel-control"></div>
+                    <div class="panel-heading">                        
+                        <div class="panel-control">
+                            <label class="form-checkbox form-normal form-primary active form-text">
+                                <input type="checkbox" checked id="chk-include-demo" onclick="update_trades_chart();">
+                                <%= I18n.t('dashboard_chk_include_demo') %>
+                            </label>                                
+                        </div>
                         <h3 class="panel-title"><%= I18n.t('dashboard_last_5_days_results') %></h3>
                     </div>
                     <div class="panel-body">
@@ -359,7 +365,7 @@
     function update_dashboard()
     {
         get_today_data();
-       update_trades_chart();
+        update_trades_chart();
     }
 
 
@@ -553,9 +559,14 @@
         });
     }
 
+
     function format_account_ids()
     {
         var accounts = $("#account_ids").data("accounts");
+
+        if($("#chk-include-demo").is(":checked")){
+            accounts = accounts.concat($("#demo_account_ids").data("accounts"));
+        }
 
         var formated_id = "";
 
@@ -566,6 +577,7 @@
         return formated_id;
     }
 
+
     function getParameterByName(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -575,7 +587,8 @@
 
     $('#trades-chart').highcharts({
         title: {
-            text: 'Trade diario'
+            //text: '<%= I18n.t('chart_daily_results') %>'
+            text: ''
         },
         credits: {
             enabled: false
@@ -590,7 +603,7 @@
         yAxis: [
         {
             title: {
-                text: 'Total trades'
+                text: '<%= I18n.t('chart_total_trades') %>'
             },
             labels: {
                 formatter: function () {
@@ -601,7 +614,7 @@
         },
         {
             title: {
-                text: 'Profit'
+                text: '<%= I18n.t('chart_profit') %>'
             },
             labels: {
                 formatter: function () {

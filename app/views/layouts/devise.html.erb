@@ -6,6 +6,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My BOS</title>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -15,27 +19,103 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&subset=latin">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/style.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" type="text/css" href="/assets/style.min.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/assets/form-validator/jquery.form-validator.min.js"></script>
+
 </head>
 
-<body data-no-turbolink="true" class="nifty-ready pace-done">
+<body id="page-top">
+  <style type="text/css">
+    .navbar-header{
 
+    }
+    header {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+        text-align: center;
+        color: #fff;
+        background-position: center;
+    }
+
+    header .header-content {
+        position: relative;
+        width: 100%;
+        padding: 100px 15px;
+        text-align: center;
+    }
+
+    header .header-content .header-content-inner h1 {
+        margin-top: 0;
+        margin-bottom: 0;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    header .header-content .header-content-inner hr {
+        margin: 30px auto;
+    }
+
+    header .header-content .header-content-inner p {
+        margin-bottom: 50px;
+        font-size: 16px;
+        font-weight: 300;
+        color: rgba(255,255,255,.7);
+    }
+    hr {
+        max-width: 50px;
+        border-color: #f05f40;
+        border-width: 3px;
+    }
+
+    hr.light {
+        border-color: #fff;
+    }
+    .navbar-header{
+      background-color: transparent;
+    }
+    @media(min-width:768px) {
+        header {
+            min-height: 100%;
+        }
+
+        header .header-content {
+            position: absolute;
+            top: 50%;
+        }
+
+        header .header-content .header-content-inner {
+            margin-right: auto;
+            margin-left: auto;
+            max-width: 1000px;
+        }
+
+        header .header-content .header-content-inner p {
+            margin-right: auto;
+            margin-left: auto;
+            max-width: 80%;
+            font-size: 18px;
+        }
+        .navbar-header:before{
+        background-color: transparent;
+      }
+    }
+    </style>
   <div id="container" class="cls-container">
 
     <div id="bg-overlay" class="bg-img img-balloon" style="background-image: url(/assets/home1.jpg);"></div>
 
-    <div class="cls-content">
+    <div class="cls-content">  
+      <%= render 'shared/navigation_devise' %>
+
       <%= yield %>
     </div>
-
-
   </div>
 
 </body>

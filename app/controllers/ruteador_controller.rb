@@ -1,4 +1,5 @@
 class RuteadorController < ApplicationController
+	layout 'devise'
 
   def index
   	if user_signed_in?

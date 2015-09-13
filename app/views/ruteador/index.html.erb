@@ -1,6 +1,10 @@
-<%= render 'style' %>
-<div>
-<div class="title"><%= I18n.t('page_principal') %></div>
-<div class="subtitle">My Binary Option Stats</div>
-<strong><div class="description"><%= I18n.t('page_description') %></div></strong>
-</div>
+<header>
+    <div class="header-content">
+        <div class="header-content-inner">
+            <h1>My Binary Option Stats</h1>
+            <hr>
+            <p><%= I18n.t('page_description') %></p>
+            <%= link_to I18n.t('buttons.signup'), new_user_registration_path, :class => 'btn btn-primary btn-xl page-scroll'  %>
+        </div>
+    </div>
+</header>

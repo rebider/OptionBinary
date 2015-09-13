@@ -71,3 +71,6 @@ es:
             current_password:
               blank: "Este campo es requerido"
               invalid: "El password actual es incorrecto"
+  buttons:
+    login: "Iniciar sesión"
+    signup: "Registrarse"

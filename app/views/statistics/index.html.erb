@@ -13,12 +13,10 @@
 
     function update_charts() 
     {
-
-         update_filters();
-         update_trades_chart();
-         update_estrategies_chart();
-         //update_azzets_chart();
-
+        update_filters();
+        update_trades_chart();
+        update_estrategies_chart();
+        //update_azzets_chart();
     }
 
     function update_filters()
@@ -123,6 +121,8 @@
                 }, false);
               
                 chart.redraw();
+
+                update_balance_chart(data[3].pointStart, data[3].pointInterval);
             }
         });
     }
@@ -160,7 +160,7 @@
                     data: data[2].data
                 }, false);
 
-                chart.xAxis[0].setCategories(data[3].data);
+                chart.xAxis[0].setCategories(data[4].data);
               
                 chart.redraw();
             }
@@ -207,329 +207,418 @@
         });
     }
 
-</script>
+    function update_balance_chart(pointStart, pointInterval)
+    {
+        var values = [];
 
-<script type="text/javascript">
-  
+        $.each($('#trades-chart').highcharts().series[4].data, function( index, value ) {
+            if(index == 0)
+            {
+                values.push( value.y );
+            }
+            else
+            {
+                values.push( value.y + values[index-1] );
+            }
+        });
 
-  $(function() {
+        var chart = $('#balance-chart').highcharts();
+        chart.series[0].update({
+            pointStart: pointStart,
+            pointInterval: pointInterval,
+            data: values
+        }, true);
+    }
 
-    $('#trades-chart').highcharts({
-        title: {
-            text: 'Trade diario'
-        },
-        credits: {
-            enabled: false
-        },
-        xAxis: {
-            type: "datetime",
-            tickmarkPlacement: 'on',
+    function inicialize_charts()
+    {
+        $('#trades-chart').highcharts({
             title: {
+                text: '<%= I18n.t('chart_results_title') %>'
+            },
+            credits: {
                 enabled: false
-            }
-        },
-        yAxis: [
-        {
-            title: {
-                text: 'Total trades'
             },
-            labels: {
-                formatter: function () {
-                    return this.value;
-                }
-            },
-
-        },
-        {
-            title: {
-                text: 'Profit'
-            },
-            labels: {
-                formatter: function () {
-                    return "$ " + this.value;
-                }
-            },
-            opposite: true
-        }
-        ],
-        tooltip: {
-            shared: true,
-            valueSuffix: ''
-        },
-        plotOptions: {
-            area: {
-                //stacking: 'normal',
-                marker: {
-                    enabled: false,
-                    symbol: 'circle',
-                    radius: 2,
-                    states: {
-                        hover: {
-                            enabled: true
-                        }
-                    }
-                }
-            }
-        },
-        series:
-        [
-            {
-                type: 'area',
-                name: 'Won',
-                color:'#4ebcda',
-                pointInterval: '',
-                pointStart: '',
-                data: []
-            },
-            {
-                type: 'area',
-                name: 'Tie',
-                color:'#E6EBE0',
-                pointInterval: '',
-                pointStart: '',
-                data: []
-            },
-            {
-                type: 'area',
-                name: 'Lost',
-                color: '#F1948A',
-                pointInterval: '',
-                pointStart: '',
-                data: []
-            },
-            {
-                type: 'pie',
-                name: 'Total trades',
-                data: [],
-                center: [100, 80],
-                size: 100,
-                showInLegend: false,
-                dataLabels: {
+            xAxis: {
+                type: "datetime",
+                tickmarkPlacement: 'on',
+                title: {
                     enabled: false
                 }
             },
+            yAxis: [
             {
-                type: 'spline',
-                yAxis: 1,
-                name: 'Profit',
-                color:'#F7DC6F',
-                data: [],
-                marker: {
-                    lineWidth: 2,
-                    lineColor: '#F7DC6F',
-                    fillColor: 'white'
+                title: {
+                    text: '<%= I18n.t('chart_total_trades') %>'
                 },
-                tooltip: {
-                    valuePrefix: '$ '
-                }
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                },
+
+            },
+            {
+                title: {
+                    text: '<%= I18n.t('chart_profit') %>'
+                },
+                labels: {
+                    formatter: function () {
+                        return "$ " + this.value;
+                    }
+                },
+                opposite: true
             }
-        ]
-    });
-
-
-    $('#strategy-chart').highcharts({
-        chart: {
-            type: 'column'
-        },
-        credits: {
-            enabled: false
-        },
-        title: {
-            text: 'Trade by Strategy Global'
-        },
-        xAxis: {
-            categories: [                  
+            ],
+            tooltip: {
+                shared: true,
+                valueSuffix: ''
+            },
+            plotOptions: {
+                area: {
+                    //stacking: 'normal',
+                    marker: {
+                        enabled: false,
+                        symbol: 'circle',
+                        radius: 2,
+                        states: {
+                            hover: {
+                                enabled: true
+                            }
+                        }
+                    }
+                },
+                spline: {
+                    lineWidth: 2,
+                    states: {
+                        hover: {
+                            lineWidth: 4
+                        }
+                    },
+                    marker: {
+                        enabled: false
+                    }
+                }
+            },
+            series:
+            [
+                {
+                    type: 'area',
+                    name: 'Won',
+                    color:'#4ebcda',
+                    pointInterval: '',
+                    pointStart: '',
+                    data: []
+                },
+                {
+                    type: 'area',
+                    name: 'Tie',
+                    color:'#E6EBE0',
+                    pointInterval: '',
+                    pointStart: '',
+                    data: []
+                },
+                {
+                    type: 'area',
+                    name: 'Lost',
+                    color: '#F1948A',
+                    pointInterval: '',
+                    pointStart: '',
+                    data: []
+                },
+                {
+                    type: 'pie',
+                    name: 'Total trades',
+                    data: [],
+                    center: [100, 80],
+                    size: 100,
+                    showInLegend: false,
+                    dataLabels: {
+                        enabled: false
+                    }
+                },
+                {
+                    type: 'spline',
+                    yAxis: 1,
+                    name: 'Profit',
+                    color:'#F7DC6F',
+                    data: [],
+                    marker: {
+                        lineWidth: 2,
+                        lineColor: '#F7DC6F',
+                        fillColor: 'white'
+                    },
+                    tooltip: {
+                        valuePrefix: '$ '
+                    }
+                }
             ]
-        },
-        yAxis: {
-            min: 0,
+        });
+
+
+        $('#strategy-chart').highcharts({
+            chart: {
+                type: 'column'
+            },
+            credits: {
+                enabled: false
+            },
             title: {
-                text: 'Eficiencia'
-            }
-        },
-        tooltip: {
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.0f} </b></td></tr>',
-            footerFormat: '</table>',
-            shared: true,
-            useHTML: true
-        },
-        plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
-            }
-        },
-        series: 
-        [
-            {
-                name: 'WON',
-                color:'#4ebcda',
-                data: [
-                    
-                ],
-                dataLabels: {
-                    enabled: true,
-                    //rotation: -90,
-                    color: '#FFFFFF',
-                    align: 'center',
-                    format: '{point.y:.0f}', // one decimal
-                    //y: 10, // 10 pixels down from the top
-                    style: {
-                        fontSize: '10px',
-                        fontFamily: 'Verdana, sans-serif'
-                    }
+                text: '<%= I18n.t('chart_strategy_title') %>'
+            },
+            xAxis: {
+                categories: [                  
+                ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '<%= I18n.t('chart_performance') %>'
                 }
             },
-            {
-                name: 'TIE',
-                color:'#E6EBE0',
-                data: [
-                    
-                ],
-                dataLabels: {
-                    enabled: true,
-                    //rotation: -90,
-                    color: '#FFFFFF',
-                    align: 'center',
-                    format: '{point.y:.0f}', // one decimal
-                    //y: 10, // 10 pixels down from the top
-                    style: {
-                        fontSize: '10px',
-                        fontFamily: 'Verdana, sans-serif'
-                    }
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.0f} </b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
                 }
             },
-            {
-                name: 'LOST',
-                color: '#F1948A',
-                data: [
-                    
-                ],
-                dataLabels: {
-                    enabled: true,
-                    //rotation: -90,
-                    color: '#FFFFFF',
-                    align: 'center',
-                    format: '{point.y:.0f}', // one decimal
-                    //y: 10, // 10 pixels down from the top
-                    style: {
-                        fontSize: '10px',
-                        fontFamily: 'Verdana, sans-serif'
+            series: 
+            [
+                {
+                    name: 'WON',
+                    color:'#4ebcda',
+                    data: [
+                        
+                    ],
+                    dataLabels: {
+                        enabled: true,
+                        //rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'center',
+                        format: '{point.y:.0f}', // one decimal
+                        //y: 10, // 10 pixels down from the top
+                        style: {
+                            fontSize: '10px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                },
+                {
+                    name: 'TIE',
+                    color:'#E6EBE0',
+                    data: [
+                        
+                    ],
+                    dataLabels: {
+                        enabled: true,
+                        //rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'center',
+                        format: '{point.y:.0f}', // one decimal
+                        //y: 10, // 10 pixels down from the top
+                        style: {
+                            fontSize: '10px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                },
+                {
+                    name: 'LOST',
+                    color: '#F1948A',
+                    data: [
+                        
+                    ],
+                    dataLabels: {
+                        enabled: true,
+                        //rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'center',
+                        format: '{point.y:.0f}', // one decimal
+                        //y: 10, // 10 pixels down from the top
+                        style: {
+                            fontSize: '10px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
                     }
                 }
-            }
 
-        ]
-    });
+            ]
+        });
 
 
- /*   $('#azzet-chart').highcharts({
-        chart: {
-            type: 'column'
-        },
-        credits: {
-            enabled: false
-        },
-        title: {
-            text: 'Trades by Asset Global'
-        },
-        xAxis: { 
-            categories: [ ]
-        },
-        yAxis: {
-            min: 0,
+     /*   $('#azzet-chart').highcharts({
+            chart: {
+                type: 'column'
+            },
+            credits: {
+                enabled: false
+            },
             title: {
-                text: 'Eficiencia'
-            }
-        },
-        tooltip: {
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.0f} </b></td></tr>',
-            footerFormat: '</table>',
-            shared: true,
-            useHTML: true
-        },
-        plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
-            }
-        },
-        series: 
-        [ 
-            {
-                name: 'WON',
-                color:'#5fa2dd',
-                data: [
-                ],
-                dataLabels: {
-                    enabled: true,
-                    //rotation: -90,
-                    color: '#FFFFFF',
-                    align: 'center',
-                    format: '{point.y:.0f}', // one decimal
-                    //y: 10, // 10 pixels down from the top
-                    style: {
-                        fontSize: '10px',
-                        fontFamily: 'Verdana, sans-serif'
+                text: 'Trades by Asset Global'
+            },
+            xAxis: { 
+                categories: [ ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Eficiencia'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.0f} </b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: 
+            [ 
+                {
+                    name: 'WON',
+                    color:'#5fa2dd',
+                    data: [
+                    ],
+                    dataLabels: {
+                        enabled: true,
+                        //rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'center',
+                        format: '{point.y:.0f}', // one decimal
+                        //y: 10, // 10 pixels down from the top
+                        style: {
+                            fontSize: '10px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                },
+                {
+                    name: 'TIE',
+                    color:'#E6EBE0',
+                    data: [
+                    ],
+                    dataLabels: {
+                        enabled: true,
+                        //rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'center',
+                        format: '{point.y:.0f}', // one decimal
+                        //y: 10, // 10 pixels down from the top
+                        style: {
+                            fontSize: '10px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                },
+                {
+                    name: 'LOST',
+                    color: '#F45B69',
+                    data: [
+                    ],
+                    dataLabels: {
+                        enabled: true,
+                        //rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'center',
+                        format: '{point.y:.0f}', // one decimal
+                        //y: 10, // 10 pixels down from the top
+                        style: {
+                            fontSize: '10px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                }
+            ]       
+        });*/
+
+        $('#balance-chart').highcharts({
+            chart: {
+                type: 'spline'
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: '<%= I18n.t('chart_balance_title') %>'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                type: 'datetime',
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                },
+                labels: {
+                    formatter: function () {
+                        return "$ " + this.value;
+                    }
+                }          
+            },
+            tooltip: {
+                valuePrefix: '$ '
+            },
+            plotOptions: {
+                spline: {
+                    lineWidth: 4,
+                    states: {
+                        hover: {
+                            lineWidth: 5
+                        }
+                    },
+                    marker: {
+                        enabled: false
                     }
                 }
             },
-            {
-                name: 'TIE',
-                color:'#E6EBE0',
-                data: [
-                ],
-                dataLabels: {
-                    enabled: true,
-                    //rotation: -90,
-                    color: '#FFFFFF',
-                    align: 'center',
-                    format: '{point.y:.0f}', // one decimal
-                    //y: 10, // 10 pixels down from the top
-                    style: {
-                        fontSize: '10px',
-                        fontFamily: 'Verdana, sans-serif'
-                    }
-                }
-            },
-            {
-                name: 'LOST',
-                color: '#F45B69',
-                data: [
-                ],
-                dataLabels: {
-                    enabled: true,
-                    //rotation: -90,
-                    color: '#FFFFFF',
-                    align: 'center',
-                    format: '{point.y:.0f}', // one decimal
-                    //y: 10, // 10 pixels down from the top
-                    style: {
-                        fontSize: '10px',
-                        fontFamily: 'Verdana, sans-serif'
-                    }
+            series: [{
+                name: 'Balance acumulado',
+                data: []
+
+            }],
+            navigation: {
+                menuItemStyle: {
+                    fontSize: '10px'
                 }
             }
-        ]       
-    });*/
+        });
+    }
+
+    $(function() {
+
+        inicialize_charts();
+
+        $('#ls_accounts').selectpicker('selectAll'); 
+        $('#ls_strategies').selectpicker('selectAll'); 
+
+        $('.input-daterange').datepicker({
+            todayHighlight: true,
+            format: 'dd/mm/yyyy'
+        });
 
 
-
-    $('#ls_accounts').selectpicker('selectAll'); 
-    $('#ls_strategies').selectpicker('selectAll'); 
-
-    $('.input-daterange').datepicker({
-        todayHighlight: true,
-        format: 'dd/mm/yyyy'
+        update_charts();
     });
-
-
-    update_charts();
-});
 
 </script>
 
@@ -568,23 +657,61 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-sm-7 col-md-12 col-lg-7">
         <div class="panel panel-default">
             <div class="panel-body">
-                <div id="trades-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                <div id="trades-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>        
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-5 col-md-12 col-lg-5">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="balance-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-sm-12 col-md-12 col-lg-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                <div id="strategy-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                <div id="strategy-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>        
             </div>
         </div>
     </div>
+    <!--div class="col-sm-5 col-md-12 col-lg-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Strategy ranking</h3>
+            </div>
+            <div class="panel-body">
+                <table>
+                    <thead>
+                        <tr>    
+                            <th>#</th>
+                            <th>Success rate</th>
+                            <th>Profit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>85%</td>
+                            <td>$340</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>65%</td>
+                            <td>$150</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div-->
 </div>
+
 
 <!--div class="row">
     <div class="col-lg-12">

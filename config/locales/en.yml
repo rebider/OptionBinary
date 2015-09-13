@@ -1,7 +1,7 @@
 
 en:
   page_principal:       "Welcome"
-  page_description:     "Monitors the performance of your operations in binary options in a simple and effective way"
+  page_description:     "Monitors the performance of your operations in binary options. Simple, effective and absolutely FREE"
   link_dasboard:        "Dashboard"
   link_statistics:      "Statistics"
   link_strategies:      "Strategies"
@@ -40,6 +40,7 @@ en:
   dashboard_trades_amount:   "Amount"
   dashboard_trades_actions:   "Actions"
   dashboard_alert_delete:   "Are you sure?"
+  dashboard_chk_include_demo: "Include demo accounts"
 #form
   dashboard_new_trade:       "New trade"
   dashboard_broker_account:  "Broker Account"
@@ -52,9 +53,16 @@ en:
   dashboard_amount:			 "Amount"
   dashboard_onprofit:		 "OnProfit"
   dashboard_onloss:		     "Onloss"
-  dashboard_position:        "Position ID"
+  dashboard_position:        "ID"
   dashboard_button_close:    "Close"
   dashboard_button_create:   "Create"
+  #Charts
+  chart_results_title:      "Resultados diarios"
+  chart_total_trades:       "Trades"
+  chart_profit:             "Profit"
+  chart_strategy_title:   "Results by Strategy"
+  chart_performance:        "Results"
+  chart_balance_title:      "Balance"
   #trades
   trades_title:              "Trades"
   trades_created:           "Created"
