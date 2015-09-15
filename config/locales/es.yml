@@ -39,7 +39,7 @@ es:
   dashboard_trades_option:   "Opcion"
   dashboard_trades_amount:   "Cantidad"
   dashboard_trades_actions:   "Acciones"
-  dashboard_alert_delete:   "¿Confirma que desea eliminar el movimiento?"
+  dashboard_alert_delete:   "¿Confirma que desea eliminar este elemento? esta acción no se puede deshacer."
   dashboard_chk_include_demo: "Incluir cuentas demo"
   #form
   dashboard_new_trade:       "Nuevo movimiento"

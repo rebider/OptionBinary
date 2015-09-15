@@ -22,7 +22,7 @@
                         <tr class="odd gradeX">
                           <td><%= strategy.Name %></td>
                           <td><%= link_to I18n.t('strategies_button_edit'), edit_strategy_path(strategy) %></td>
-                          <td><%= link_to I18n.t('strategies_button_destroy'), strategy, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                          <td><%= link_to I18n.t('strategies_button_destroy'), strategy, method: :delete, data: { confirm: I18n.t('dashboard_alert_delete') } %></td>
                         </tr>
                       <% end %>
                     </tbody>

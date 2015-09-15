@@ -39,7 +39,7 @@ en:
   dashboard_trades_option:   "Option"
   dashboard_trades_amount:   "Amount"
   dashboard_trades_actions:   "Actions"
-  dashboard_alert_delete:   "Are you sure?"
+  dashboard_alert_delete:   "Are you sure you want to delete this item? This action can not be undone."
   dashboard_chk_include_demo: "Include demo accounts"
 #form
   dashboard_new_trade:       "New trade"

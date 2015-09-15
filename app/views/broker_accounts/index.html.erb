@@ -34,7 +34,7 @@
                             <% end %>
                           </td>
                           <td><%= link_to I18n.t('account_button_edit'), edit_broker_account_path(broker_account) %></td>
-                          <td><%= link_to I18n.t('account_button_destroy'), broker_account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                          <td><%= link_to I18n.t('account_button_destroy'), broker_account, method: :delete, data: { confirm: I18n.t('dashboard_alert_delete') } %></td>
                         </tr>
                       <% end %>
                     </tbody>

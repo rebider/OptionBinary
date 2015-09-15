@@ -60,7 +60,7 @@
         <div class="col-xs-5 col-sm-5 col-md-5">
           <div class="input-group">
             <div class="input-group-addon">
-              <i class="icon-dollar"></i>
+              $
             </div>
             <%= f.number_field :Amount, class:'form-control', :onchange => 'calcule_percent()', :data => {:validation => "required"} %>
           </div>       
@@ -75,7 +75,7 @@
         <div class="col-xs-5 col-sm-5 col-md-5">
           <div class="input-group">
             <div class="input-group-addon">
-              <i class="icon-percent"></i>
+              %
             </div>
             <%= f.text_field :OnProfit, class:'form-control', type:'text', :onchange => 'calcule_onprofit()', :data => {:validation => "number"} %>
           </div>
@@ -90,7 +90,7 @@
         <div class="col-xs-5 col-sm-5 col-md-5">
           <div class="input-group">
              <div class="input-group-addon">
-              <i class="icon-percent"></i>
+              %
             </div>
             <%= f.text_field :OnLoss, class:'form-control', type:'text', :onchange => 'calcule_onlost()', :data => {:validation => "number"} %>
           </div>

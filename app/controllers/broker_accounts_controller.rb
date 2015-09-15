@@ -69,6 +69,9 @@ class BrokerAccountsController < ApplicationController
   end
 
   def destroy
+
+    Trade.where(:BrokerAccount_id => @broker_account.id).destroy_all
+
     @broker_account.destroy
     respond_with(@broker_account)
   end

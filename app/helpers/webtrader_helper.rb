@@ -1,0 +1,2 @@
+module WebtraderHelper
+end

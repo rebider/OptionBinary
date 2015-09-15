@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'webtrader/index'
+
   resources :feedbacks
 devise_for :admins
 devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
@@ -14,6 +16,8 @@ devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
   resources :dashboard
   resources :statistics
   resources :feedbacks
+  resources :tools
+  resources :webtrader
   #get 'ruteador/index'
 
   
@@ -51,7 +55,6 @@ devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
   get 'statistics/azzets_chart/:id' => 'statistics#azzets_chart'
 
   get 'statistics/index'
-  #get 'statistics/today_scores' => 'statistics#today_scores', as: :today_scores
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
