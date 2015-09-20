@@ -1,6 +1,7 @@
 es:
   page_principal:       "Bienvenido"
-  page_description:     "Monitorea el desempeño de tus operaciones en opciones binarias de una forma sencilla, eficaz y completamente GRATIS"
+  page_description:     "Analiza, gestiona, opera y  monitorea tus opciones binarias. Todo en un solo lugar, completamente GRATIS"
+  #page_description:     "Monitorea el desempeño de tus operaciones en opciones binarias de una forma sencilla, eficaz y completamente GRATIS"
 
   link_dasboard:        "Tablero"
   link_statistics:      "Estadisticas"

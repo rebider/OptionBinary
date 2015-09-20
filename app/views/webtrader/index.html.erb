@@ -1,30 +1,168 @@
 <style type="text/css">
-#tab-container{ height: 500px!important; }
-.content { height: 100%; }
+/*html { overflow: hidden!important;}*/
+#page-content{padding: 10px!important;}
+#content-container{padding-bottom: 0px!important;}
+#broker-tabs-content .tab-pane{ height: 84vh; }
+.panel-tabs { padding-left: 0px!important; background-color: whitesmoke;}
+.no-padding{padding: 0px!important;}
+#broker-tabs li a.remove{color:#f00; margin-left: -2px; cursor: auto;}
+#broker-tabs li a.remove, #broker-tabs li a.tab{display: inline-block;}
+.tab-base{margin-bottom: 0px!important;}
 </style>
+<script src="https://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.js"></script>
+<script type="text/javascript">
+  // set your interval in milliseconds
+  var reloadInterval = 600000;
+  // this will run when the document is fully loaded
+  function init() {
+   setTimeout('refreshFrames()',reloadInterval);
+  }
+  // this reloads the iframe, and triggers the next reload interval
+  function refreshFrames()
+  { 
+    $('iframe.reload').each(function() {
+      var iframe = document.getElementById(this.id);
+      iframe.src = iframe.src;
+    });
+    setTimeout('refreshFrames()',reloadInterval);
+  }
+  // load the init() function when the page is fully loaded
+  //window.onload = init;
 
+  function addTab() {
+    // hide other tabs
+    //$("#broker-tabs li").removeClass("active");
+    //$("#content p").hide();
+
+    var selectedBrokerId = $("#ls_accounts option:selected").val();
+    var selectedAccount = $("#ls_accounts option:selected").text();
+
+    // If tab already exist in the list, return
+    if ($("#tab_" + selectedBrokerId).length != 0)
+    {
+      $("#tab_" + selectedBrokerId).trigger("click");
+      return;
+    }      
+
+    loadBroker(selectedBrokerId, selectedAccount);
+  }
+
+  function deleteTab(tab)
+  {
+     // Get the tab name
+    var tabid = $(tab).parent().find(".tab").attr("id");
+    // remove tab and related content
+    var contentname = tabid.substring(4) + "_content";
+    $("#" + contentname).remove();
+    $(tab).parent().remove();
+
+    $("#tab_charts" ).trigger("click");
+  }
+
+  function loadBroker(brokerId, account)
+  {
+    var url =  "/brokers/" + brokerId + ".json";
+    var broker;
+
+    $.ajax({
+        type: 'GET', 
+        url: url, 
+        dataType: 'script',
+        success: function(data){
+            createContentTab(jQuery.parseJSON(data), account);
+        },
+        error: function (request, status, error) {
+            createContentTab(jQuery.parseJSON(request.responseText), account);
+        }
+    });
+  }
+  
+  function createContentTab(broker, account){
+    $("#broker-tabs").append("<li><a class='tab' data-toggle='tab' id='tab_" +
+        broker.id + "' href='#" + broker.id + "_content' aria-expanded='false'>"+ account +"</a>" +
+        "<a href='#' onclick='javascript:deleteTab(this)' class='remove'>x</a></li>");
+
+    $("#broker-tabs-content").append("<div id='" + broker.id + "_content' class='tab-pane fade'>" +
+          "<iframe scrolling='auto' id='frame_" + broker.id + "' class='reload' frameborder='0'" + 
+          "src='" + broker.Url + "' style='width:100%;height:100%;'></iframe></div>");
+
+    // set the newly added tab as curren
+    $("#tab_" + broker.id ).trigger("click");
+  }
+
+  $( document ).ready(function() {
+    $('#ls_accounts').selectpicker(); 
+
+    $("#ls_accounts").change(function() {
+        addTab();
+    });
+  });
+
+</script>
 <div class="row">
-    <div class="col-lg-2 col-md-2">
-
+    <div class="col-lg-3 col-md-3">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="panel">
+              <div class="panel-heading">
+                  <div class="panel-control">
+                      <%= link_to new_dashboard_path, remote: true,  :data => { :toggle => 'modal', :target => 'myModal' } do %>
+                            <button class="btn btn-purple btn-labeled fa fa-plus"><%= I18n.t('dashboard_button_trades') %></button>
+                          <% end %> 
+                  </div>
+                  <h3 class="panel-title"><%= I18n.t('dashboard_open_trades') %></h3>
+              </div>
+              <div class="panel-body">
+                  <div id='trades'>
+                      
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="panel">
+            <div class="panel-heading">
+              <div class="panel-control">
+                <ul class="nav nav-tabs">
+                  <li class>
+                    <a href="#demo-tabs-box-1" data-toggle="tab" aria-expanded="true">Stats</a>
+                  </li>
+                  <li class>
+                    <a href="#demo-tabs-box-2" data-toggle="tab" aria-expanded="true">News</a>
+                  </li>
+                </ul>
+              </div>
+              <h3 class="panel-title">Options</h3>
+            </div>
+            <div class="panel-body">
+              <div class="tab-content">
+                <div id="demo-tabs-box-1" class="tab-pane fade active in">gffgg</div>
+                <div id="demo-tabs-box-2" class="tab-pane fade">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col-lg-10 col-md-10">
-      <div id="tab-container" class="tab-container">
-        <ul class='nav nav-tabs'>
-          <li><a href="#10trade">HTML Markup</a></li>
-          <li><a href="#ctoption">Required JS</a></li>
-          <li><a href="#tabs1-css">Example CSS</a></li>
-        </ul>
-        <div id="10trade" class="content">
-          <iframe scrolling="auto" id="fr10trade" frameborder="0" src="https://www.10trade.com/es/" style="width:100%;height:100%;"></iframe>
-          <!-- content -->
+    <div class="col-lg-9 col-md-9 panel-tabs">
+      <div class="tab-base">
+        <div class="input-group">
+          <ul class="nav nav-tabs" id="broker-tabs">
+            <li class="active">
+              <a id="tab_charts" href="#chart-content" data-toggle="tab" aria-expanded="true">Charts</a>
+            </li>
+          </ul>
+          <span class="input-group-btn">
+            <%= collection_select(:account, :broker, BrokerAccount.user_brokerAccounts(current_user.id), :broker_id, :name, {prompt: I18n.t('dashboard_select_account')} ,{:class=> "s", :id => "ls_accounts" })%>
+          </span>
         </div>
-        <div id="ctoption" class="content">
-          <iframe scrolling="auto" id="frctoption" frameborder="0" src="https://ctoption.com/" style="width:100%;height:100%;"></iframe>
-          <!-- content -->
-        </div>
-        <div id="tabs1-css" class="content">
-          <h2>CSS Styles for these tabs</h2>
-          <!-- content -->
+        <div class="tab-content no-padding" id="broker-tabs-content">
+          <div id="chart-content" class="tab-pane fade active in">
+            <%= render 'charts' %>
+          </div>      
         </div>
       </div>
     </div>
@@ -33,31 +171,3 @@
 
 
 
-<script type="text/javascript">
-	function addTab(title, url){
-	    if ($('#tt').tabs('exists', title)){
-	        $('#tt').tabs('select', title);
-	    } else {
-	        var content = '<iframe scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
-	        $('#tt').tabs('add',{
-	            title:title,
-	            content:content,
-	            closable:true
-	        });
-	    }
-	}
-
-  $('#tab-container').easytabs();
-
-  setInterval(refreshFrames, 600000);
-
-  function refreshFrames()
-  { 
-    $('iframe').each(function() {
-      var iframe = document.getElementById(this.id);
-      iframe.src = iframe.src;
-    });
-  }
-  
-
-</script>

@@ -161,7 +161,7 @@
             <div class="col-sm-6 col-md-12 col-lg-6">
                 <div class="panel panel-info" id="panel-market">
                     <div class="panel-body">
-                        <%= render 'forex_market_hours' %>
+                        <%= render 'forex_news' %>
                     </div>
                 </div>
             </div>
@@ -408,7 +408,7 @@
             today_profit_real = parseFloat(balance.profit).toFixed(2);
             
             //Calcular el crecimiento de la cuenta
-            today_profit_percent_real = ((today_profit_real / (balance_real - today_profit_real)) * 100).toFixed(0);
+            today_profit_percent_real = ((today_profit_real / (balance_real - today_profit_real)) * 100).toFixed(1);
 
             $("#lbl-today-profit-real").text(today_profit_real);
             $("#lbl-today-profit-real-percent").text(today_profit_percent_real);
@@ -418,7 +418,7 @@
             today_profit_demo = parseFloat(balance.profit).toFixed(2);
 
             //Calcular el crecimiento de la cuenta
-            today_profit_percent_demo = ((today_profit_demo / (balance_demo - today_profit_demo)) * 100).toFixed(0);
+            today_profit_percent_demo = ((today_profit_demo / (balance_demo - today_profit_demo)) * 100).toFixed(1);
 
             $("#lbl-today-profit-demo").text(today_profit_demo);
             $("#lbl-today-profit-demo-percent").text(today_profit_percent_demo);
