@@ -14,6 +14,7 @@
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                       <thead>
                         <tr>
+                          <th colspan="3"></th>
                           <th>Name</th>
                           <th>Url</th>
                           <th>Image</th>
@@ -23,14 +24,16 @@
                           <th>Maximunamounttrade</th>
                           <th>Expirations</th>
                           <th>Demoaccount</th>
-                          <th>Usafriendly</th>
-                          <th colspan="3"></th>
+                          <th>Usafriendly</th>                          
                         </tr>
                       </thead>
 
                       <tbody>
                         <% @brokers.each do |broker| %>
                           <tr>
+                            <td><%= link_to 'Show', broker %></td>
+                            <td><%= link_to 'Edit', edit_broker_path(broker) %></td>
+                            <td><%= link_to 'Destroy', broker, method: :delete, data: { confirm: 'Are you sure?' } %></td>
                             <td><%= broker.Name %></td>
                             <td><%= broker.Url %></td>
                             <td><%= broker.Image %></td>
@@ -40,10 +43,7 @@
                             <td><%= broker.MaximunAmountTrade %></td>
                             <td><%= broker.Expirations %></td>
                             <td><%= broker.DemoAccount %></td>
-                            <td><%= broker.USAFriendly %></td>
-                            <td><%= link_to 'Show', broker %></td>
-                            <td><%= link_to 'Edit', edit_broker_path(broker) %></td>
-                            <td><%= link_to 'Destroy', broker, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                            <td><%= broker.USAFriendly %></td>                            
                           </tr>
                         <% end %>
                       </tbody>

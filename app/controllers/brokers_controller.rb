@@ -29,10 +29,10 @@ class BrokersController < ApplicationController
 
     respond_to do |format|
       if @broker.save
-        format.html { redirect_to @broker, notice: 'Broker was successfully created.' }
-        format.json { render :show, status: :created, location: @broker }
+        format.html { redirect_to '/brokers' }
+        format.json { render :show, status: :ok, location: @broker }
       else
-        format.html { render :new }
+        format.html { render :edit }
         format.json { render json: @broker.errors, status: :unprocessable_entity }
       end
     end
@@ -43,7 +43,7 @@ class BrokersController < ApplicationController
   def update
     respond_to do |format|
       if @broker.update(broker_params)
-        format.html { redirect_to @broker, notice: 'Broker was successfully updated.' }
+        format.html { redirect_to '/brokers' }
         format.json { render :show, status: :ok, location: @broker }
       else
         format.html { render :edit }
