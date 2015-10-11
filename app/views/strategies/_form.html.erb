@@ -1,3 +1,5 @@
+<script type="text/javascript" src="/assets/jquery-validate/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/assets/jquery-validate/jquery-validate.bootstrap-tooltip.min.js"></script>
 <%= form_for(@strategy, :html => {:class => 'form-horizontal', :role => 'form'} ) do |f| %>
 
   <div class="panel-body">
@@ -19,7 +21,7 @@
     <div class="form-group">
         <%= f.label I18n.t('strategies_table_name'), class:'col-sm-3' %>
         <div class="col-sm-9">
-          <%= f.text_field :Name, class:'form-control', :data => {:validation => "required"} %>
+          <%= f.text_field :Name, class:'form-control' %>
         </div>
     </div>
 
@@ -34,5 +36,12 @@
 <% end %>
 
 <script>
-  $.validate();
+  $("form").validate({
+    rules: {
+      'strategy[Name]': {required: true}
+    },
+    tooltip_options: {
+      'strategy[Name]': {placement:'top',html:true}
+    }
+  });
 </script>

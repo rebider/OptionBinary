@@ -25,14 +25,14 @@
       <div class="form-group">
           <%= f.label I18n.t('dashboard_broker_account'), class:'col-xs-3 col-sm-3 col-md-3' %>
           <div class="col-xs-9 col-sm-9 col-md-9">
-            <%= f.collection_select(:BrokerAccount_id, @brokerAccount, :id, :name, {prompt: I18n.t('dashboard_select_account')},  {class: "form-control selectpicker", :name => "trade[BrokerAccount_id]", :onchange => 'get_balance(this.value)', :data => {:validation => "required", "live-search" => "true"} } ) %>
+            <%= f.collection_select(:BrokerAccount_id, @brokerAccount, :id, :name, {},  {class: "form-control selectpicker", :name => "trade[BrokerAccount_id]", :onchange => 'get_balance(this.value)', :data => {:validation => "required"} } ) %>
           </div>
       </div>
 
       <div class="form-group">
           <%= f.label I18n.t('dashboard_strategy'), class:'col-xs-3 col-sm-3 col-md-3' %>
           <div class="col-xs-9 col-sm-9 col-md-9">
-            <%= f.collection_select(:Strategy_id, @strategy, :id, :Name , {prompt: I18n.t('dashboard_select_strategy')}, {class: "form-control selectpicker", :name => "trade[Strategy_id]", :onchange => 'get_strategy_success_rate(this.value)', :data => {:validation => "required", "live-search" => "true"}}) %>
+            <%= f.collection_select(:Strategy_id, @strategy, :id, :Name , {}, {class: "form-control selectpicker", :name => "trade[Strategy_id]", :onchange => 'get_strategy_success_rate(this.value)', :data => {:validation => "required"}}) %>
           </div>  
       </div>
 

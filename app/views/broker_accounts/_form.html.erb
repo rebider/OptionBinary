@@ -1,3 +1,5 @@
+<script type="text/javascript" src="/assets/jquery-validate/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/assets/jquery-validate/jquery-validate.bootstrap-tooltip.min.js"></script>
 <%= form_for(@broker_account, :html => {:class => 'form-horizontal', :role => 'form'} ) do |f| %>
 
   <div class="panel-body">
@@ -26,7 +28,7 @@
     <div class="form-group">
         <%= f.label I18n.t('account_table_broker'), class:'col-sm-3' %>
         <div class="col-sm-9">
-          <%= f.collection_select :broker_id, Broker.order(:Name), :id, :Name, { prompt: I18n.t('account_select_broker')} , {class: "form-control selectpicker", :data => {:validation => "required", :"live-search"=> "true" }}   %>
+          <%= f.collection_select :broker_id, Broker.order(:Name), :id, :Name, {} , {class: "form-control selectpicker", :data => {:validation => "required", :"live-search"=> "true" }}   %>
         </div>
     </div>
 
@@ -57,7 +59,18 @@
 
 <% end %>
 
-
 <script>
-  $.validate();
+  $("form").validate({
+    rules: {
+      'broker_account[name]': {required: true},
+      'broker_account[broker_id]': {required: true},
+      'broker_account[Balance]': {required: true, number: true}
+
+    },
+    tooltip_options: {
+      'broker_account[name]': {placement:'top',html:true},
+      'broker_account[broker_id]': {placement:'top',html:true},
+      'broker_account[Balance]': {placement:'top',html:true}
+    }
+  });
 </script>

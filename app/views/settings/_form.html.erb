@@ -1,3 +1,5 @@
+<script type="text/javascript" src="/assets/jquery-validate/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/assets/jquery-validate/jquery-validate.bootstrap-tooltip.min.js"></script>
 <%= form_for(@setting, :html => {:class => 'form-horizontal', :role => 'form'} ) do |f| %>
 
   <div class="panel-body">
@@ -69,3 +71,22 @@
 
     <!-- /.panel -->
 <% end %>
+
+
+<script>
+  $("form").validate({
+    rules: {
+      'setting[DailyGoalPercent]': {required: true, number: true, range: [0, 100]},
+      'setting[MaximumTradesPerDay]': {required: true, number: true},
+      'setting[MaximumPercentPerTrade]': {required: true, number: true, range: [0, 100]},
+      'setting[MaximumPercentLossPerDay]': {required: true, number: true, range: [0, 100]}
+
+    },
+    tooltip_options: {
+      'strategy[DailyGoalPercent]': {placement:'top',html:true},
+      'strategy[MaximumTradesPerDay]': {placement:'top',html:true},
+      'strategy[MaximumPercentPerTrade]': {placement:'top',html:true},
+      'strategy[MaximumPercentLossPerDay]': {placement:'top',html:true}
+    }
+  });
+</script>
