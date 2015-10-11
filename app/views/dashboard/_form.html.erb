@@ -1,5 +1,5 @@
-<script type="text/javascript" src="/assets/jquery-validate/jquery.validate.min.js"></script>
-<script type="text/javascript" src="/assets/jquery-validate/jquery-validate.bootstrap-tooltip.min.js"></script>
+<!--script type="text/javascript" src="/assets/jquery-validate/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/assets/jquery-validate/jquery-validate.bootstrap-tooltip.min.js"></script-->
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   <h4 class="modal-title" id="myModalLabel"><%= I18n.t('dashboard_new_trade') %></h4>
@@ -138,7 +138,6 @@
 
   $("form").validate({
     rules: {
-      'trade[BrokerAccount_id]': {required: true},
       'trade[Amount]': {required: true, number: true},
       'trade[OnProfit]': {required: true, number: true},
       'trade[OnLoss]': {required: true, number: true}
@@ -185,7 +184,7 @@
   function get_balance (accountId) {
 
     //set cookie
-    setCookie("selected_account", accountId, 1);
+    setCookie("selected_account", accountId, 365);
 
     $.ajax({
       type: "GET",
@@ -214,7 +213,7 @@
   function get_strategy_success_rate(strategyId) {
 
     //set cookie
-    setCookie("selected_strategy", strategyId, 1);
+    setCookie("selected_strategy", strategyId, 365);
 
     $.ajax({
       type: "GET",
@@ -253,7 +252,7 @@
   function get_azzet_success_rate(azzetId) {
     
     //set cookie
-    setCookie("selected_azzet", azzetId, 1);
+    setCookie("selected_azzet", azzetId, 365);
 
     $.ajax({
       type: "GET",
