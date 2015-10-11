@@ -23,13 +23,28 @@ class AzzetsController < ApplicationController
 
   def create
     @azzet = Azzet.new(azzet_params)
-    @azzet.save
-    respond_with(@azzet)
+
+    respond_to do |format|
+      if @azzet.save
+        format.html { redirect_to '/azzets' }
+        format.json { render :show, status: :ok, location: @azzet }
+      else
+        format.html { render :edit }
+        format.json { render json: @azzet.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def update
-    @azzet.update(azzet_params)
-    respond_with(@azzet)
+    respond_to do |format|
+      if @azzet.update(broker_params)
+        format.html { redirect_to '/azzets' }
+        format.json { render :show, status: :ok, location: @azzet }
+      else
+        format.html { render :edit }
+        format.json { render json: @azzet.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def destroy
