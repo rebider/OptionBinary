@@ -1,0 +1,352 @@
+<script type="text/javascript" src="/assets/jquery-validate/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/assets/jquery-validate/jquery-validate.bootstrap-tooltip.min.js"></script>
+<style type="text/css">
+  .form-horizontal .form-group{margin-bottom: 5px!important;}
+</style>
+<%= form_for(@trade, remote: true, :url => create_webtrader_path, :html => {:class => 'form-horizontal', :role => 'form'} ) do |f| %>
+
+  <div class="panel">
+    <div class="panel-body">
+
+        <% if @trade.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@trade.errors.count, "error") %> prohibited this setting from being saved:</h2>
+
+          <ul>
+          <% @trade.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= f.hidden_field :User_id, :value => current_user.id %>
+
+      <div class="form-group">
+          <%= f.label I18n.t('dashboard_broker_account'), class:'col-xs-3 col-sm-3 col-md-3' %>
+          <div class="col-xs-9 col-sm-9 col-md-9">
+            <%= f.collection_select(:BrokerAccount_id, @brokerAccount, :id, :name, {prompt: I18n.t('dashboard_select_account')},  {class: "form-control selectpicker", :name => "trade[BrokerAccount_id]", :onchange => 'get_balance(this.value)', :data => {:validation => "required", "live-search" => "true"} } ) %>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <%= f.label I18n.t('dashboard_strategy'), class:'col-xs-3 col-sm-3 col-md-3' %>
+          <div class="col-xs-9 col-sm-9 col-md-9">
+            <%= f.collection_select(:Strategy_id, @strategy, :id, :Name , {prompt: I18n.t('dashboard_select_strategy')}, {class: "form-control selectpicker", :name => "trade[Strategy_id]", :onchange => 'get_strategy_success_rate(this.value)', :data => {:validation => "required", "live-search" => "true"}}) %>
+          </div>  
+      </div>
+
+      <div class="form-group">
+          <%= f.label I18n.t('dashboard_azzet'), class:'col-xs-3 col-sm-3 col-md-3' %>
+          <div class="col-xs-9 col-sm-9 col-md-9">
+             <%= f.collection_select(:Azzet_id, @azzets, :id, :Name , {title: I18n.t('dashboard_select_azzet')}, {class: "form-control selectpicker", :name => "trade[Azzet_id]", :onchange => 'get_azzet_success_rate(this.value)', :data => {:validation => "required", "live-search" => "true", :size => "10"}}) %>
+          </div>
+      </div>
+
+      <div class="form-group ">
+          <div class='col-xs-3 col-sm-3 col-md-3' style="padding-right:0;">
+            <%= f.label I18n.t('dashboard_amount') %>
+            <a href="#" onclick="javascript:get_recommended_amount();" class="btn btn-xs btn-default" alt="Sugerir monto">
+              <i class="fa fa-pencil"></i>
+            </a>
+          </div>
+          <div class="col-xs-9 col-sm-9 col-md-9">
+            <div class="input-group">
+              <div class="input-group-addon label-default">
+                $
+              </div>
+              <%= f.number_field :Amount, class:'form-control', type:'number', :onchange => 'calcule_percent()' %>
+              <div class="input-group-addon label-default">
+                <small>
+                  <span id="lbl_percent_suggested"></span>
+                </small>
+              </div>
+            </div>       
+          </div>
+      </div>
+
+      <div class="form-group">
+          <%= f.label I18n.t('dashboard_onprofit'), class:'col-xs-3 col-sm-3 col-md-3' %>
+          <div class="col-xs-9 col-sm-9 col-md-9">
+            <div class="input-group">
+              <div class="input-group-addon label-default">
+                %
+              </div>
+              <%= f.number_field :OnProfit, class:'form-control', type:'number', :onchange => 'calcule_onprofit()' %>
+              <div class="input-group-addon label-default">
+                <small>
+                  <span id="lbl_onprofit_payout"></span>
+                </small>
+              </div>
+            </div>
+          </div>      
+      </div>
+
+      <div class="form-group">
+          <%= f.label I18n.t('dashboard_onloss'), class:'col-xs-3 col-sm-3 col-md-3' %>
+          <div class="col-xs-9 col-sm-9 col-md-9">
+            <div class="input-group">
+               <div class="input-group-addon label-default">
+                %
+              </div>
+              <%= f.number_field :OnLoss, class:'form-control', type:'number', :onchange => 'calcule_onlost()' %>
+              <div class="input-group-addon label-default">
+                <small>
+                  <span id="lbl_onlost_payout"></span>
+                </small>
+              </div>
+            </div>
+          </div>
+      </div>
+
+
+      <%= f.hidden_field :Payout, :value => '' %>
+      <%= f.hidden_field :Result, :value => '' %>
+      <%= f.hidden_field :UseMartingale, :value => 'false' %>
+      <%= f.hidden_field :UseCompoundInterest, :value => 'false' %>
+    </div>
+    <div class="panel-footer text-right">
+        <button type="button" class="btn btn-default" onclick="javascript:$('#trade-form').slideUp(350);$('#content-tabs').slideDown(350);"><%= I18n.t('dashboard_button_close') %></button>
+        <%= f.submit I18n.t('dashboard_button_create'), class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
+      
+<script type="text/javascript">
+  var account_balance = 0;
+  var maximum_percent_per_trade = 0;
+
+  $.ajax({
+    type: "GET",
+    url: "/settings/1/user_settings",
+    success: function(data){
+
+      maximum_percent_per_trade = data[0] != null ? data[0].MaximumPercentPerTrade : 0;
+    }
+  });
+
+  $("form").validate({
+    rules: {
+      'trade[BrokerAccount_id]': {required: true},
+      'trade[Amount]': {required: true, number: true},
+      'trade[OnProfit]': {required: true, number: true},
+      'trade[OnLoss]': {required: true, number: true}
+    },
+    tooltip_options: {
+      'trade[Amount]': {placement:'botton',html:true},
+      'trade[OnProfit]': {placement:'botton',html:true},
+      'trade[OnLoss]': {placement:'botton',html:true}
+    }
+  });
+
+  $('.selectpicker').selectpicker({});
+
+  inicialize_form();
+
+
+  function inicialize_form()
+  {
+    selected_account = getCookie("selected_account");
+    if(selected_account != "")
+    {
+      $("#trade_BrokerAccount_id").val(selected_account);
+      $("#trade_BrokerAccount_id").change();
+    }
+
+    selected_strategy = getCookie("selected_strategy");
+    if(selected_strategy != "")
+    {
+      $("#trade_Strategy_id").val(selected_strategy);
+      $("#trade_Strategy_id").change();
+    }
+
+    selected_azzet = getCookie("selected_azzet");
+    if(selected_azzet != "")
+    {
+      $("#trade_Azzet_id").val(selected_azzet);
+      $("#trade_Azzet_id").change();
+    }
+
+    selected_amount = getCookie("selected_amount");
+    if(selected_amount != "")
+    {
+      $("#trade_Amount").val(selected_amount);
+    }
+    else
+    {
+      get_recommended_amount();
+    }
+
+    selected_onprofit = getCookie("selected_onprofit");
+    if(selected_onprofit != "")
+    {
+      $("#trade_OnProfit").val(selected_onprofit);
+    }
+    else
+    {
+      $("#trade_OnProfit").val("70");
+    }
+
+    selected_onloss = getCookie("selected_onloss");
+    if(selected_onloss != "")
+    {
+      $("#trade_OnLoss").val(selected_onloss);
+    }
+    else
+    {
+      $("#trade_OnLoss").val("0");
+    }
+
+
+    calcule_percent();
+  }
+
+  function get_balance (accountId) {
+
+    //set cookie
+    setCookie("selected_account", accountId, 1);
+
+    $.ajax({
+      type: "GET",
+      url: "/broker_accounts/" + accountId + "/current_balance",
+      success: function(data){
+
+        if(data != null)
+        {
+          account_balance = (data).toFixed(2);
+          $("#lbl_account_balance").text("$ " + account_balance);
+        }
+        else
+        {
+          $("#lbl_account_balance").text("Debe ingresar el saldo de la cuenta");
+        }
+      }
+    });
+  }
+
+  function get_recommended_amount(){
+    //Calcular la cantidad a invertir sugerida
+    amount_suggested = Math.round((maximum_percent_per_trade * account_balance) / 100);
+    $("#trade_Amount").val(amount_suggested);
+    $("#lbl_percent_suggested").text(maximum_percent_per_trade + " %");
+
+    calcule_onprofit();
+    calcule_onlost();
+  }
+
+  function get_strategy_success_rate(strategyId) {
+
+    //set cookie
+    setCookie("selected_strategy", strategyId, 1);
+
+    $.ajax({
+      type: "GET",
+      url: "/strategies/" + strategyId + "/total_trades",
+      success: function(data){
+
+        if(data.length > 0)
+        {
+          won = tie = lost = 0;
+
+          $.each(data, function (i, item) {
+            if (item.Result === 'WON') {
+              won = item.total_trades;
+            }
+            else if (item.Result === 'TIE') {
+              tie = item.total_trades;
+            }
+            else if (item.Result === 'LOST') {
+              lost = item.total_trades;
+            }
+          });
+
+          total_trades = won + tie + lost;
+          success_rate = Math.round(((won + tie) / total_trades) * 100);
+          
+          $("#lbl_strategy_rate").text(success_rate + " %");
+        }
+        else
+        {
+          $("#lbl_strategy_rate").text("N/A"); 
+        }
+      }
+    });
+  }
+
+  function get_azzet_success_rate(azzetId) {
+    
+    //set cookie
+    setCookie("selected_azzet", azzetId, 1);
+
+    $.ajax({
+      type: "GET",
+      url: "/azzets/" + azzetId + "/total_trades",
+      success: function(data){
+
+        if(data.length > 0)
+        {
+          won = data[2] != null ? data[2].total_trades : 0;
+          tie = data[1] != null ? data[1].total_trades : 0;
+          lost = data[0] != null ? data[0].total_trades : 0;
+          total_trades = won + tie + lost;
+          success_rate = Math.round(((won + tie) / total_trades) * 100);
+
+          $("#lbl_azzet_rate").text(success_rate + " %");
+        }
+        else
+        {
+          $("#lbl_azzet_rate").text("N/A"); 
+        }
+      }
+    });
+  }
+
+  function calcule_percent(){
+    if(account_balance!=""){
+      amount = $("#trade_Amount").val();
+      percent = Math.round((amount / account_balance) * 100);
+      
+      $("#lbl_percent_suggested").text(percent + " %");
+
+      //set cookie
+      setCookie("selected_amount", amount, 1);
+
+      calcule_onprofit();
+      calcule_onlost();
+    }
+    else
+    {
+      setTimeout(function() {calcule_percent();}, 1000);
+    }
+  }
+
+  function calcule_onprofit(){
+      amount = $("#trade_Amount").val();
+      onprofit = $("#trade_OnProfit").val();
+
+      if(amount != "" && onprofit != ""){
+        profit = ((amount * onprofit) / 100).toFixed(2);
+           
+        //$("#lbl_onprofit_payout").text("$" + (parseFloat(amount) + parseFloat(profit)) + " ($" + profit +")");
+        $("#lbl_onprofit_payout").text("$" + (parseFloat(amount) + parseFloat(profit)).toFixed(2));
+
+        //set cookie
+        setCookie("selected_onprofit", onprofit, 1);
+      }
+  }
+
+  function calcule_onlost(){
+      amount = $("#trade_Amount").val();
+      onloss = $("#trade_OnLoss").val();
+
+      if(amount != "" && onloss != ""){
+        profit = ((amount * onloss) / 100).toFixed(2);
+
+        $("#lbl_onlost_payout").text("$" + (parseFloat(profit) - parseFloat(amount)).toFixed(2));
+        //$("#lbl_onlost_payout").text("$" + profit + " ($" + (parseFloat(profit) - parseFloat(amount)) +")");
+
+        //set cookie
+        setCookie("selected_onloss", onloss, 1);
+      }
+  }
+</script>

@@ -3,9 +3,9 @@
         <thead>
             <tr>
                 <th><%= I18n.t('dashboard_trades_time') %></th>
-                <th><%= I18n.t('dashboard_trades_position') %></th>
+                <th><%= I18n.t('dashboard_trades_account') %></th>
+                <th><%= I18n.t('dashboard_trades_strategy') %></th>
                 <th><%= I18n.t('dashboard_trades_azzet') %></th>
-                <th><%= I18n.t('dashboard_trades_option') %></th>
                 <th><%= I18n.t('dashboard_trades_amount') %></th>
                 <th class="text-center"><%= I18n.t('dashboard_trades_actions') %></th>
             </tr>
@@ -17,13 +17,13 @@
                         <%= trade.created_at.strftime("%H:%M") %>
                     </td>
                     <td>
-                        <%= trade.Position %>
+                        <%= trade.BrokerAccount.name %>
+                    </td>
+                    <td>
+                        <%= trade.Strategy.Name %>
                     </td>
                     <td>
                         <%= trade.Azzet.Name %>
-                    </td>
-                    <td>
-                        <%= trade.Option %>
                     </td>
                     <td>
                         $<%= trade.Amount %>

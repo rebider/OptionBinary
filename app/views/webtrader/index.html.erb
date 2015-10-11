@@ -8,8 +8,15 @@
 #broker-tabs li a.remove{color:#f00; margin-left: -2px; cursor: auto;}
 #broker-tabs li a.remove, #broker-tabs li a.tab{display: inline-block;}
 .tab-base{margin-bottom: 0px!important;}
+#tbl_open_trades{margin-bottom: 0px!important;}
+.panel-body{padding: 10px!important;}
+.panel{margin-bottom: 10px!important;}
+#content-tabs{height: 290px;}
+#tab-trades{height: 280px;overflow-y: auto;margin-left: -10px;margin-right: -10px;}
+hr{margin: 0px;}
 </style>
 <script src="https://silviomoreto.github.io/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="/assets/jquery.easypiechart.min.js"></script>
 <script type="text/javascript">
   // set your interval in milliseconds
   var reloadInterval = 600000;
@@ -90,12 +97,164 @@
     $("#tab_" + broker.id ).trigger("click");
   }
 
+
+  
+
+  var today_full_data = [];
+  var balance_initial_real;
+  var balance_real;
+  var today_profit_real;
+  var today_profit_percent_real;
+  var today_total_won;
+  var today_total_lost;
+  var today_total_tie;
+  var today_goal_percent;
+  var today_goal;
+  
+
+  function load_settings()
+  {
+    $.ajax({
+      type: "GET",
+      url: "/settings/1/user_settings",
+      success: function(data){
+
+        today_goal_percent = data[0] != null ? parseFloat(data[0].DailyGoalPercent) : 0;
+      }
+    });
+  }
+
+  function update_charts()
+  {
+      get_today_data();
+  }
+
+  function get_today_data()
+  {
+      var url =  "/dashboard/today_data/1";
+
+      $.ajax({
+          type: 'GET', 
+          url: url, 
+          dataType: 'script',
+          success: function(data){
+              today_full_data = jQuery.parseJSON(data);
+
+              update_balances();
+              update_today_profit();
+              update_today_performance();
+              update_today_goal();
+          },
+          error: function (request, status, error) {
+              today_full_data = jQuery.parseJSON(request.responseText);
+
+              update_balances();
+              update_today_profit();
+              update_today_performance();
+              update_today_goal();
+          }
+      });
+  }
+
+  function update_balances()
+  {
+      balance_real = 0;
+
+      if(today_full_data.current_real_balance && today_full_data.current_real_balance[0].balance != null)
+      {
+          balance_real = parseFloat(today_full_data.current_real_balance[0].balance).toFixed(2);
+          balance_initial_real = balance_real;
+      }
+  }
+
+  function update_today_profit()
+  {
+      today_profit_real = 0;
+      today_profit_percent_real = 0;
+
+      jQuery.each(today_full_data.profit, function(i, balance) 
+      {
+         if(balance.accounttype == "0")
+         {
+          today_profit_real = parseFloat(balance.profit).toFixed(0);
+          balance_initial_real = balance_real - today_profit_real;
+          
+          //Calcular el crecimiento de la cuenta
+          today_profit_percent_real = ((today_profit_real / balance_initial_real) * 100).toFixed(1);
+         }
+      });
+
+      $("#lbl-today-profit-real").text(today_profit_real);
+      $("#lbl-today-profit-real-percent").text(today_profit_percent_real);
+  }
+
+  function update_today_goal()
+  {
+      today_goal = ((balance_initial_real * today_goal_percent) / 100).toFixed(0);
+
+      $("#lbl-today-goal").text(today_goal);
+      $("#lbl-today-goal-percent").text(today_goal_percent);
+
+      $('#today-goal-chart').easyPieChart({
+          barColor : '#4ebcda',
+          scaleColor:'#ffffff',
+          trackColor : '#F2F2F2',
+          lineCap : 'round',
+          lineWidth :8,
+          onStep: function(from, to, percent) {
+              $(this.el).find('.pie-value').html(Math.round(percent) + '%');
+          }
+      });
+
+      today_completed = Math.round((today_profit_real / today_goal) * 100);
+      if(isNaN(today_completed))
+          today_completed = 0;
+
+      var chart = window.chart = $('#today-goal-chart').data('easyPieChart');
+      chart.update(today_completed);
+
+  }
+
+  function update_today_performance()
+  {
+      today_total_won = today_full_data.total_won;
+      today_total_tie = today_full_data.total_tie;
+      today_total_lost = today_full_data.total_lost;
+
+      today_trades = today_total_won + today_total_tie + today_total_lost;
+      today_success = today_total_won + today_total_tie;
+      today_performance = Math.round((today_success / today_trades) * 100);
+      if(isNaN(today_performance))
+          today_performance = 0;
+
+      $('#today-percent-chart').easyPieChart({
+          barColor : '#4ebcda',
+          scaleColor:'#ffffff',
+          trackColor : '#F2F2F2',
+          lineCap : 'round',
+          lineWidth :8,
+          onStep: function(from, to, percent) {
+              $(this.el).find('.pie-value').html(Math.round(percent) + '%');
+          }
+      });
+
+      var chart = window.chart = $('#today-percent-chart').data('easyPieChart');
+      chart.update(today_performance);
+
+      $('#today-total-won').text(today_total_won);
+      $('#today-total-tie').text(today_total_tie);
+      $('#today-total-lost').text(today_total_lost);
+  }
+
   $( document ).ready(function() {
     $('#ls_accounts').selectpicker(); 
 
     $("#ls_accounts").change(function() {
         addTab();
     });
+
+    load_settings();
+    update_charts();
   });
 
 </script>
@@ -104,46 +263,98 @@
       <div class="row">
         <div class="col-lg-12 col-md-12">
           <div class="panel">
-              <div class="panel-heading">
-                  <div class="panel-control">
-                      <%= link_to new_dashboard_path, remote: true,  :data => { :toggle => 'modal', :target => 'myModal' } do %>
-                            <button class="btn btn-purple btn-labeled fa fa-plus"><%= I18n.t('dashboard_button_trades') %></button>
-                          <% end %> 
-                  </div>
-                  <h3 class="panel-title"><%= I18n.t('dashboard_open_trades') %></h3>
-              </div>
-              <div class="panel-body">
-                  <div id='trades'>
-                      
-                  </div>
-              </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12 col-md-12">
-          <div class="panel">
             <div class="panel-heading">
               <div class="panel-control">
                 <ul class="nav nav-tabs">
-                  <li class>
-                    <a href="#demo-tabs-box-1" data-toggle="tab" aria-expanded="true">Stats</a>
+                  <li class="active">
+                    <a href="#tab-trades" data-toggle="tab" aria-expanded="true"><%= I18n.t('dashboard_open_trades') %></a>
                   </li>
                   <li class>
-                    <a href="#demo-tabs-box-2" data-toggle="tab" aria-expanded="true">News</a>
+                    <a href="#tab-stats" data-toggle="tab" aria-expanded="false">Stats</a>
                   </li>
                 </ul>
               </div>
-              <h3 class="panel-title">Options</h3>
+              <h3 class="panel-title">
+                <%= link_to new_webtrader_path, remote: true do %>
+                  <button class="btn btn-purple btn-labeled fa fa-plus"><%= I18n.t('dashboard_button_trades') %></button>
+                <% end %>
+              </h3>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="content-tabs">
               <div class="tab-content">
-                <div id="demo-tabs-box-1" class="tab-pane fade active in">gffgg</div>
-                <div id="demo-tabs-box-2" class="tab-pane fade">
+                <div id="tab-trades" class="tab-pane fade active in">
+                  <div id='trades'>
+                    <%= render 'current_trades' %>
+                  </div>
+                </div>
+                <div id="tab-stats" class="tab-pane fade">
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                      <div class="panel-body text-center">
+                        <small class="text-uppercase"><%= I18n.t('dashboard_profit_today') %></small>
+                        <br>
+                        <span class="text-semibold">
+                          $<span id="lbl-today-profit-real" style="font-size:16px;"></span>  (<span id="lbl-today-profit-real-percent"></span> %)
+                          &nbsp;&nbsp;
+                        </span>
+                        <br>
+                        <br>
+                        <hr>
+                        <br>
+                        <small class="text-uppercase"><%= I18n.t('dashboard_goal_today') %></small>
+                        <span class="text-semibold">
+                          <br>
+                          $<span id="lbl-today-goal" style="font-size:16px;"></span>  (<span id="lbl-today-goal-percent"></span> %)
+                          &nbsp;&nbsp;
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                      <div class="panel-body text-center">
+                        <div id="today-goal-chart" data-percent="0" class="pie-title-center">
+                            <span class="pie-value"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr>
+
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                      <div class="panel-body text-center">
+                        <p class="h3 text-thin media-heading">
+                            <span id="lbl-today-performance"></span>
+                        </p>
+                        <small class="text-uppercase"><%= I18n.t('dashboard_success_rate_today') %></small>
+                        <br>
+                        <br>
+                        <span class="text-semibold">
+                            <i class="fa fa-hand-o-up"></i>
+                            <span id="today-total-won"></span>
+                            &nbsp;&nbsp;
+                            <i class="fa fa-exchange"></i>
+                            <span id="today-total-tie"></span>
+                            &nbsp;&nbsp;
+                            <i class="fa fa-hand-o-down"></i> 
+                            <span id="today-total-lost"></span>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                      <div class="panel-body text-center">
+                        <div id="today-percent-chart" data-percent="80" class="pie-title-center">
+                            <span class="pie-value"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+            <div id='trade-form'>
+            </div>
+          </div>          
         </div>
       </div>
     </div>

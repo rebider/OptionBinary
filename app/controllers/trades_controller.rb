@@ -6,7 +6,9 @@ class TradesController < ApplicationController
 
   def index
     #@trades = Trade.all
-    @trades = Trade.user_trades(current_user.id)
+    #@trades = Trade.user_trades(current_user.id)
+
+    @trades = Trade.user_trades(current_user.id).paginate(:page => params[:page], :per_page => 10)
     #respond_with(@trades)
   end
 
@@ -48,8 +50,12 @@ class TradesController < ApplicationController
   end
 
   def destroy
+    
     @trade.destroy
-    #respond_with(@trade)
+    respond_to do |format|
+      format.html { redirect_to trades_url, notice: 'Trade was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
 
   private

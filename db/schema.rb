@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150905025917) do
+ActiveRecord::Schema.define(version: 20150930041807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,13 @@ ActiveRecord::Schema.define(version: 20150905025917) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "market_sessions", force: :cascade do |t|
+    t.string   "name"
+    t.string   "start_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "settings", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "MaximumTradesPerDay"
@@ -100,6 +107,7 @@ ActiveRecord::Schema.define(version: 20150905025917) do
     t.string   "MaximumPercentLossPerDay"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.string   "DailyGoalPercent"
   end
 
   add_index "settings", ["user_id"], name: "index_settings_on_user_id", using: :btree
@@ -136,6 +144,12 @@ ActiveRecord::Schema.define(version: 20150905025917) do
   add_index "trades", ["BrokerAccount_id"], name: "index_trades_on_BrokerAccount_id", using: :btree
   add_index "trades", ["Strategy_id"], name: "index_trades_on_Strategy_id", using: :btree
   add_index "trades", ["User_id"], name: "index_trades_on_User_id", using: :btree
+
+  create_table "types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

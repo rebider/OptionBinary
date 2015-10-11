@@ -10,7 +10,6 @@ class BrokerAccount < ActiveRecord::Base
     "#{name} (#{@nombre})"
   end
    
-
   def self.user_brokerAccounts(userId)
   	brokerAccount = where(user_id: userId).order(:name)
   end

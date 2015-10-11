@@ -17,11 +17,22 @@
     <%= f.hidden_field :user_id, :value => current_user.id %>
 
     <div class="form-group">
+        <%= f.label I18n.t('configuration_table_DailyGoalPercent'), class:'col-sm-3' %>
+        <div class="col-sm-9">
+          <div class="input-group">
+            <span class="input-group-addon">%</span>
+            <%= f.text_field :DailyGoalPercent, class:'form-control', type:'number' %>
+          </div>
+          <p class="help-block">Lorem ipsum dolor sit amet</p>
+        </div>
+    </div>
+
+    <div class="form-group">
         <%= f.label I18n.t('configuration_table_Maximumtradesperday'), class:'col-sm-3' %>
         <div class="col-sm-9">
           <div class="input-group">
             <span class="input-group-addon">#</span>
-            <%= f.text_field :MaximumTradesPerDay, class:'form-control', type:'text' %>
+            <%= f.text_field :MaximumTradesPerDay, class:'form-control', type:'number' %>
           </div>
           <p class="help-block">Lorem ipsum dolor sit amet</p>
         </div>
@@ -32,7 +43,7 @@
         <div class="col-sm-9">
           <div class="input-group">
             <span class="input-group-addon">%</span>
-            <%= f.text_field :MaximumPercentPerTrade, class:'form-control', type:'text' %>
+            <%= f.text_field :MaximumPercentPerTrade, class:'form-control', type:'number' %>
           </div>
           <p class="help-block">Lorem ipsum dolor sit amet</p>
         </div>
@@ -43,7 +54,7 @@
         <div class="col-sm-9">
           <div class="input-group">
             <span class="input-group-addon">%</span>
-            <%= f.text_field :MaximumPercentLossPerDay, class:'form-control', type:'text' %>
+            <%= f.text_field :MaximumPercentLossPerDay, class:'form-control', type:'number' %>
           </div>
           <p class="help-block">Lorem ipsum dolor sit amet</p>
         </div>

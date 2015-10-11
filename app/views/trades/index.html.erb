@@ -13,32 +13,24 @@
                         <thead>
                             <tr>
                                 <th><%= I18n.t('trades_created') %></th>
-                                <th><%= I18n.t('dashboard_position') %></th>
                                 <th><%= I18n.t('dashboard_broker_account') %></th>
                                 <th><%= I18n.t('dashboard_strategy') %></th>
                                 <th><%= I18n.t('dashboard_azzet') %></th>
-                                <th><%= I18n.t('dashboard_option') %></th>
                                 <th><%= I18n.t('dashboard_amount') %></th>
                                 <th><%= I18n.t('dashboard_onprofit') %></th>
                                 <th><%= I18n.t('dashboard_onloss') %></th>
                                 <th><%= I18n.t('trades_payout') %></th>
                                 <th><%= I18n.t('trades_result') %></th>
+                                <th></th>
                             </tr>
                         </thead>
-                         <tfoot>
-                            <tr>
-                                <th colspan="11" style="text-align:right">Total:</th>
-                            </tr>
-                        </tfoot>
                         <tbody>
                             <% @trades.each do |trade| %>
                               <tr class="odd gradeX">
                                 <td><small><%= trade.created_at %></small></td>
-                                <td><%= trade.Position %></td>
                                 <td><%= trade.BrokerAccount.name %></td>
                                 <td><%= trade.Strategy.Name %></td>
                                 <td><%= trade.Azzet.Name %></td>
-                                <td><%= trade.Option %></td>
                                 <td><%= trade.Amount %></td>
                                 <td><%= trade.OnProfit %></td>
                                 <td><%= trade.OnLoss %></td>
@@ -54,10 +46,12 @@
                                         <span class="label label-default">OPEN</span>
                                     <% end %>
                                 </td>
+                                <td><%= link_to I18n.t('strategies_button_destroy'), trade, method: :delete, data: { confirm: I18n.t('dashboard_alert_delete') } %></td>
                               </tr>
                             <% end %>
                         </tbody>
                     </table>
+                    <%= will_paginate @trades %>
                 </div>
                 <!-- /.table-responsive -->
             </div>
@@ -67,7 +61,8 @@
     </div>
     <!-- /.col-lg-12 -->
 </div>
-<script type="text/javascript">
+
+<!--script type="text/javascript">
     $(document).ready(function() {
         $('#dataTables-example').DataTable( {
             "footerCallback": function ( row, data, start, end, display ) {
@@ -109,4 +104,4 @@
 
         } );
     } );
-</script>
+</script-->

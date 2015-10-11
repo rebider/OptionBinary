@@ -51,6 +51,7 @@ class DashboardController < ApplicationController
     @account.Balance = Float(@account.Balance) + Float(@trade.Payout)
     @account.save
 
+
 =begin
     if(params[:Result] == 'WON')
       @trade.Payout = ((Float(@trade.Amount) * Float(@trade.OnProfit)) / 100)

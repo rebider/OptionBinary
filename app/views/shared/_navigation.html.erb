@@ -1,8 +1,25 @@
-
-
 <% if user_signed_in? %>
     <nav id="mainnav-container">
         <div id="mainnav">
+            <div id="mainnav-shortcut">
+                <!--ul class="list-unstyled">
+                    <li class="col-xs-4" data-content="Additional Sidebar" data-original-title title>
+                        <a id="demo-toggle-aside" href="#" class="shortcut-grid">
+                            <i class="fa fa-magic"></i>
+                        </a>
+                    </li>
+                    <li class="col-xs-4" data-content="Notification" data-original-title title>
+                        <a id="demo-toggle-aside" href="#" class="shortcut-grid">
+                            <i class="fa fa-magic"></i>
+                        </a>
+                    </li>
+                    <li class="col-xs-4" data-content="Page Alerts" data-original-title title>
+                        <a id="demo-toggle-aside" href="#" class="shortcut-grid">
+                            <i class="fa fa-magic"></i>
+                        </a>
+                    </li>
+                </ul-->
+            </div>
             <div id="mainnav-menu-wrap">
                 <div class="nano has-scrollbar">
                     <div class="nano-content" tabindex="0" style="right: -17px;">
@@ -13,6 +30,14 @@
                                     <i class="fa fa-dashboard"></i>
                                     <span class="menu-title">
                                         <strong><%= I18n.t('link_dasboard') %></strong>
+                                    </span>
+                                <% end %>
+                            </li>
+                            <li>
+                                <%= link_to :controller => "/webtrader" do %>
+                                    <i class="fa fa-exchange"></i>
+                                    <span class="menu-title">
+                                        <strong><%= I18n.t('link_webtrader') %></strong>
                                     </span>
                                 <% end %>
                             </li>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Binary Option Stats (beta)</title>
+    <title>My Binary Option Station</title>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -39,91 +39,9 @@
 
   <div id="container" class="effect mainnav-sm">
 
-    <header id="navbar" class="shadow">
-
-        <div id="navbar-container" class="boxed">
-
-            <div class="navbar-header">
-                <% if user_signed_in? %>
-                    <%= link_to "", :controller => "dashboard", :class => "navbar-brand" do %>
-                        <%= image_tag("tracking.png", :alt => "My Binary Options", :class => "brand-icon") %>
-                        <div class="brand-title">
-                            <span class="brand-text">My BOS</span>
-                        </div>
-                    <% end %>
-                <% end %>
-            </div>
-
-            <div class="navbar-content clearfix">
-                <ul class="nav navbar-top-links pull-left">
-                    <li class="tgl-menu-btn">
-                        <a class="mainnav-toggle" href="#">
-                            <i class="fa fa-navicon fa-lg"></i>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-top-links pull-right">
-                     
-                    <li>
-                        <span class="clock">
-                            <span id="jclock-utc"></span> GMT
-                        </span>
-                    </li>
-                    <li>
-                        <span class="clock">
-                            <span id="jclock-local"></span> Local
-                        </span>
-                    </li>
-                    <li id="idioma">
-                        <% if I18n.locale == I18n.default_locale %>
-                            <%= link_to image_tag("united-kingdom.png", :alt => "English", :class => "lang-flag") + "Ingles", :locale=>'en' %>
-                        <% else %>                        
-                            <%= link_to image_tag("spain.png", :alt => "Spain", :class => "lang-flag") + "Español", :locale=>'es'%>
-                        <% end %>
-                    </li>
-                    <% if user_signed_in? %>
-                        <li id="dropdown-user" class="dropdown">
-                            <a href="#" data-toggle="dropdown" class="dropdown-toggle text-right">
-                                <span class="pull-right">
-                                    <% if current_user.avatar? %>
-                                        <%= image_tag(current_user.avatar, :alt => "Profile Picture", :class => "img-circle img-user media-object") %>
-                                    <% else %>
-                                        <%= image_tag("icon-profile.png", :alt => "Profile Picture", :class => "img-circle img-user media-object") %>
-                                    <% end %>
-                                </span>
-                                <div class="username hidden-xs"><%= I18n.t('text_welcome') %>
-                                    <%= current_user.name %>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-md dropdown-menu-right with-arrow panel-default">
-                                <ul class="head-list">
-                                    <li>
-                                        <%= link_to edit_user_registration_path do %>
-                                            <i class="fa fa-user fa-fw fa-lg"><%= I18n.t('text_profile') %></i>
-                                        <% end %>
-                                    </li>
-                                    <!--li>
-                                        <a href="#">
-                                            <i class="fa fa-question-circle fa-fw fa-lg"></i>
-                                        </a>
-                                    </li-->
-                                </ul>
-                                <div class="pad-all text-right">
-                                    <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'btn btn-warning' %>
-                                </div>
-                            </div>
-                        </li>
-                    <% else %>
-                        <li><%= link_to "Sign up", new_user_registration_path, :class => 'btn btn-success'  %></li>
-                        <li><%= link_to "Login", new_user_session_path, :class => 'btn btn-primary'  %></li>
-                    <% end %>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </header>
-
+    <%= render 'shared/navigation_top' %>
+    <%= render 'shared/navigation' %>
+    
     <div class="boxed">
 
       <div id="content-container">
@@ -137,7 +55,7 @@
         </div>
       </div>
 
-       <%= render 'shared/navigation' %>
+       
     </div>
 
     <!--footer id="footer">

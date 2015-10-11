@@ -1,13 +1,9 @@
 Rails.application.routes.draw do
-  get 'webtrader/index'
 
   resources :feedbacks
-devise_for :admins
-devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
- scope "(:locale)", locale: /es|en/ do
-
-
-  get 'statistics/index'
+  devise_for :admins
+  devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
+  scope "(:locale)", locale: /es|en/ do
 
   resources :broker_accounts
   resources :azzets
@@ -18,12 +14,8 @@ devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
   resources :feedbacks
   resources :tools
   resources :webtrader
-  #get 'ruteador/index'
-
-  
-  #get 'welcome/index'
-
-  
+  resources :types
+  resources :market_sessions
   resources :strategies
   resources :account_balances
   resources :brokers
@@ -41,19 +33,23 @@ devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
   get 'dashboard/trades_data/:id' => 'dashboard#trades_data', as: :trades_data
   get 'dashboard/today_data/:id' => 'dashboard#today_data'
 
+  get 'webtrader/index'
+  post 'webtrader/:id/update' => 'webtrader#update', as: :update_webtrader
+  post 'webtrader/create' => 'webtrader#create', as: :create_webtrader
+  delete 'webtrader/:id/destroy' => 'webtrader#destroy', as: :destroy_webtrader
+  get 'webtrader/trades_data/:id' => 'webtrader#trades_data'
+  get 'webtrader/today_data/:id' => 'webtrader#today_data'
+
   get 'broker_accounts/:id/current_balance' => 'broker_accounts#current_balance', as: :current_balance
 
   get 'strategies/:id/total_trades' => 'strategies#total_trades', as: :strategies_total_trades
   get 'azzets/:id/total_trades' => 'azzets#total_trades', as: :azzets_total_trades
 
-  get 'settings/user_settings' => 'settings#user_settings', as: :user_settings
-
+  get 'settings/:id/user_settings' => 'settings#user_settings', as: :user_settings
+  
   get 'statistics/trades_chart/:id' => 'statistics#trades_chart'
-
   get 'statistics/strategies_chart/:id' => 'statistics#strategies_chart'
-
   get 'statistics/azzets_chart/:id' => 'statistics#azzets_chart'
-
   get 'statistics/index'
 
   # Example of regular route:

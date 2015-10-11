@@ -18,6 +18,7 @@ class Trade < ActiveRecord::Base
 
   def self.user_trades(userId)
     trades = where(:User_id => userId)
+    trades.order('id DESC')
   end
 
   def self.trades_grouped_by_date(start)
