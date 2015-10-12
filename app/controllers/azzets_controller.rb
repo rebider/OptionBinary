@@ -37,7 +37,7 @@ class AzzetsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @azzet.update(broker_params)
+      if @azzet.update(azzet_params)
         format.html { redirect_to '/azzets' }
         format.json { render :show, status: :ok, location: @azzet }
       else
