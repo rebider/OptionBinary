@@ -24,24 +24,16 @@
                       <% @settings.each do |setting| %>
                         <tr>
                           <td>
-                            <% if setting.DailyGoalPercent %>
-                              <%= setting.DailyGoalPercent %> %
-                            <% end %>
+                              
                           </td>
                           <td>
-                            <% if setting.MaximumTradesPerDay %>
                               <%= setting.MaximumTradesPerDay %> %
-                            <% end %>
                            </td>
                           <td>
-                            <% if setting.MaximumPercentPerTrade %>
                               <%= setting.MaximumPercentPerTrade %> %
-                            <% end %>
                           </td>
                           <td>
-                            <% if setting.MaximumPercentLossPerDay %>
                               <%= setting.MaximumPercentLossPerDay %> %
-                            <% end %>
                            </td>                          
                           <td><%= link_to I18n.t('configuration_button_edit'), edit_setting_path(setting) %></td>
                         </tr>
