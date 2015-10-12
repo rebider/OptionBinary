@@ -14,14 +14,17 @@ class SettingsController < ApplicationController
     respond_with(@setting)
   end
 
+  def edit
+  end
+
   def update
 
     respond_to do |format|
       if @setting.update(setting_params)
         format.html { redirect_to '/settings'}
-        format.json { render :show, status: :created, location: @setting }
+        format.json { render :show, status: :ok, location: @setting }
       else
-        format.html { render :new }
+        format.html { render :edit }
         format.json { render json: @setting.errors, status: :unprocessable_entity }
       end
     end
