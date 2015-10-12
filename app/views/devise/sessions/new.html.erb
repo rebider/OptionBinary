@@ -65,5 +65,15 @@
 </div>
 
 <script type="text/javascript">
-    $.validate();
+      $("form").validate({
+    rules: {
+      'user[email]': {required: true, email: true},
+      'user[password]': {required: true, password: true}
+    },
+    tooltip_options: {
+      'user[email]': {placement:'right',html:true},
+      'user[password]': {placement:'right',html:true}
+    }
+  });
+
 </script>

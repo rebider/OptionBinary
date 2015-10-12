@@ -12,7 +12,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-male"></i>
                   </div>
-                  <%= f.text_field :name, autofocus: true, :placeholder =>"Name", :class=>"form-control", :data => {:validation => "required"}  %>
+                  <%= f.text_field :name, autofocus: true, :placeholder =>"Name", :class=>"form-control"  %>
                 </div>
               </div>
 
@@ -22,7 +22,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-envelope"></i>
                   </div>
-                  <%= f.email_field :email, autofocus: true,:placeholder =>"E-mail", :class=>"form-control", :data => {:validation => "required"}  %>
+                  <%= f.email_field :email, autofocus: true,:placeholder =>"E-mail", :class=>"form-control"  %>
                 </div>
               </div>
 
@@ -35,7 +35,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-asterisk"></i>
                   </div>
-                  <%= f.password_field :password, autocomplete: "off", :placeholder => "Password", :class=>"form-control", :data => {:validation => "required"} %>
+                  <%= f.password_field :password, autocomplete: "off", :placeholder => "Password", :class=>"form-control" %>
                 </div>
               </div>
 
@@ -45,7 +45,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-asterisk"></i>
                   </div>
-                  <%= f.password_field :password_confirmation, autocomplete: "off", :placeholder => "Password confirmation", :class=>"form-control", :data => {:validation => "required"} %>
+                  <%= f.password_field :password_confirmation, autocomplete: "off", :placeholder => "Password confirmation", :class=>"form-control" %>
                 </div>
               </div>
             </div>
@@ -80,5 +80,19 @@
 
 
 <script type="text/javascript">
-    $.validate();
+      $("form").validate({
+    rules: {
+      'user[name]': {required: true, email: true},
+      'user[email]': {required: true, password: true},
+      'user[password]': {required: true, password: true},
+      'user[password_confirmation]': {required: true, password: true}
+    },
+    tooltip_options: {
+      'user[name]': {placement:'right',html:true},
+      'user[email]': {placement:'right',html:true},
+      'user[password]': {placement:'right',html:true},
+      'user[password_confirmation]': {placement:'right',html:true}
+    }
+  });
+
 </script>
