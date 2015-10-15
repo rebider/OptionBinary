@@ -11,8 +11,8 @@
 #tbl_open_trades{margin-bottom: 0px!important;}
 .panel-body{padding: 10px!important;}
 .panel{margin-bottom: 10px!important;}
-#content-tabs{height: 290px;}
-#tab-trades{height: 280px;overflow-y: auto;margin-left: -10px;margin-right: -10px;}
+#content-tabs{height: 270px;}
+#tab-trades{height: 260px;overflow-y: auto;margin-left: -10px;margin-right: -10px;}
 hr{margin: 0px;}
 </style>
 <script src="/assets/jquery-select/bootstrap-select.min.js"></script>
@@ -269,9 +269,6 @@ hr{margin: 0px;}
                   <li class="active">
                     <a href="#tab-trades" data-toggle="tab" aria-expanded="true"><%= I18n.t('dashboard_open_trades') %></a>
                   </li>
-                  <li class>
-                    <a href="#tab-stats" data-toggle="tab" aria-expanded="false">Stats</a>
-                  </li>
                 </ul>
               </div>
               <h3 class="panel-title">
@@ -287,74 +284,78 @@ hr{margin: 0px;}
                     <%= render 'current_trades' %>
                   </div>
                 </div>
-                <div id="tab-stats" class="tab-pane fade">
-                  <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                      <div class="panel-body text-center">
-                        <small class="text-uppercase"><%= I18n.t('dashboard_profit_today') %></small>
-                        <br>
-                        <span class="text-semibold">
-                          $<span id="lbl-today-profit-real" style="font-size:16px;"></span>  (<span id="lbl-today-profit-real-percent"></span> %)
-                          &nbsp;&nbsp;
-                        </span>
-                        <br>
-                        <br>
-                        <hr>
-                        <br>
-                        <small class="text-uppercase"><%= I18n.t('dashboard_goal_today') %></small>
-                        <span class="text-semibold">
-                          <br>
-                          $<span id="lbl-today-goal" style="font-size:16px;"></span>  (<span id="lbl-today-goal-percent"></span> %)
-                          &nbsp;&nbsp;
-                        </span>
-                      </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                      <div class="panel-body text-center">
-                        <div id="today-goal-chart" data-percent="0" class="pie-title-center">
-                            <span class="pie-value"></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <hr>
-
-                  <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                      <div class="panel-body text-center">
-                        <p class="h3 text-thin media-heading">
-                            <span id="lbl-today-performance"></span>
-                        </p>
-                        <small class="text-uppercase"><%= I18n.t('dashboard_success_rate_today') %></small>
-                        <br>
-                        <br>
-                        <span class="text-semibold">
-                            <i class="fa fa-hand-o-up"></i>
-                            <span id="today-total-won"></span>
-                            &nbsp;&nbsp;
-                            <i class="fa fa-exchange"></i>
-                            <span id="today-total-tie"></span>
-                            &nbsp;&nbsp;
-                            <i class="fa fa-hand-o-down"></i> 
-                            <span id="today-total-lost"></span>
-                        </span>
-                      </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                      <div class="panel-body text-center">
-                        <div id="today-percent-chart" data-percent="80" class="pie-title-center">
-                            <span class="pie-value"></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <div id='trade-form'>
             </div>
           </div>          
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="panel">
+            <div class="row">
+              <div class="col-lg-6 col-md-6">
+                <div class="panel-body text-center">
+                  <small class="text-uppercase"><%= I18n.t('dashboard_profit_today') %></small>
+                  <br>
+                  <span class="text-semibold">
+                    $<span id="lbl-today-profit-real" style="font-size:16px;"></span>  (<span id="lbl-today-profit-real-percent"></span> %)
+                    &nbsp;&nbsp;
+                  </span>
+                  <br>
+                  <br>
+                  <hr>
+                  <br>
+                  <small class="text-uppercase"><%= I18n.t('dashboard_goal_today') %></small>
+                  <span class="text-semibold">
+                    <br>
+                    $<span id="lbl-today-goal" style="font-size:16px;"></span>  (<span id="lbl-today-goal-percent"></span> %)
+                    &nbsp;&nbsp;
+                  </span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="panel-body text-center">
+                  <div id="today-goal-chart" data-percent="0" class="pie-title-center">
+                      <span class="pie-value"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+              <div class="col-lg-6 col-md-6">
+                <div class="panel-body text-center">
+                  <p class="h3 text-thin media-heading">
+                      <span id="lbl-today-performance"></span>
+                  </p>
+                  <small class="text-uppercase"><%= I18n.t('dashboard_success_rate_today') %></small>
+                  <br>
+                  <br>
+                  <span class="text-semibold">
+                      <i class="fa fa-hand-o-up"></i>
+                      <span id="today-total-won"></span>
+                      &nbsp;&nbsp;
+                      <i class="fa fa-exchange"></i>
+                      <span id="today-total-tie"></span>
+                      &nbsp;&nbsp;
+                      <i class="fa fa-hand-o-down"></i> 
+                      <span id="today-total-lost"></span>
+                  </span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="panel-body text-center">
+                  <div id="today-percent-chart" data-percent="80" class="pie-title-center">
+                      <span class="pie-value"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
