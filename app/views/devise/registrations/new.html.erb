@@ -82,8 +82,8 @@
 <script type="text/javascript">
       $("form").validate({
     rules: {
-      'user[name]': {required: true, email: true},
-      'user[email]': {required: true, password: true},
+      'user[name]': {required: true},
+      'user[email]': {required: true, email: true},
       'user[password]': {required: true, password: true},
       'user[password_confirmation]': {required: true, password: true}
     },
